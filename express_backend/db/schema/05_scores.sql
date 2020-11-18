@@ -1,6 +1,0 @@
-DROP TABLE IF EXISTS scores CASCADE;
-CREATE TABLE scores(
-    score_id SERIAL PRIMARY KEY NOT NULL,
-    score INT,
-    date DATETIME
-);
