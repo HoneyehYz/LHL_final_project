@@ -43,7 +43,7 @@
   
   CREATE scores (
     score_id SERIAL PRIMARY KEY NOT NULL,
-    score INTEGER,
+    score FLOAT,
     date DATETIME
   );
 
