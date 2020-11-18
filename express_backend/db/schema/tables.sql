@@ -42,9 +42,8 @@
   );
   
   CREATE scores (
-    score_id SERIAL PRIMARY KEY NOT NULL,
-    score FLOAT,
-    date DATETIME
+    score_id SERIAL PRIMARY KEY NOT NULL, score FLOAT,
+date DATETIME
   );
 
   CREATE items (
