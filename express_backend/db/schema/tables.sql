@@ -16,7 +16,7 @@
   CREATE TABLE messages(
     id SERIAL PRIMARY KEY NOT NULL,
     message TEXT,
-    date DATE,
+    date DATETIME,
     fromUser INTEGER REFERENCES users(id) ON DELETE CASCADE,
     toUser INTEGER REFERENCES users(id) ON DELETE CASCADE,
   );
@@ -24,15 +24,15 @@
   CREATE TABLE milestones (
     milestone_id SERIAL PRIMARY KEY NOT NULL,
     milestone VARCHAR(150),
-    deadline DATE,
-    completed_at DATE
+    deadline DATETIME,
+    completed_at DATETIME
   )
 
-  CREATE TABLE goals (
+  CREATE TABLE goals ( 
     id SERIAL PRIMARY KEY NOT NULL,
-    goal VARCHAR(140),
-    deadline DATE,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    goal VARCHAR(140),
+    deadline DATETIME,
     milestone_id INTEGER REFERENCES milestones(milestone_id) ON DELETE CASCADE
   );
 
@@ -44,7 +44,7 @@
   CREATE scores (
     score_id SERIAL PRIMARY KEY NOT NULL,
     score INTEGER,
-    date DATE
+    date DATETIME
   );
 
   CREATE items (
