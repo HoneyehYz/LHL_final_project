@@ -4,8 +4,8 @@ import Home from "./containers/Home";
 import NotFound from "./containers/NotFound";
 import Login from "./containers/Login";
 import Signup from "./containers/Signup";
-import { Goals } from "./containers/Goals";
-import { Dashboard } from "./containers/Dashboard";
+
+import  Default  from "./containers/Default";
 
 
 
@@ -21,11 +21,9 @@ export default function Routes() {
       <Route exact path="/signup">
           <Signup />
         </Route>
-        <Route exact path="/goals">
-          <Goals />
-        </Route>
-        <Route exact path="/dashboard">
-          <Dashboard />
+
+        <Route exact path="/default">
+          <Default />
         </Route>
       <Route>
          <NotFound />
