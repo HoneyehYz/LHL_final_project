@@ -1,10 +1,10 @@
 import React from "react";
-import GoalList from "./GoalList";
+import GoalList from "../GoalList";
 import "./style.css";
 
 export default function GoalShow(props) {
   return (
-    <GoalList />
+     <GoalList />
   );
 }
 
