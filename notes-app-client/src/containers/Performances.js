@@ -1,8 +1,8 @@
 import React from 'react'
-import "./Goals.css"
+import "./Performances.css"
 
 
-export default function Goals() {
+export default function Performances() {
   return (
       <div className="inc-exp-container">
       <div>
