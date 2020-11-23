@@ -26,8 +26,11 @@ export default function GoalList(props) {
         deadline={goal.deadline} 
         editGoal={()=>console.log("Edit")}
         cancelGoal={()=>console.log("Cancel")}
+        selected={goal.goal === props.value}
+        setGoal={(event=>props.onChange(goal.goal))}
       />);
-  });
+    });
+  
   return (
   <section>{goalList}</section>
   )
