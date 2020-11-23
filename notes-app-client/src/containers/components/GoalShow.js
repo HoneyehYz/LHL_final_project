@@ -1,11 +1,14 @@
 import React from "react";
+import GoalList from "./GoalList";
 import "./style.css";
 
 export default function GoalShow(props) {
-  console.log(props);
- const prop = props.goals[0];
- console.log(prop);
   return (
+    <GoalList />
+  );
+}
+
+/*
     <main  className="goal__card">
       <section>
         <h2 className="text--regular">{prop.goal}</h2>
@@ -29,5 +32,4 @@ export default function GoalShow(props) {
         </section>
       </section>
     </main>
-  );
-}
+*/

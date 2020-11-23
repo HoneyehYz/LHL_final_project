@@ -4,14 +4,13 @@ import "./Performances.css"
 
 export default function Performances() {
   return (
-    <div className="inc-exp-container">
-    <div>
-   
-    <p className="money plus">milestone 1</p>
-    </div>
-    <div>
-    <p className="money minus">milestone 2</p>
-    </div>
-    </div>
+    <main className="performances">
+    <section>
+      <h3>Add a new performace input</h3>
+    </section>
+    <section>
+      <h3>Daily Marks</h3>
+      </section>
+  </main>
   )
 }
