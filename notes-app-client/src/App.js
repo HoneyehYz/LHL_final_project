@@ -3,14 +3,10 @@ import Navbar from "react-bootstrap/Navbar";
 import "./App.css";
 import Routes from "./Routes";
 import Nav from "react-bootstrap/Nav";
-import Tab from "react-bootstrap/Tab";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 import { LinkContainer } from "react-router-bootstrap";
 import { AppContext } from "./libs/contextLib";
 import { useHistory } from "react-router-dom";
-import { Dashboard } from "./containers/Dashboard";
-import { Goals } from "./containers/Goals";
+
 
 
 function App() {

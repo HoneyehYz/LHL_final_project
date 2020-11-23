@@ -29,7 +29,7 @@ export default function Login() {
     try {
       if(data.email && data.password){
         userHasAuthenticated(true);
-        history.push("/");
+        history.push("/default");
       }
       
     } catch (e) {
