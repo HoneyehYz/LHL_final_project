@@ -1,17 +1,17 @@
 import React from 'react'
 import "./Goals.css"
-
+import Empty from "./components/Empty"
 
 export default function Goals() {
   return (
-      <div className="inc-exp-container">
-      <div>
-     
-      <p className="money plus">milestone 1</p>
-      </div>
-      <div>
-      <p className="money minus">milestone 2</p>
-      </div>
-      </div>
+    <main className="goals">
+    <section className="goal">
+      <h3>Goals</h3>
+      <Empty/>
+    </section>
+    <section className="milestone">
+      <h3>Milestones</h3>
+      </section>
+  </main>
   )
 }
