@@ -13,9 +13,11 @@ class Chat extends Component {
   _onMessageWasSent(message) {
     this.setState({
       messageList: [...this.state.messageList, message]
-    })
-    this._sendMessage("Hey")
-  }
+
+    }, () => {
+      setTimeout( () => this._sendMessage("Hi, How can I help you today?"), 2000)
+      })
+}
  
   _sendMessage(text) {
     if (text.length > 0) {

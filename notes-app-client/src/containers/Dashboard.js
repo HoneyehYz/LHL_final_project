@@ -4,6 +4,7 @@ import CanvasJSReact from './canvasjs.react';
 import {Container,Col,Row} from 'react-bootstrap'
 const CanvasJS = CanvasJSReact.CanvasJS;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
 class Dashboard extends Component {
   render(){
     const options = {
