@@ -1,6 +1,7 @@
 import "./Dashboard.css"
 import React, {Component} from "react";
 import CanvasJSReact from './canvasjs.react';
+import {Container,Col,Row} from 'react-bootstrap'
 const CanvasJS = CanvasJSReact.CanvasJS;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 class Dashboard extends Component {
@@ -52,13 +53,20 @@ class Dashboard extends Component {
       //     <p>Some text..</p>
       //   </div>
       //   <script type="text/javascript" src="canvasjs.min.js"></script>
-        <div> 
-          <h2>Welcome to the Dashboard</h2>
-          <div style={{color:"red",backgroundColor:"yellow", width:"50%", height:"300px",display:"flex", flexDirection:"row"}}> A </div>
-        <div style={{color:"red",backgroundColor:"purple", width:"50%", height:"300px",display:"flex", flexDirection:"row"}}> A </div>
-        <CanvasJSChart options = {options} style={{padding:"80px"}} />
-
-        </div>
+        <Container> 
+           <h2>Welcome to the Dashboard</h2>
+            <Row>
+              <Col>
+              <div style={{color:"red",backgroundColor:"yellow", height:"300px"}}> A </div>
+              </Col>
+              <Col>
+              <div style={{color:"red",backgroundColor:"purple", height:"300px"}}> A </div>
+              </Col>
+            </Row>
+            <Row>
+            <CanvasJSChart options = {options} style={{padding:"80px"}} />
+            </Row>
+        </Container>
         )
 
   }
