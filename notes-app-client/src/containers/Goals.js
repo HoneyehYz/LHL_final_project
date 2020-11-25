@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import "./Goals.css"
 import Goal from "./components/Goal/index"
-import Milestone from "./components/Milestone/index"
+import GoalCreateForm from "./components/Goal/GoalCreateForm"
 
 const goals = [
   {
@@ -35,56 +35,30 @@ const milestones = [
   }
 ]
 
-function getMilestonesForGoal(state, goal) {
-  console.log(state);
-  if (Array.isArray(state.goals) && state.goals.length === 0) {
-      return state.goals;
-  } else if (!goal){
-     return [];
-  }
-  else {  
-    console.log("goal", goal);
-    const filteredGoal = state.goals.filter(specificGoal => specificGoal.goal === goal);
-    console.log(typeof filteredGoal[0]);
-    console.log(filteredGoal[0].id);
-    
-    const milestones = state.milestones;
-    let milestonesForGoal = [];
+function setGoal(){
+  console.log("saved");
+}
 
-    milestones.forEach((milestone)=>{ 
-      if(milestone.goal_id===filteredGoal[0]){ milestonesForGoal.push(milestone)}
-    });
-     console.log(milestonesForGoal);
-     return milestonesForGoal;
-    
-  }
-
+function cancelGoal(){
+  console.log("delete");
 }
 
 export default function Goals() {
- 
-  const [state, setState] = useState({
-    goal: "",
-    goals,
-    milestones
-  });
-  
-  const setGoalSelector = goal => setState({...state, goal});
-  //console.log(state);
-  
-  const eachGoals = getMilestonesForGoal(state, state.goal);
-  
+/*
+  const goalItem = goals.map(goal => <Goal id = {goal.id}goal = {goal.goal} deadline={goal.deadline} setGoal={setGoal} cancelGoal={cancelGoal}/>)
+*/  
   return (
     <main className="goals">
-    <nav className="goals_sidebar">
+    <section className="goal">
       <h3>Goals</h3>
-      <Goal goals={state.goals} value={state.goal} setGoalSelector={setGoalSelector}/>
-      </nav>
+      <Goal goals={goals} milestones={milestones}/>
+      {/*  {goalItem}*/ }
+      </section>
 
     <section className="milestone">
-      {/*<Milestone milestones={state.milestones}/>*/}
-      <Milestone milestones={eachGoals}/>
+      <h3>Milestones</h3>
       </section>
   </main>
   )
 }
+

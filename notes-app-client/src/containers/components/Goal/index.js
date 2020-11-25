@@ -2,14 +2,13 @@ import React, { useState } from 'react'
 import GoalForm from './GoalForm';
 import GoalList from './GoalList';
 
-
 export default function Goal(props){
   const [goals, setGoals] = useState(props.goals);
+  console.log(props);
+  
+  const [goalSelector, setGoalSelector] = useState("");
 
   function save(goal, deadline){
-    if((!goal)||(!deadline)){
-      return;
-    }
     const newGoal = {
       goal,
       deadline
@@ -19,17 +18,17 @@ export default function Goal(props){
   }
 
   const removeGoal = (index) => {
-    const updatedGoals = [...goals];
-    updatedGoals.splice(index, 1);
-    setGoals(updatedGoals); 
+    const newGoals = [...goals];
+    newGoals.splice(index, 1);
+    setGoals(newGoals);
   }
 
   return (
     <div className="goal">
-      <section className="goal-list">
+      <div className="goal-list">
       <GoalForm onSave={save} />
-      <GoalList goals={goals} value={props.value} onChange={props.setGoalSelector} cancelGoal={removeGoal}/>
-      </section>
+      <GoalList goals={goals} goal={""} onChange={(goal)=>setGoalSelector(goal)} editGoal={save} cancelGoal={removeGoal} milestones={props.milestones}/>
+      </div>
     </div>
   );
         }

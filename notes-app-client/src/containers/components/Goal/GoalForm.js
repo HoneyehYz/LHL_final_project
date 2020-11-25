@@ -13,10 +13,16 @@ export default function GoalForm(props) {
     setDeadline("");
   };
 
+  function cancel(){
+    reset();
+    //props.onCancel();
+  }
+
   return (
     <main className="goal__card">
       <section>
         <form autoComplete="off">
+         
           <input
             value={goal}
             type="text"
@@ -34,7 +40,7 @@ export default function GoalForm(props) {
       </section>
       <section>
         <section>
-          <button onClick={() => {props.onSave(goal, deadline);reset(); }}>Add</button>
+          <button onClick={() => {props.onSave(goal, deadline); cancel()}}>Add</button>
         </section>
       </section>
     </main>
