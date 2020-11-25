@@ -9,17 +9,23 @@
     "bootstrap": "^4.5.3",
     "canvasjs": "^1.8.3",
     "mdbreact": "^4.27.0",
-    "react": "^16.12.0",
+
     "react-bootstrap": "^1.4.0",
     "react-chat-popup": "^1.1.2",
     "react-chat-window": "^1.2.1",
+
+    "rc-datepicker": "^5.0.16",
+    "react": "^17.0.1",
+    "react-calendar": "^3.2.1",
     "react-datepicker": "^3.3.0",
-    "react-dom": "^16.12.0",
+    "react-dom": "^17.0.1",
+
     "react-icons": "^3.11.0",
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "talkjs": "^0.14.3",
+    "reactstrap": "^8.7.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
