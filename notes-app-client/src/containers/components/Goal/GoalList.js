@@ -1,21 +1,23 @@
-import React from 'react'
+import {React, useState} from 'react'
 
 import GoalListItem from "./GoalListItem"
-import GoalForm from "./GoalForm"
 import "./style.css";
 
-export default function GoalList(props) {
 
-  const goalList = props.goals.map(goal =>{
+export default function GoalList(props) {
+  
+  const goalList = props.goals.map((goal,index) =>{
     return (
       <ul className="goalList">
       <GoalListItem
+        key={index}
+        index={index}
+        id={goal.id}
         goal={goal.goal}
         deadline={goal.deadline} 
-        editGoal={()=>console.log("Edit")}
-        cancelGoal={()=>console.log("Cancel")}
-        selected={goal.goal === props.goal} 
-        setGoalSelect={event=>props.onChange(goal.goal)}
+        cancelGoal={()=>props.cancelGoal(index)}
+        selected={goal.goal === props.value} 
+        setGoalSelector={(event)=>props.onChange(goal.id)}
       />
       </ul>);
     });
