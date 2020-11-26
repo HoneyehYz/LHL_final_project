@@ -5,7 +5,7 @@ import "./style.css";
 
 export default function Milestone(props) {
   const [milestones, setMilestones] = useState(props.milestones);
-  console.log(milestones);
+
   function save(milestone, deadline){
     if((!milestone)||(!deadline)){
       return;
