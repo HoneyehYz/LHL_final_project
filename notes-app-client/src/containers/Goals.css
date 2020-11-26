@@ -21,3 +21,8 @@
   padding: 0;
   width: 100%;
 }
+
+.goals_sidebar {
+  display: flex;
+  flex-direction: column;
+}
