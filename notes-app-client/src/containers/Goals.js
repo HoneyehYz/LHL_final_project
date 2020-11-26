@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./Goals.css"
 import Goal from "./components/Goal/index"
-import GoalCreateForm from "./components/Goal/GoalCreateForm"
+import Milestone from "./components/Milestone/index"
 
 const goals = [
   {
@@ -35,30 +35,51 @@ const milestones = [
   }
 ]
 
-function setGoal(){
-  console.log("saved");
-}
-
-function cancelGoal(){
-  console.log("delete");
-}
-
 export default function Goals() {
-/*
-  const goalItem = goals.map(goal => <Goal id = {goal.id}goal = {goal.goal} deadline={goal.deadline} setGoal={setGoal} cancelGoal={cancelGoal}/>)
-*/  
+ 
+  const [state, setState] = useState({
+    goal: "",
+    goals,
+    milestones
+  });
+  
+  //const setGoalSelector = goal => setState({...state, goal});
+
+  function setGoalSelector (goal){console.log(goal);}
+  
   return (
     <main className="goals">
-    <section className="goal">
+    <nav className="goals_sidebar">
       <h3>Goals</h3>
-      <Goal goals={goals} milestones={milestones}/>
-      {/*  {goalItem}*/ }
-      </section>
+      <Goal goals={state.goals} setGoalSelector={setGoalSelector}/>
+      </nav>
 
     <section className="milestone">
-      <h3>Milestones</h3>
+      <Milestone milestones={state.milestones}/>
       </section>
   </main>
   )
 }
+/*
+const MilestonesforGoal = getMilestonesForGoal(state, state.day);
+state.milestones   goal_id
 
+function getMilestoneForGoal(state, goalid) {
+
+};
+
+const appointmenttag = dailyAppointments.map(appointment => { 
+  const interview = getInterview(state, appointment.interview);
+  return (
+    <Appointment 
+      key={appointment.id}
+      id = {appointment.id}
+      time = {appointment.time}
+      interview = {interview}
+      interviews = {AppointmentInterviewer}
+      bookInterview = {bookInterview}
+      cancelInterview = {cancelInterview}
+    />
+  )
+});
+*/
