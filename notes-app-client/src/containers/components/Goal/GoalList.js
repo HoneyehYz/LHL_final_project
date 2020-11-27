@@ -5,7 +5,9 @@ import "./style.css";
 
 
 export default function GoalList(props) {
-  
+
+  console.log(props.value);
+
   const goalList = props.goals.map((goal,index) =>{
     return (
       <ul className="goalList">
@@ -17,7 +19,7 @@ export default function GoalList(props) {
         deadline={goal.deadline} 
         cancelGoal={()=>props.cancelGoal(index)}
         selected={goal.goal === props.value} 
-        setGoalSelector={(event)=>props.onChange(goal.id)}
+        setGoalSelector={(event)=>props.onChange(goal.goal)}
       />
       </ul>);
     });
@@ -26,3 +28,5 @@ export default function GoalList(props) {
   <section>{goalList}</section>
   )
 }
+
+//setGoalSelector={(event)=>props.onChange(goal.goal)}
