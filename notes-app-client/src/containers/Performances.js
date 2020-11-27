@@ -1,10 +1,25 @@
-import React, {Component} from 'react'
-import {Col, Container, Form} from 'react-bootstrap'
+import React, {Component, useState} from 'react'
+import {Col, Container, Form, Row} from 'react-bootstrap'
 import "./Performances.css"
 
 
 
-function Todo({ todo, index, completeTodo, removeTodo }) {
+const items = [
+  {
+    item_id : 1,
+    item : "flossing",
+    user_id: 1,
+    score_id: 1,
+
+  }
+];
+
+function Todo({ todo, index, completeTodo, removeTodo, setScoreTodo}) {
+
+  function myFunction(event){
+    //console.log("Honey", event.target.value)
+    setScoreTodo(index,event.target.value)
+  }
 
   return (
     <div
@@ -15,7 +30,8 @@ function Todo({ todo, index, completeTodo, removeTodo }) {
       <div>
         <button onClick={() => completeTodo(index)}>Complete</button>
         <button onClick={() => removeTodo(index)}>x</button>
-        <select id="mySelect" onchange="myFunction()">
+  
+        <select id="mySelect" onChange={myFunction} value={todo.score}>
           <option value="0">0</option>
           <option value="0.5">0.5</option>
           <option value="1">1</option>
@@ -25,9 +41,11 @@ function Todo({ todo, index, completeTodo, removeTodo }) {
   );
 }
 
-// function test(){
-//   document.getElementById("mySelect").value
+
+// function myScore(){
+//   let value = document.getElementById("mySelect").value;
 // }
+
 function TodoForm({ addTodo }) {
   const [value, setValue] = React.useState("");
 
@@ -51,20 +69,25 @@ function TodoForm({ addTodo }) {
 }
 
 function Performances() {
+
   const [todos, setTodos] = React.useState([
     {
-      text: "Learn about React",
-      isCompleted: false
+      text: "Flossing every night",
+      isCompleted: false,
+      score: 0
     },
     {
-      text: "Meet friend for lunch",
-      isCompleted: false
+      text: "Eat healthy",
+      isCompleted: false,
+      score: 0.5
     },
     {
-      text: "Build really cool todo app",
-      isCompleted: false
+      text: "Read a book",
+      isCompleted: false,
+      score: 1
     }
   ]);
+
 
   const addTodo = text => {
     const newTodos = [...todos, { text }];
@@ -83,11 +106,40 @@ function Performances() {
     setTodos(newTodos);
   };
 
+  const setScoreTodo = (index,score) => {
+    const newTodos = [...todos];
+    newTodos[index].score = score;
+    setTodos(newTodos);
+    addReport(newTodos[index].text,score);
+  };
+
+  const[reports, setReports] = React.useState([
+    {
+      text: "Hello",
+      score: 1
+    }
+  ])
+
+  const addReport = (text,score) => {
+    const newReports = [...reports, { text,score }];
+    setReports(newReports);
+  };
+
+  const removeReport = (text,score) => {
+    const newReports = [...reports, {text,score}];
+    newReports.splice(text,score, 1);
+    setTodos(newReports);
+  };
+
+
+
   return (
     <Container>
-      <Col>
+      <Row>
+      <Col style={{width:"50%"}}>
       <div className="app">
       <div className="todo-list">
+      <h3>Performance Item</h3>
         {todos.map((todo, index) => (
           
           <Todo
@@ -95,6 +147,7 @@ function Performances() {
             index={index}
             todo={todo}
             completeTodo={completeTodo}
+            setScoreTodo={setScoreTodo}
             removeTodo={removeTodo}
           />
         ))}
@@ -103,6 +156,15 @@ function Performances() {
       </div>
     </div>
       </Col>
+      <Col>
+      {reports.map((report, index) => (
+
+        report.text + report.score 
+
+      ))}
+      <button onClick={(report) => removeReport(report.text,report.score)}>x</button>
+      </Col>
+      </Row>
     </Container>
   );
 }
