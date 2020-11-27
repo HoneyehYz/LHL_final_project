@@ -43,15 +43,15 @@ export default function Goals() {
     milestones
   });
   
-  //const setGoalSelector = goal => setState({...state, goal});
-
-  function setGoalSelector (goal){console.log(goal);}
-  
+  const setGoalSelector = goal => setState({...state, goal});
+  //function setGoalSelector(goal){console.log(goal);}
+  //const [goal, setGoalSelector] = useState("");
+  console.log(state.goal);
   return (
     <main className="goals">
     <nav className="goals_sidebar">
       <h3>Goals</h3>
-      <Goal goals={state.goals} setGoalSelector={setGoalSelector}/>
+      <Goal goals={state.goals} value={state.goal} setGoalSelector={setGoalSelector}/>
       </nav>
 
     <section className="milestone">

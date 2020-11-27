@@ -28,7 +28,7 @@ export default function Goal(props){
     <div className="goal">
       <section className="goal-list">
       <GoalForm onSave={save} />
-      <GoalList goals={goals} value={props.goal} onChange={props.setGoalSelector} cancelGoal={removeGoal}/>
+      <GoalList goals={goals} value={props.value} onChange={props.setGoalSelector} cancelGoal={removeGoal}/>
       </section>
     </div>
   );
