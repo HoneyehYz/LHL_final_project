@@ -1,0 +1,17 @@
+.goal__card {
+  min-height: 11rem;
+  margin-right: 3rem;
+  margin-bottom: 3rem;
+  border-radius: 0.5rem;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  color: white;
+  background-color: grey;
+}
+
+.goal__button {
+  margin-top: 1rem;
+  margin-right: 0.5rem;
+}
