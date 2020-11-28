@@ -6,7 +6,7 @@ import "./style.css";
 
 export default function GoalList(props) {
 
-  console.log(props.value);
+  //console.log(props.value);
 
   const goalList = props.goals.map((goal,index) =>{
     return (
