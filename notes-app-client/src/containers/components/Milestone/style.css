@@ -1,0 +1,30 @@
+.milestone {
+  min-height: 5rem;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  color: white;
+  background-color: #209cee;;
+}
+
+.milestone-list {
+  padding-left: 0rem;
+}
+
+.milestone-item {
+  align-items: center;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding: 3px 10px;
+}
+
+.milestoneList {
+  margin-top: 2rem;
+  padding-left: 0rem;
+}

@@ -171,7 +171,7 @@ function Performances() {
      </Row>
      <Row>
        <h3>Here is the Chart</h3>
-       <CanvasJSChart options={{data:[{type:"column",dataPoints}]}} onRef={(e) => canvasRef.current=e}></CanvasJSChart>
+       <CanvasJSChart options={{data:[{type:"line",dataPoints}]}} onRef={(e) => canvasRef.current=e}></CanvasJSChart>
      </Row>
     </Container>
   );
