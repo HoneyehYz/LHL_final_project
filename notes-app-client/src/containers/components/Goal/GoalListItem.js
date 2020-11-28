@@ -1,7 +1,9 @@
 import React from 'react'
 import "./GoalListItem.css"
+
+
 export default function GoalListItem(props) {
- // console.log(props)
+  
   return (
     <li className="goal__card" onClick={()=>props.setGoalSelector(props.goal)}>
       <h2 className="text--regular" value={props.goal}>{props.goal}</h2>
@@ -11,11 +13,12 @@ export default function GoalListItem(props) {
     
     <section>
       <section>
+        {/*}
         <img
           className="goal-button"
           src="/edit.png"
           alt="Edit"
-        />
+  />*/}
         <img
           className="goal-button"
           src="/trash.png"
