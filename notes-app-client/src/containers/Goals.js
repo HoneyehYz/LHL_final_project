@@ -36,18 +36,27 @@ const milestones = [
 ]
 
 function getMilestonesForGoal(state, goal) {
-  console.log("get milestonesforGoal"+state+goal);
+  console.log(state);
   if (Array.isArray(state.goals) && state.goals.length === 0) {
       return state.goals;
-  } else {  
+  } else if (!goal){
+     return [];
+  }
+  else {  
+    console.log("goal", goal);
     const filteredGoal = state.goals.filter(specificGoal => specificGoal.goal === goal);
-    const id = filteredGoal.id;
+    console.log(typeof filteredGoal[0]);
+    console.log(filteredGoal[0].id);
+    
     const milestones = state.milestones;
     let milestonesForGoal = [];
 
-    milestones.forEach((milestone)=>{ if(milestone.goal_id===id){ milestonesForGoal.push(milestone)}});
+    milestones.forEach((milestone)=>{ 
+      if(milestone.goal_id===filteredGoal[0]){ milestonesForGoal.push(milestone)}
+    });
      console.log(milestonesForGoal);
      return milestonesForGoal;
+    
   }
 
 }
@@ -59,11 +68,9 @@ export default function Goals() {
     goals,
     milestones
   });
-
-  //console.log(state);
   
   const setGoalSelector = goal => setState({...state, goal});
-  console.log(state);
+  //console.log(state);
   
   const eachGoals = getMilestonesForGoal(state, state.goal);
   
