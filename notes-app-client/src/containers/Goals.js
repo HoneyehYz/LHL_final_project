@@ -35,6 +35,23 @@ const milestones = [
   }
 ]
 
+function getMilestonesForGoal(state, goal) {
+  console.log("get milestonesforGoal"+state+goal);
+  if (Array.isArray(state.goals) && state.goals.length === 0) {
+      return state.goals;
+  } else {  
+    const filteredGoal = state.goals.filter(specificGoal => specificGoal.goal === goal);
+    const id = filteredGoal.id;
+    const milestones = state.milestones;
+    let milestonesForGoal = [];
+
+    milestones.forEach((milestone)=>{ if(milestone.goal_id===id){ milestonesForGoal.push(milestone)}});
+     console.log(milestonesForGoal);
+     return milestonesForGoal;
+  }
+
+}
+
 export default function Goals() {
  
   const [state, setState] = useState({
@@ -42,11 +59,14 @@ export default function Goals() {
     goals,
     milestones
   });
+
+  //console.log(state);
   
   const setGoalSelector = goal => setState({...state, goal});
-  //function setGoalSelector(goal){console.log(goal);}
-  //const [goal, setGoalSelector] = useState("");
-  console.log(state.goal);
+  console.log(state);
+  
+  const eachGoals = getMilestonesForGoal(state, state.goal);
+  
   return (
     <main className="goals">
     <nav className="goals_sidebar">
@@ -55,31 +75,9 @@ export default function Goals() {
       </nav>
 
     <section className="milestone">
-      <Milestone milestones={state.milestones}/>
+      {/*<Milestone milestones={state.milestones}/>*/}
+      <Milestone milestones={eachGoals}/>
       </section>
   </main>
   )
 }
-/*
-const MilestonesforGoal = getMilestonesForGoal(state, state.day);
-state.milestones   goal_id
-
-function getMilestoneForGoal(state, goalid) {
-
-};
-
-const appointmenttag = dailyAppointments.map(appointment => { 
-  const interview = getInterview(state, appointment.interview);
-  return (
-    <Appointment 
-      key={appointment.id}
-      id = {appointment.id}
-      time = {appointment.time}
-      interview = {interview}
-      interviews = {AppointmentInterviewer}
-      bookInterview = {bookInterview}
-      cancelInterview = {cancelInterview}
-    />
-  )
-});
-*/
