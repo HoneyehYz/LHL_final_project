@@ -1,18 +1,9 @@
-import React, {Component, useState} from 'react'
+import React, {Component, Fragment, useState,useRef,useEffect} from 'react'
 import {Col, Container, Form, Row} from 'react-bootstrap'
 import "./Performances.css"
-
-
-
-const items = [
-  {
-    item_id : 1,
-    item : "flossing",
-    user_id: 1,
-    score_id: 1,
-
-  }
-];
+import CanvasJSReact from './canvasjs.react';
+const CanvasJS = CanvasJSReact.CanvasJS;
+const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 function Todo({ todo, index, completeTodo, removeTodo, setScoreTodo}) {
 
@@ -42,9 +33,7 @@ function Todo({ todo, index, completeTodo, removeTodo, setScoreTodo}) {
 }
 
 
-// function myScore(){
-//   let value = document.getElementById("mySelect").value;
-// }
+
 
 function TodoForm({ addTodo }) {
   const [value, setValue] = React.useState("");
@@ -115,7 +104,7 @@ function Performances() {
 
   const[reports, setReports] = React.useState([
     {
-      text: "Hello",
+      text: "Eat Healthy",
       score: 1
     }
   ])
@@ -125,23 +114,28 @@ function Performances() {
     setReports(newReports);
   };
 
-  const removeReport = (text,score) => {
-    const newReports = [...reports, {text,score}];
-    newReports.splice(text,score, 1);
-    setTodos(newReports);
+  const removeReport = (index) => {
+    const newReports = [...reports];
+    newReports.splice(index, 1);
+    console.log(newReports);
+    setReports(newReports);
   };
+  const canvasRef = useRef(null);
 
+  const dataPoints = reports.map((report,index) => ({ y:report.score-0, indexLabel:report.text, x:index}))
+  console.log(dataPoints);
+  useEffect(() => {if(canvasRef.current) {
+    canvasRef.current.render();
 
-
+  }}, [reports])
   return (
     <Container>
       <Row>
       <Col style={{width:"50%"}}>
+      <h3  className="todo-list">To-do Items</h3>
       <div className="app">
       <div className="todo-list">
-      <h3>Performance Item</h3>
         {todos.map((todo, index) => (
-          
           <Todo
             key={index}
             index={index}
@@ -154,45 +148,32 @@ function Performances() {
         <TodoForm addTodo={addTodo} />
         
       </div>
-    </div>
+      </div>
       </Col>
       <Col>
-      {reports.map((report, index) => (
-
-        report.text + report.score 
-
-      ))}
-      <button onClick={(report) => removeReport(report.text,report.score)}>x</button>
-      </Col>
-      </Row>
+      <h3  className="todo-list">Score Report</h3>
+      {reports.map((report, index) => {
+        return <React.Fragment>
+          <div  className="todo-list">
+          <div
+          className="todo"
+          style={{ textDecoration: report.addReport ? "line-through" : "" }}
+           >
+          <div>{report.text + "      " + report.score}</div> 
+          <button onClick={() => removeReport(index)}>x</button>
+          </div>
+          </div>
+       </React.Fragment>
+    
+        })}
+      
+       </Col>
+     </Row>
+     <Row>
+       <h3>Here is the Chart</h3>
+       <CanvasJSChart options={{data:[{type:"column",dataPoints}]}} onRef={(e) => canvasRef.current=e}></CanvasJSChart>
+     </Row>
     </Container>
   );
 }
-// class Performances extends Component {
-//   constructor(props) {
-//       super(props);
-//       this.state = { inputs: ['input-0'] };
-//   }
-
-//   render() {
-//       return(
-//           <div>
-//              <Form>
-//                  <div id="dynamicInput">
-//                      {this.state.inputs.map(input => <input key={input} />)}
-//                  </div>
-//              </Form>
-//              <button onClick={ () => this.appendInput() }>
-//                  CLICK ME TO ADD AN INPUT
-//              </button>
-//           </div>
-//       );
-//   }
-
-//   appendInput() {
-//       var newInput = `input-${this.state.inputs.length}`;
-//       this.setState(prevState => ({ inputs: prevState.inputs.concat([newInput]) }));
-//   }
-// }
-
 export default Performances;
