@@ -32,6 +32,13 @@ const milestones = [
     "deadline": "2020-11-10",
     "completed_at": "2020-11-07",
      "goal_id": 1
+  },
+  {
+    "milestone_id": 3,
+    "milestone": "Chapter1",
+    "deadline": "2020-12-08",
+    "completed_at": "",
+     "goal_id": 2
   }
 ]
 
