@@ -4,8 +4,11 @@ import MilestoneList from './MilestoneList';
 import "./style.css";
 
 export default function Milestone(props) {
+  
   const [milestones, setMilestones] = useState(props.milestones);
-  console.log(milestones);
+  console.log("milestonestoMileIndex,prop", props.milestones);
+  console.log("milestonestoMileIndex", milestones);
+  
   function save(milestone, deadline){
     if((!milestone)||(!deadline)){
       return;
@@ -14,14 +17,14 @@ export default function Milestone(props) {
       milestone,
       deadline
     }; 
-    const newMilestones = [...milestones, newMilestone];
+    const newMilestones = [...props.milestones, newMilestone];
     setMilestones(newMilestones);
     console.log(newMilestones)
   }
 
   const completeMilestone = (index) => {
     const newMilestones = [...milestones];
-    newMilestones[index].isCompleted = true;
+    newMilestones[index].completed = true;
     setMilestones(newMilestones);
   };
 

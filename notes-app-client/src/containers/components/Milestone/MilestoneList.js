@@ -3,7 +3,7 @@ import MilestoneListItem from "./MilestoneListItem"
 import "./style.css";
 
 export default function MilestoneList(props) {
- 
+ console.log("milestoneList", props);
   const milestoneList = props.milestones.map((milestone,index) =>{
     return (
       <ul className="milestoneList">

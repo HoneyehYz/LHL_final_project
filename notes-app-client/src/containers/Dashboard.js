@@ -15,7 +15,7 @@ class Dashboard extends Component {
 				text: "Performance Chart"
 			},
 			axisY: {
-				title: "Score",
+				title: "Avg. Score",
 				suffix: ""
 			},
 			axisX: {
@@ -38,30 +38,19 @@ class Dashboard extends Component {
 			}]
 		}
     return (
-    
-      // <div className="row">
-      //   <div className="column" style={{backgroundColor: "grey"}}>
-      //     <h3>Daily Performance</h3>
-      //     <p>Some text..</p>
-      //   </div>
-      //   <div className="column" style={{backgroundColor: "lightgrey"}}>
-      //     <h3>Upcoming Milestone</h3>
-      //     <p>Milestone 1</p>
-      //     <p>Milestone 2</p>
-      //   </div>
-      //   <div className="column" style={{backgroundColor: "grey"}}>
-      //     <h3>Performance</h3>
-      //     <p>Some text..</p>
-      //   </div>
-      //   <script type="text/javascript" src="canvasjs.min.js"></script>
         <Container> 
-           <h2>Welcome to the Dashboard</h2>
+           {/* <h2>Welcome to the Dashboard</h2> */}
             <Row>
               <Col>
-              <div style={{color:"red",backgroundColor:"yellow", height:"300px"}}> A </div>
+              <div className="cell" style={{height:"300px", border:"10px"}}> 
+              <h3 style={{textAlign:"center", padding:"10px"}}> Upcoming Milestones </h3>
+              </div>
               </Col>
               <Col>
-              <div style={{color:"red",backgroundColor:"purple", height:"300px"}}> A </div>
+              <div className="cell" style={{height:"300px"}}> 
+              <h3 style={{textAlign:"center", padding:"10px"}}> Quote of the Day </h3>
+              <p style={{textAlign:"center", padding:"10px"}}>Go where there is no path and leave a trail for others.</p>
+               </div>
               </Col>
             </Row>
             <Row>

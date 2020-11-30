@@ -12,7 +12,7 @@ const goals = [
   },
   {
     "id": 2,
-    "goal": "Go over the BootCamp Content",
+    "goal": "Read the book",
     "deadline": "2021-01-04",
     "user_id": 1,
   }
@@ -28,10 +28,17 @@ const milestones = [
   },
   {
     "milestone_id": 2,
-    "milestone": "wireframe",
-    "deadline": "2020-11-07",
+    "milestone": "ERD",
+    "deadline": "2020-11-10",
     "completed_at": "2020-11-07",
      "goal_id": 1
+  },
+  {
+    "milestone_id": 3,
+    "milestone": "Chapter1",
+    "deadline": "2020-12-08",
+    "completed_at": "",
+     "goal_id": 2
   }
 ]
 
@@ -39,11 +46,11 @@ function getMilestonesForGoal(state, goal) {
   console.log(state);
   if (Array.isArray(state.goals) && state.goals.length === 0) {
       return state.goals;
-  } else if (!goal){
+  } else if (!state.goal){
      return [];
   }
   else {  
-    console.log("goal", goal);
+    console.log("goal", state.goal);
     const filteredGoal = state.goals.filter(specificGoal => specificGoal.goal === goal);
     console.log(typeof filteredGoal[0]);
     console.log(filteredGoal[0].id);
@@ -52,14 +59,14 @@ function getMilestonesForGoal(state, goal) {
     let milestonesForGoal = [];
 
     milestones.forEach((milestone)=>{ 
-      if(milestone.goal_id===filteredGoal[0]){ milestonesForGoal.push(milestone)}
+      if(milestone.goal_id===filteredGoal[0].id){ milestonesForGoal.push(milestone)}
     });
-     console.log(milestonesForGoal);
-     return milestonesForGoal;
-    
+     console.log("milestonesForGoal",milestonesForGoal);
+     return milestonesForGoal;  
   }
-
 }
+
+
 
 export default function Goals() {
  
@@ -73,7 +80,7 @@ export default function Goals() {
   //console.log(state);
   
   const eachGoals = getMilestonesForGoal(state, state.goal);
-  
+  console.log("eachGoal", eachGoals);
   return (
     <main className="goals">
     <nav className="goals_sidebar">
