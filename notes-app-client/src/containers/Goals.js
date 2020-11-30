@@ -42,6 +42,7 @@ const milestones = [
   }
 ]
 
+/*
 function getMilestonesForGoal(state, goal) {
   console.log("goal", goal);
   if (Array.isArray(state.goals) && state.goals.length === 0) {
@@ -64,7 +65,7 @@ function getMilestonesForGoal(state, goal) {
 
 }
 
-
+*/
 
 export default function Goals() {
  
@@ -77,8 +78,8 @@ export default function Goals() {
   const setGoalSelector = goal => setState({...state, goal});
   //console.log(state);
   
-  const eachGoals = getMilestonesForGoal(state, state.goal);
-  console.log("eachGoal", eachGoals);
+ // const eachGoals = getMilestonesForGoal(state, state.goal);
+ // console.log("eachGoal", eachGoals);
 
   return (
     <main className="goals">
@@ -88,8 +89,8 @@ export default function Goals() {
       </nav>
 
     <section className="milestone">
-      {/*<Milestone milestones={state.milestones}/>*/}
-      <Milestone milestones={eachGoals}/>
+      <Milestone goals={state.goals} milestones={state.milestones} goal={state.goal}/>
+      {/*<Milestone milestones={eachGoals}/>*/}
       </section>
   </main>
   )
