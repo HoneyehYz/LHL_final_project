@@ -7,14 +7,14 @@ const goals = [
   {
     "id": 1,
     "goal": "Finish Project",
-    "user_id": 1,
     "deadline": "2020-12-04",
+    "user_id": 1
   },
   {
     "id": 2,
     "goal": "Read the book",
     "deadline": "2021-01-04",
-    "user_id": 1,
+    "user_id": 1
   }
 ];
 
@@ -23,21 +23,21 @@ const milestones = [
     "milestone_id": 1,
     "milestone": "wireframe",
     "deadline": "2020-11-07",
-    "completed_at": "2020-11-07",
+    "completed": false,
     "goal_id":1
   },
   {
     "milestone_id": 2,
     "milestone": "ERD",
     "deadline": "2020-11-10",
-    "completed_at": "2020-11-07",
+    "completed": false,
      "goal_id": 1
   },
   {
     "milestone_id": 3,
     "milestone": "Chapter1",
     "deadline": "2020-12-08",
-    "completed_at": "",
+    "completed": false,
      "goal_id": 2
   }
 ]
@@ -71,7 +71,7 @@ function getMilestonesForGoal(state, goal) {
 export default function Goals() {
  
   const [state, setState] = useState({
-    goal: "",
+    goal: "Finish Project",
     goals,
     milestones
   });
@@ -81,6 +81,7 @@ export default function Goals() {
   
   const eachGoals = getMilestonesForGoal(state, state.goal);
   console.log("eachGoal", eachGoals);
+  
   return (
     <main className="goals">
     <nav className="goals_sidebar">

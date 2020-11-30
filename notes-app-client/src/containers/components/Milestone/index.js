@@ -23,6 +23,7 @@ export default function Milestone(props) {
   }
 
   const completeMilestone = (index) => {
+    console.log(index);
     const newMilestones = [...milestones];
     newMilestones[index].completed = true;
     setMilestones(newMilestones);

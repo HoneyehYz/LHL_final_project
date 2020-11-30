@@ -10,4 +10,7 @@
   height: 500px; /* Should be removed. Only for demonstration */
 }
 
+.table {
+  border: black;
+}
 

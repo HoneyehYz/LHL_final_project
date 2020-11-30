@@ -4,7 +4,6 @@
   margin-bottom: 3rem;
   margin-top: 3rem;
   border-radius: 0.5rem;
-
   display: flex;
   justify-content: space-between;
   flex-flow: row wrap;
@@ -15,3 +14,4 @@
   margin-top: 1rem;
   margin-right: 0.5rem;
 }
+
