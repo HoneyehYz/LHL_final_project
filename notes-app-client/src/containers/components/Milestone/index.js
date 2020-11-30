@@ -6,10 +6,33 @@ import "./style.css";
 export default function Milestone(props) {
   
   const [milestones, setMilestones] = useState(props.milestones);
-  console.log("milestonestoMileIndex,prop", props.milestones);
-  console.log("milestonestoMileIndex", milestones);
+
+  function getMilestonesForGoal(goals,milestone, goal) {
+    console.log("goal", goal);
+    if (Array.isArray(goals) && goals.length === 0) {
+        return goals;
+    } else if (!goal){
+       return [];
+    }
+    else {  
+      const filteredGoal = goals.filter(specificGoal => specificGoal.goal === goal);
   
-  function save(milestone, deadline){
+      const milestones = milestone;
+      let milestonesForGoal = [];
+  
+      milestones.forEach((milestone)=>{ 
+        if(milestone.goal_id===filteredGoal[0].id){ milestonesForGoal.push(milestone)}
+      });
+       console.log("milestonesForGoal",milestonesForGoal);
+       return milestonesForGoal; 
+    } 
+  
+  }
+
+  const eachGoals = getMilestonesForGoal(props.goals, props.milestones, props.goal);
+   console.log("eachGoals", eachGoals);
+  
+   function save(milestone, deadline){
     if((!milestone)||(!deadline)){
       return;
     }
@@ -19,10 +42,10 @@ export default function Milestone(props) {
     }; 
     const newMilestones = [...props.milestones, newMilestone];
     setMilestones(newMilestones);
-    console.log(newMilestones)
   }
 
   const completeMilestone = (index) => {
+    console.log(index);
     const newMilestones = [...milestones];
     newMilestones[index].completed = true;
     setMilestones(newMilestones);
@@ -34,6 +57,7 @@ export default function Milestone(props) {
     updateMilestones.splice(index, 1);
     setMilestones(updateMilestones);
   };
+  
 
   return (
     <div className="milestone">
@@ -41,11 +65,13 @@ export default function Milestone(props) {
       <h3>Milestone</h3>
       <MilestoneForm onSave={save} />
       <MilestoneList
-        milestones={milestones}
+        milestones={eachGoals}
         completeMilestone={completeMilestone}
         cancelMilestone={removeMilestone}
       />
+      
       </section>
     </div>
   );
+
 }

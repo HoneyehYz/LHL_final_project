@@ -20,7 +20,7 @@ function App() {
   
   return (
     <div className="App container py-3">
-      <Navbar collapseOnSelect bg="light" expand="md" className="mb-3">
+      <Navbar collapseOnSelect bg="warning" expand="md" className="mb-3">
         <LinkContainer to="/">
           <Navbar.Brand className="font-weight-bold text-muted">
             Goal Tracker

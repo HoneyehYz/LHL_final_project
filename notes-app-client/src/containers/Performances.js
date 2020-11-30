@@ -5,6 +5,7 @@ import CanvasJSReact from './canvasjs.react';
 const CanvasJS = CanvasJSReact.CanvasJS;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
+
 function Todo({ todo, index, completeTodo, removeTodo, setScoreTodo}) {
 
   function myFunction(event){
@@ -101,7 +102,7 @@ function Performances() {
     setTodos(newTodos);
     addReport(newTodos[index].text,score);
   };
-
+  
   const[reports, setReports] = React.useState([
     {
       text: "Eat Healthy",
@@ -113,6 +114,18 @@ function Performances() {
     },
     {
       text: "Eat Healthy",
+      score: 1
+    },
+    {
+      text: "Flossing",
+      score: 0.5
+    },
+    {
+      text: "Flossing",
+      score: 1
+    },
+    {
+      text: "Read a book",
       score: 1
     }
   ])
@@ -136,8 +149,9 @@ function Performances() {
   console.log(dataPoints);
   useEffect(() => {if(canvasRef.current) {
     canvasRef.current.render();
-
   }}, [reports])
+
+
   return (
     <Container>
       <Row>
@@ -180,7 +194,7 @@ function Performances() {
        </Col>
      </Row>
      <Row>
-       <CanvasJSChart options={{data:[{type:"line",dataPoints}]}} onRef={(e) => canvasRef.current=e}></CanvasJSChart>
+       <CanvasJSChart options={{data:[{type:"spline",dataPoints}]}} onRef={(e) => canvasRef.current=e}></CanvasJSChart>
      </Row>
     </Container>
   );

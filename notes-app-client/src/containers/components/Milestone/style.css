@@ -4,7 +4,8 @@
   display: flex;
   justify-content: space-between;
   flex-flow: row wrap;
-  background-color: #e8e8e8;;
+  background-color: #ffc107;
+  border-radius: 6px;
 }
 
 .milestone-list {
@@ -20,6 +21,7 @@
   justify-content: space-between;
   margin-bottom: 6px;
   padding: 3px 10px;
+  padding-top: 10px;
 }
 
 .milestoneList {
