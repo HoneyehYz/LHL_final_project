@@ -4,7 +4,7 @@ import MilestoneForm from "./MilestoneForm"
 import "./style.css";
 
 export default function MilestoneList(props) {
- console.log("milestoneList", props);
+ console.log("milestoneList", props.milestones);
 
   const milestoneList = props.milestones.map((milestone,index) =>{
     return (

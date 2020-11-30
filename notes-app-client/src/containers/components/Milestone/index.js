@@ -6,7 +6,7 @@ import "./style.css";
 export default function Milestone(props) {
   
   const [milestones, setMilestones] = useState(props.milestones);
-  console.log("milestonestoMileIndex,prop", props.milestones);
+  console.log("milestonestoMileIndex,prop", milestones);
 
   function save(milestone, deadline){
     if((!milestone)||(!deadline)){
@@ -18,7 +18,6 @@ export default function Milestone(props) {
     }; 
     const newMilestones = [...props.milestones, newMilestone];
     setMilestones(newMilestones);
-    console.log(newMilestones)
   }
 
   const completeMilestone = (index) => {
@@ -34,6 +33,7 @@ export default function Milestone(props) {
     updateMilestones.splice(index, 1);
     setMilestones(updateMilestones);
   };
+  
 
   return (
     <div className="milestone">
@@ -41,7 +41,7 @@ export default function Milestone(props) {
       <h3>Milestone</h3>
       <MilestoneForm onSave={save} />
       <MilestoneList
-        milestones={props.milestones}
+        milestones={milestones}
         completeMilestone={completeMilestone}
         cancelMilestone={removeMilestone}
       />
@@ -49,3 +49,5 @@ export default function Milestone(props) {
     </div>
   );
 }
+
+//milestones={props.milestones}

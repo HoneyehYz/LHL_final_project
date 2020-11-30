@@ -43,14 +43,15 @@ const milestones = [
 ]
 
 function getMilestonesForGoal(state, goal) {
+  console.log("goal", goal);
   if (Array.isArray(state.goals) && state.goals.length === 0) {
       return state.goals;
-  } else if (!state.goal){
+  } else if (!goal){
      return [];
   }
   else {  
     const filteredGoal = state.goals.filter(specificGoal => specificGoal.goal === goal);
-    
+
     const milestones = state.milestones;
     let milestonesForGoal = [];
 
@@ -58,11 +59,10 @@ function getMilestonesForGoal(state, goal) {
       if(milestone.goal_id===filteredGoal[0].id){ milestonesForGoal.push(milestone)}
     });
      console.log("milestonesForGoal",milestonesForGoal);
-     return milestonesForGoal;  
-  }
+     return milestonesForGoal; 
+  } 
+
 }
-
-
 
 export default function Goals() {
  

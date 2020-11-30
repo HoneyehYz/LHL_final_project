@@ -12,7 +12,8 @@ export default function Goal(props){
     }
     const newGoal = {
       goal,
-      deadline
+      deadline,
+      "id": 3
     }; 
     const newGoals = [...goals, newGoal];
     setGoals(newGoals);
