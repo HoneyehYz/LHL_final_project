@@ -43,17 +43,13 @@ const milestones = [
 ]
 
 function getMilestonesForGoal(state, goal) {
-  console.log(state);
   if (Array.isArray(state.goals) && state.goals.length === 0) {
       return state.goals;
   } else if (!state.goal){
      return [];
   }
   else {  
-    console.log("goal", state.goal);
     const filteredGoal = state.goals.filter(specificGoal => specificGoal.goal === goal);
-    console.log(typeof filteredGoal[0]);
-    console.log(filteredGoal[0].id);
     
     const milestones = state.milestones;
     let milestonesForGoal = [];
@@ -71,7 +67,7 @@ function getMilestonesForGoal(state, goal) {
 export default function Goals() {
  
   const [state, setState] = useState({
-    goal: "Finish Project",
+    goal: "",
     goals,
     milestones
   });

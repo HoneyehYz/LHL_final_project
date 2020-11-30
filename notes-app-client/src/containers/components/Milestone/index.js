@@ -7,8 +7,7 @@ export default function Milestone(props) {
   
   const [milestones, setMilestones] = useState(props.milestones);
   console.log("milestonestoMileIndex,prop", props.milestones);
-  console.log("milestonestoMileIndex", milestones);
-  
+
   function save(milestone, deadline){
     if((!milestone)||(!deadline)){
       return;
@@ -42,7 +41,7 @@ export default function Milestone(props) {
       <h3>Milestone</h3>
       <MilestoneForm onSave={save} />
       <MilestoneList
-        milestones={milestones}
+        milestones={props.milestones}
         completeMilestone={completeMilestone}
         cancelMilestone={removeMilestone}
       />
