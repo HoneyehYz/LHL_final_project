@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 module.exports = db => {
-  router.get("/chats", (request, response) => {
+  router.get("/chats", (req, response) => {
     db.query(
       `
       SELECT
@@ -16,7 +16,7 @@ module.exports = db => {
       response.json(chats);
     });
   });
-  router.post("/chat", (request, response) => {
+  router.post("/chat", (req, response) => {
     db.query(
       `
     INSERT messages(
