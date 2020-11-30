@@ -46,7 +46,7 @@ function getMilestonesForGoal(state, goal) {
   console.log("goal", goal);
   if (Array.isArray(state.goals) && state.goals.length === 0) {
       return state.goals;
-  } else if (!goal){
+  } else if (!state.goal){
      return [];
   }
   else {  
@@ -64,6 +64,8 @@ function getMilestonesForGoal(state, goal) {
 
 }
 
+
+
 export default function Goals() {
  
   const [state, setState] = useState({
@@ -77,7 +79,7 @@ export default function Goals() {
   
   const eachGoals = getMilestonesForGoal(state, state.goal);
   console.log("eachGoal", eachGoals);
-  
+
   return (
     <main className="goals">
     <nav className="goals_sidebar">

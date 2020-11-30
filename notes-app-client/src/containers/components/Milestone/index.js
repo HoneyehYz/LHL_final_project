@@ -6,8 +6,6 @@ import "./style.css";
 export default function Milestone(props) {
   
   const [milestones, setMilestones] = useState(props.milestones);
-  console.log("milestonestoMileIndex,prop", milestones);
-
   function save(milestone, deadline){
     if((!milestone)||(!deadline)){
       return;
@@ -48,6 +46,8 @@ export default function Milestone(props) {
       </section>
     </div>
   );
+
 }
 
 //milestones={props.milestones}
+
