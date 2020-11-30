@@ -2,7 +2,6 @@ import "./Dashboard.css"
 import React, {Component} from "react";
 import CanvasJSReact from './canvasjs.react';
 import {Container,Col,Row} from 'react-bootstrap';
-//import MilestonesDashboard from"./MilestoneDashboard"
 
 const CanvasJS = CanvasJSReact.CanvasJS;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
