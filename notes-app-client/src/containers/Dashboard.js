@@ -1,7 +1,9 @@
 import "./Dashboard.css"
 import React, {Component} from "react";
 import CanvasJSReact from './canvasjs.react';
+
 import {Container,Col,Row,Table} from 'react-bootstrap';
+
 
 const CanvasJS = CanvasJSReact.CanvasJS;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -36,14 +38,19 @@ class MilestonesDashboard extends React.Component {
   return (
     <div>
   <h3>Uncoming Milestones</h3>
+
   <Table striped bordered hover>
   <thead>
+
   <tr>
     <th>Milestones</th>
     <th>Deadlines</th> 
   </tr>
+
   </thead>
   <tbody>
+
+
   <tr>
     <td>{sortedMilestones[0].milestone}</td>
     <td>{sortedMilestones[0].deadline}</td>
@@ -56,9 +63,11 @@ class MilestonesDashboard extends React.Component {
     <td>{sortedMilestones[2].milestone}</td>
     <td>{sortedMilestones[2].deadline}</td>
   </tr>
+
   </tbody>
 
 </Table>
+
   </div>
   )
   } 
@@ -104,6 +113,7 @@ class Dashboard extends Component {
       }]
 		}
     return (
+
       <Container> 
          {/* <h2>Welcome to the Dashboard</h2> */}
           <Row>

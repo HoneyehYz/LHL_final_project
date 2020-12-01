@@ -1,5 +1,5 @@
 import React, {Component, Fragment, useState,useRef,useEffect} from 'react'
-import {Col, Container, Form, Row, Button} from 'react-bootstrap'
+import {Col, Container, Form, Row} from 'react-bootstrap'
 import "./Performances.css"
 import CanvasJSReact from './canvasjs.react';
 const CanvasJS = CanvasJSReact.CanvasJS;
@@ -127,6 +127,7 @@ function Performances() {
     {
       text: "Read a book",
       score: 1
+
     }
   ])
 
@@ -143,9 +144,7 @@ function Performances() {
   };
   const canvasRef = useRef(null);
 
-  const dataPoints = reports.map((report,index) => ({
-     y:report.score-0, indexLabel:report.text, x:index
-    }))
+  const dataPoints = reports.map((report,index) => ({ y:report.score-0, indexLabel:report.text, x:index}))
   console.log(dataPoints);
   useEffect(() => {if(canvasRef.current) {
     canvasRef.current.render();
@@ -194,7 +193,9 @@ function Performances() {
        </Col>
      </Row>
      <Row>
+
        <CanvasJSChart options={{data:[{type:"spline",dataPoints}]}} onRef={(e) => canvasRef.current=e}></CanvasJSChart>
+
      </Row>
     </Container>
   );

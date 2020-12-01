@@ -28,3 +28,4 @@ export default function GoalList(props) {
   <section>{goalList}</section>
   )
 }
+//id={goal.id} 

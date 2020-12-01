@@ -60,7 +60,9 @@ function getMilestonesForGoal(state, goal) {
      console.log("milestonesForGoal",milestonesForGoal);
      return milestonesForGoal; 
   } 
+
 }
+
 */
 
 export default function Goals() {
