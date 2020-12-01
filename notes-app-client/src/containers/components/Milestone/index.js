@@ -29,7 +29,7 @@ export default function Milestone(props) {
   
   }
 
-  const eachGoals = getMilestonesForGoal(props.goals, props.milestones, props.goal);
+  const eachGoals = getMilestonesForGoal(props.goals, milestones, props.goal);
    console.log("eachGoals", eachGoals);
   
    function save(milestone, deadline){
@@ -75,3 +75,6 @@ export default function Milestone(props) {
   );
 
 }
+
+//milestones={props.milestones}
+
