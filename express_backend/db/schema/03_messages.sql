@@ -2,7 +2,6 @@ DROP TABLE IF EXISTS messages CASCADE;
 CREATE TABLE messages(
     chat_id SERIAL PRIMARY KEY NOT NULL,
     message TEXT,
-    date DATETIME,
-    fromUser SERIAL FOREIGN KEY NOT NULL,
-    toUser SERIAL FOREIGN KEY NOT NULL,
+    date DATE,
+    user_id SERIAL FOREIGN KEY NOT NULL
 );
