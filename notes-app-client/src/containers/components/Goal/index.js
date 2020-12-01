@@ -13,7 +13,8 @@ export default function Goal(props){
     const newGoal = {
       goal,
       deadline,
-      "id": 3
+      "id": Math.floor(Math.random()*1000),
+      "user_id": 1
     }; 
     const newGoals = [...goals, newGoal];
     setGoals(newGoals);
@@ -22,8 +23,9 @@ export default function Goal(props){
   const removeGoal = (index) => {
     console.log("goalRemoval", index);
     const updatedGoals = [...goals];
-    updatedGoals.slice(index, 1);
+    updatedGoals.splice(index,1);
     setGoals(updatedGoals); 
+    console.log("removalGoal",updatedGoals);
   }
 
   return (

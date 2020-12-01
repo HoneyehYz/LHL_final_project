@@ -15,13 +15,13 @@ export default function Milestone(props) {
        return [];
     }
     else {  
-      const filteredGoal = goals.filter(specificGoal => specificGoal.goal === goal);
+     // const filteredGoal = goals.filter(specificGoal => specificGoal.goal === goal);
   
       const milestones = milestone;
       let milestonesForGoal = [];
-  
+       console.log("milestonesbefore",milestones);
       milestones.forEach((milestone)=>{ 
-        if(milestone.goal_id===filteredGoal[0].id){ milestonesForGoal.push(milestone)}
+        if(milestone.goal_goal===goal){ milestonesForGoal.push(milestone)}
       });
        console.log("milestonesForGoal",milestonesForGoal);
        return milestonesForGoal; 
@@ -38,7 +38,8 @@ export default function Milestone(props) {
     }
     const newMilestone = {
       milestone,
-      deadline
+      deadline,
+      milestone_id: Math.floor(Math.random()*1000),
     }; 
     const newMilestones = [...props.milestones, newMilestone];
     setMilestones(newMilestones);
