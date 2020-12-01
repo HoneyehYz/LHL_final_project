@@ -1,7 +1,9 @@
 import "./Dashboard.css"
 import React, {Component} from "react";
 import CanvasJSReact from './canvasjs.react';
+
 import {Container,Col,Row,Table} from 'react-bootstrap';
+
 
 const CanvasJS = CanvasJSReact.CanvasJS;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -35,15 +37,20 @@ class MilestonesDashboard extends React.Component {
    sortedMilestones.slice(0,3);
   return (
     <div>
-  <h3>Uncoming Milestones</h3>
-  <Table striped bordered hover>
+  <h3>Upcoming Milestones</h3>
+
+  <Table striped bordered hover size="sm">
   <thead>
+
   <tr>
     <th>Milestones</th>
     <th>Deadlines</th> 
   </tr>
+
   </thead>
   <tbody>
+
+
   <tr>
     <td>{sortedMilestones[0].milestone}</td>
     <td>{sortedMilestones[0].deadline}</td>
@@ -56,9 +63,11 @@ class MilestonesDashboard extends React.Component {
     <td>{sortedMilestones[2].milestone}</td>
     <td>{sortedMilestones[2].deadline}</td>
   </tr>
+
   </tbody>
 
 </Table>
+
   </div>
   )
   } 
@@ -73,37 +82,78 @@ class Dashboard extends Component {
 
   render(){
    // const upcomingMilestone = getUpComingMilestone(milestones);
-    const options = {
-			animationEnabled: true,
-			exportEnabled: true,
-			theme: "light2", // "light1", "dark1", "dark2"
-			title:{
-				text: "Performance Chart"
-			},
-			axisY: {
-				title: "Score",
-				suffix: ""
-			},
-			axisX: {
-				title: "Week ",
-				prefix: "W",
-				interval: 1
-			},
-			data: [{
-				type: "line",
-				toolTipContent: "Week {x}: {y}",
-				dataPoints: [
-					{ x: 1, y: 0.5 },
-					{ x: 2, y: 1 },
-					{ x: 3, y: 0.5 },
-					{ x: 4, y: 0 },
-					{ x: 5, y: 0.5 },
-					{ x: 6, y: 1 },
-					{ x: 7, y: 1 }
-				]
-      }]
-		}
+   const options = {
+    animationEnabled: true,	
+    title:{
+      text: "Total Scores"
+    },
+    axisY : {
+      title: "Score"
+    },
+    toolTip: {
+      shared: true
+    },
+    data: [{
+      type: "spline",
+      name: "Eating Healthy",
+      showInLegend: true,
+      dataPoints: [
+        { y: 1, label: "1" },
+        { y: 0.5, label: "2" },
+        { y: 1, label: "3" },
+        { y: 0, label: "4" },
+        { y: 1, label: "5" },
+        { y: 0.5, label: "6" },
+        { y: 0.5, label: "7" },
+        { y: 1, label: "8" },
+        { y: 0, label: "9" },
+        { y: 1, label: "10" },
+        { y: 0.5, label: "11" },
+        { y: 1, label: "12" }
+      ]
+    },
+    {
+      type: "spline",
+      name: "Flossing",
+      showInLegend: true,
+      dataPoints: [
+        { y: 1, label: "1" },
+        { y: 1, label: "2" },
+        { y: 0, label: "3" },
+        { y: 0.5, label: "4" },
+        { y: 1, label: "5" },
+        { y: 0, label: "6" },
+        { y: 0, label: "7" },
+        { y: 1, label: "8" },
+        { y: 0.5, label: "9" },
+        { y: 0, label: "10" },
+        { y: 0.5, label: "11" },
+        { y: 0.5, label: "12" }
+      ]
+    // },
+    // {
+    //   type: "spline",
+    //   name: "Read a book",
+    //   showInLegend: true,
+    //   dataPoints: [
+    //     { y: 0, label: "Read a book" },
+    //     { y: 0, label: "Read a book" },
+    //     { y: 0, label: "Read a book" },
+    //     { y: 1, label: "Read a book" },
+    //     { y: 1, label: "Read a book" },
+    //     { y: 1, label: "Read a book" },
+    //     { y: 0.5, label: "Read a book" },
+    //     { y: 1, label: "Read a book" },
+    //     { y: 0, label: "Read a book" },
+    //     { y: 0.5, label: "Read a book" },
+    //     { y: 0, label: "Read a book" },
+    //     { y: 0, label: "Read a book" }
+    //   ]
+    }
+  ]
+}
     return (
+
       <Container> 
          {/* <h2>Welcome to the Dashboard</h2> */}
           <Row>
@@ -130,12 +180,3 @@ class Dashboard extends Component {
 }
 
 export default Dashboard;
-
-
-
-
-
-
-
-
-

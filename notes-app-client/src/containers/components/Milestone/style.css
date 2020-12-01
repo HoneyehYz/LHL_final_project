@@ -4,8 +4,10 @@
   display: flex;
   justify-content: space-between;
   flex-flow: row wrap;
-  background-color: #ffc107;
+
   border-radius: 6px;
+  background-color: #ffc107;
+
 }
 
 .milestone-list {
@@ -14,6 +16,7 @@
 
 .milestone-item {
   align-items: center;
+  background: #fff;
   border-radius: 3px;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
   display: flex;
