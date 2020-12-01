@@ -13,7 +13,7 @@ module.exports = db => {
       response.json(categories);
     });
   });
-  router.post("/categories", (request, response) => {
+  router.post("/categories", (req, response) => {
     db.query(
       `
     INSERT categories(
