@@ -18,3 +18,8 @@
   margin-bottom: 6px;
   padding: 3px 10px;
 }
+
+.edge{
+  padding-top: 50px;
+  border-radius: 0.5rem;
+}

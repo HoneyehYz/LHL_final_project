@@ -117,18 +117,27 @@ function Performances() {
       score: 1
     },
     {
-      text: "Flossing",
-      score: 0.5
-    },
-    {
-      text: "Flossing",
+      text: "Eat Healthy",
       score: 1
     },
     {
-      text: "Read a book",
-      score: 1
-
+      text: "Eat Healthy",
+      score: 0
     }
+    // ,
+    // {
+    //   text: "Flossing",
+    //   score: 0.5
+    // },
+    // {
+    //   text: "Flossing",
+    //   score: 1
+    // },
+    // {
+    //   text: "Read a book",
+    //   score: 1
+
+    // }
   ])
 
   const addReport = (text,score) => {
@@ -193,9 +202,9 @@ function Performances() {
        </Col>
      </Row>
      <Row>
-
+        <div className="edge">
        <CanvasJSChart options={{data:[{type:"spline",dataPoints}]}} onRef={(e) => canvasRef.current=e}></CanvasJSChart>
-
+        </div>
      </Row>
     </Container>
   );
