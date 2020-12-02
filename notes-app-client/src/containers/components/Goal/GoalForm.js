@@ -35,7 +35,7 @@ export default function GoalForm(props) {
       </section>
       <section>
         <section>
-        <Button variant="outline-dark" onClick={() => {props.onSave(goal, deadline);reset(); }}>Add</Button>
+        <Button variant="light" onClick={() => {props.onSave(goal, deadline);reset(); }}>Add</Button>
         </section>
       </section>
     </main>
