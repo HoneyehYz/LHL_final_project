@@ -4,9 +4,10 @@ import "./GoalListItem.css"
 
 export default function GoalListItem(props) {
     /*  <li className="goal__card" onClick={()=>props.setGoalSelector(props.goal)}> */
+    //<li className="goal__card" onClick={()=>props.setGoalSelector(props.goal)}>
   return (
 
-  <li className="goal__card" onClick={()=>props.setGoalSelector(props.goal)}>
+    <li className="goal__card" onClick={()=>props.setGoalSelector(props.goal)}>
       <h2 className="text--regular" value={props.goal}>{props.goal}</h2>
       <section>
         <h4>Deadline: {props.deadline}</h4>
@@ -24,3 +25,4 @@ export default function GoalListItem(props) {
     </li>
   )
 }
+//  <button onClick={()=>props.setGoalSelector(props.goal)}>Show Milestones</button>

@@ -17,7 +17,7 @@ export default function GoalList(props) {
         id={goal.id} 
         goal={goal.goal}
         deadline={goal.deadline} 
-        cancelGoal={()=>props.cancelGoal(index)}
+        cancelGoal={()=>{props.cancelGoal(index);goal.goal=""}}
         selected={goal.goal === props.value} 
         setGoalSelector={(event)=>props.onChange(goal.goal)}
       />

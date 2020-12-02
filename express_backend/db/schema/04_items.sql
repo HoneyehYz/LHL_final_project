@@ -3,6 +3,5 @@ CREATE TABLE items(
     item_id SERIAL PRIMARY KEY NOT NULL,
     item VARCHAR(100),
     user_id SERIAL FOREIGN KEY NOT NULL,
-    score_id SERIAL FOREIGN KEY NOT NULL,
     category_id SERIAL FOREIGN KEY NOT NULL,
 );

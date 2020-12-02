@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS scores CASCADE;
 CREATE TABLE scores(
     score_id SERIAL PRIMARY KEY NOT NULL,
-    score INT,
-    date DATETIME
+    score FLOAT,
+    item_id SERIAL FOREIGN KEY NOT NULL,
+    date DATE
 );

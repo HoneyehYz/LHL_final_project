@@ -24,6 +24,7 @@ const milestones = [
     "milestone": "wireframe",
     "deadline": "2020-11-07",
     "completed": false,
+    "goal_goal": "Finish Project",
     "goal_id":1
   },
   {
@@ -31,14 +32,16 @@ const milestones = [
     "milestone": "ERD",
     "deadline": "2020-11-10",
     "completed": false,
-     "goal_id": 1
+    "goal_id": 1,
+    "goal_goal": "Finish Project"
   },
   {
     "milestone_id": 3,
     "milestone": "Chapter1",
     "deadline": "2020-12-08",
     "completed": false,
-     "goal_id": 2
+    "goal_id": 2,
+    "goal_goal": "Read the book"
   }
 ]
 
@@ -64,6 +67,11 @@ function getMilestonesForGoal(state, goal) {
 }
 
 */
+function getMilestoneTrigger(state){
+  if(state.goal){
+    return (<Milestone goals={state.goals} milestones={state.milestones} goal={state.goal}/>);
+  }
+};
 
 export default function Goals() {
  
@@ -74,10 +82,9 @@ export default function Goals() {
   });
   
   const setGoalSelector = goal => setState({...state, goal});
-  //console.log(state);
+
+  const milestoneTrigger = getMilestoneTrigger(state);
   
- // const eachGoals = getMilestonesForGoal(state, state.goal);
- // console.log("eachGoal", eachGoals);
 
   return (
     <main className="goals">
@@ -87,7 +94,8 @@ export default function Goals() {
       </nav>
 
     <section className="milestone">
-      <Milestone goals={state.goals} milestones={state.milestones} goal={state.goal}/>
+      {/*<Milestone goals={state.goals} milestones={state.milestones} goal={state.goal}/>*/}
+      {milestoneTrigger}
       {/*<Milestone milestones={eachGoals}/>*/}
       </section>
   </main>

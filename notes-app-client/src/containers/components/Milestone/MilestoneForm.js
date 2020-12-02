@@ -33,7 +33,7 @@ export default function MilestoneForm(props) {
       </section>
       <section>
         <section>
-          <button onClick={() => {props.onSave(milestone, deadline);reset(); }}>Add</button>
+          <button onClick={() => {props.onSave(milestone, deadline,props.value);reset(); }}>Add</button>
         </section>
       </section>
     </main>
