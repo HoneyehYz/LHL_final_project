@@ -71,11 +71,6 @@ function Performances() {
       text: "Eat Healthy",
       isCompleted: false,
       score: 0.5
-    },
-    {
-      text: "Read a book",
-      isCompleted: false,
-      score: 1
     }
   ]);
 
