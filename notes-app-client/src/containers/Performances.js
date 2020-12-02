@@ -235,7 +235,7 @@ function Performances() {
     <Container>
       <Row>
         <Col style={{ width: "50%" }}>
-          <h3 className="todo-list">To-do Items</h3>
+          <h5 className="todo-list">To-do Items</h5>
           <div className="app">
             <div className="todo-list">
               {todos.map((todo, index) => (
@@ -254,7 +254,7 @@ function Performances() {
           </div>
         </Col>
         <Col>
-          <h3 className="todo-list">Score Report</h3>
+          <h5 className="todo-list">Score Report</h5>
           {reports.data.map((report, index) => {
             const DataPoints = report.dataPoints.map((dataPoint, dataPointIndex) => {
               if(!dataPoint){

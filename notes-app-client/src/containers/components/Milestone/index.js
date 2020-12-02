@@ -70,7 +70,7 @@ export default function Milestone(props) {
   return (
     <div className="milestone">
       <section className="milestone-list">
-      <h3>Milestone</h3>
+      <h5>Milestone</h5>
       <MilestoneForm onSave={save} value={props.goal} milestones={milestones}/>
       <MilestoneList
         milestones={eachGoals}

@@ -89,7 +89,7 @@ export default function Goals() {
   return (
     <main className="goals">
     <nav className="goals_sidebar">
-      <h3>Goals</h3>
+      <h5>Goals</h5>
       <Goal goals={state.goals} value={state.goal} setGoalSelector={setGoalSelector}/>
       </nav>
 
