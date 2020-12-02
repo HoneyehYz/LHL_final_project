@@ -14,7 +14,7 @@ export default function MilestoneListItem(props) {
 
       <img
         className="milestone-button"
-        src="/done.png"
+        src="/done.jpg"
         alt="Done"
         onClick={props.completeMilestone} />
       <img
