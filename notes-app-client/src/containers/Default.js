@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Dashboard from "./Dashboard";
 import Goals from "./Goals";
 import Performances from "./Performances";
-import Chat from "./Chat";
+import Chats from "./Chat";
 
 export default function Default() {
   return ( 
@@ -40,7 +40,7 @@ export default function Default() {
         <Performances/>
         </Tab.Pane>
         <Tab.Pane eventKey="fourth">
-        <Chat/>
+        <Chats/>
         </Tab.Pane>
       </Tab.Content>
     </Col>
