@@ -4,7 +4,6 @@ import MilestoneList from './MilestoneList';
 import "./style.css";
 
 export default function Milestone(props) {
-  
   const [milestones, setMilestones] = useState(props.milestones);
 
   function getMilestonesForGoal(goals, milestone, goal) {
@@ -30,7 +29,7 @@ export default function Milestone(props) {
   const eachGoals = getMilestonesForGoal(props.goals, milestones, props.goal);
   // console.log("eachGoals", eachGoals);
   
-   function save(milestone, deadline,value){
+   function save(milestones, milestone, deadline,value){
      //console.log("MilestoneSave",value);
     if((!milestone)||(!deadline)){
       return;
@@ -43,7 +42,7 @@ export default function Milestone(props) {
       "goal_goal": value
     }; 
 
-    const newMilestones = [...props.milestones, newMilestone];
+    const newMilestones = [...milestones, newMilestone];
     setMilestones(newMilestones);
     console.log("MileSave",milestones);
   }
@@ -72,7 +71,7 @@ export default function Milestone(props) {
     <div className="milestone">
       <section className="milestone-list">
       <h3>Milestone</h3>
-      <MilestoneForm onSave={save} value={props.goal}/>
+      <MilestoneForm onSave={save} value={props.goal} milestones={milestones}/>
       <MilestoneList
         milestones={eachGoals}
         completeMilestone={completeMilestone}

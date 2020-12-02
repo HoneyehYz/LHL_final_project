@@ -72,11 +72,6 @@ function Performances() {
       isCompleted: false,
       score: 0.5
     },
-    {
-      text: "Read a book",
-      isCompleted: false,
-      score: 1
-    }
   ]);
 
   const [reports, setReports] = React.useState({
