@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from 'react-bootstrap/Button';
 
 import { DatePicker } from 'react-datepicker';
 
@@ -34,7 +35,7 @@ export default function GoalForm(props) {
       </section>
       <section>
         <section>
-          <button onClick={() => {props.onSave(goal, deadline);reset(); }}>Add</button>
+        <Button variant="outline-dark" onClick={() => {props.onSave(goal, deadline);reset(); }}>Add</Button>
         </section>
       </section>
     </main>
