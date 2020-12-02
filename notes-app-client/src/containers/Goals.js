@@ -73,7 +73,6 @@ function getMilestoneTrigger(state){
   }
 };
 
-
 export default function Goals() {
  
   const [state, setState] = useState({
@@ -83,7 +82,7 @@ export default function Goals() {
   });
   
   const setGoalSelector = goal => setState({...state, goal});
-  
+
   const milestoneTrigger = getMilestoneTrigger(state);
   
 
