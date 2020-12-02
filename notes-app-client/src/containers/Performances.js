@@ -71,7 +71,7 @@ function Performances() {
       text: "Eat Healthy",
       isCompleted: false,
       score: 0.5
-    },
+    }
   ]);
 
   const [reports, setReports] = React.useState({
