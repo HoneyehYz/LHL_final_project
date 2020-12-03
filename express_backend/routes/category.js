@@ -11,7 +11,7 @@ module.exports = db => {
     `
     ).then(({ rows: categories}) => {
       response.json(categories);
-    });
+    }) .catch((error) => console.log(error));;
   });
   router.post("/categories", (req, response) => {
     db.query(
