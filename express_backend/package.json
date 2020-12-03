@@ -8,12 +8,13 @@
     "reset": "psql -U development -d final_development < ./db/schema/create.sql"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "ejs": "~2.6.1",
-    "express": "~4.16.1",
+    "express": "^4.17.1",
     "fs": "0.0.1-security",
     "helmet": "^4.2.0",
     "http-errors": "~1.6.3",
