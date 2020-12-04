@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./style.css";
 import { DatePicker } from 'react-datepicker';
+import Button from 'react-bootstrap/Button';
 
 export default function MilestoneForm(props) {
   const [milestone, setMilestone] = useState(props.milestone || "");
@@ -29,11 +30,11 @@ export default function MilestoneForm(props) {
             onChange={(event) => setDeadline(event.target.value)}
           />
         </form>
-
+         <br/>
       </section>
       <section>
         <section>
-          <button onClick={() => {props.onSave(milestone, deadline);reset(); }}>Add</button>
+        <Button variant="outline-dark"  onClick={() => {props.onSave(props.milestones,milestone, deadline,props.value);reset(); }}>Add</Button>
         </section>
       </section>
     </main>

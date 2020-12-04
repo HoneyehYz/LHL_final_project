@@ -4,55 +4,63 @@ import MilestoneList from './MilestoneList';
 import "./style.css";
 
 export default function Milestone(props) {
-  
   const [milestones, setMilestones] = useState(props.milestones);
 
-  function getMilestonesForGoal(goals,milestone, goal) {
-    console.log("goal", goal);
+  function getMilestonesForGoal(goals, milestone, goal) {
     if (Array.isArray(goals) && goals.length === 0) {
         return goals;
     } else if (!goal){
        return [];
     }
     else {  
-      const filteredGoal = goals.filter(specificGoal => specificGoal.goal === goal);
-  
+     // const filteredGoal = goals.filter(specificGoal => specificGoal.goal === goal);
       const milestones = milestone;
       let milestonesForGoal = [];
-  
+      // console.log("milestonesbefore",milestones);
       milestones.forEach((milestone)=>{ 
-        if(milestone.goal_id===filteredGoal[0].id){ milestonesForGoal.push(milestone)}
+        if(milestone.goal_goal===goal){ milestonesForGoal.push(milestone)}
       });
-       console.log("milestonesForGoal",milestonesForGoal);
+      // console.log("milestonesForGoal",milestonesForGoal);
        return milestonesForGoal; 
     } 
   
   }
 
   const eachGoals = getMilestonesForGoal(props.goals, milestones, props.goal);
-   console.log("eachGoals", eachGoals);
+  // console.log("eachGoals", eachGoals);
   
-   function save(milestone, deadline){
+   function save(milestones, milestone, deadline,value){
+     //console.log("MilestoneSave",value);
     if((!milestone)||(!deadline)){
       return;
     }
     const newMilestone = {
       milestone,
-      deadline
+      deadline,
+      "milestone_id": Math.floor(Math.random()*1000),
+      "completed": false,
+      "goal_goal": value
     }; 
-    const newMilestones = [...props.milestones, newMilestone];
+
+    const newMilestones = [...milestones, newMilestone];
     setMilestones(newMilestones);
+    console.log("MileSave",milestones);
   }
 
-  const completeMilestone = (index) => {
-    console.log(index);
+  const completeMilestone = (id) => {
+    const findItem = (item) =>item.milestone_id === id;
+    const index = milestones.findIndex(findItem);
     const newMilestones = [...milestones];
+    console.log("beforeCompleted",newMilestones);
     newMilestones[index].completed = true;
     setMilestones(newMilestones);
+    console.log("afterCompleted",milestones);
   };
 
-  const removeMilestone = (index) => {
-    console.log(index);
+  const removeMilestone = (id) => {
+    console.log(id);
+    const findItem = (item) =>item.milestone_id === id;
+    const index = milestones.findIndex(findItem);
     const updateMilestones = [...milestones];
     updateMilestones.splice(index, 1);
     setMilestones(updateMilestones);
@@ -62,8 +70,8 @@ export default function Milestone(props) {
   return (
     <div className="milestone">
       <section className="milestone-list">
-      <h3>Milestone</h3>
-      <MilestoneForm onSave={save} />
+      <h5>Milestone</h5>
+      <MilestoneForm onSave={save} value={props.goal} milestones={milestones}/>
       <MilestoneList
         milestones={eachGoals}
         completeMilestone={completeMilestone}

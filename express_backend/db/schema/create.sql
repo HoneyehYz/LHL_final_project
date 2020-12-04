@@ -1,0 +1,59 @@
+  DROP TABLE IF EXISTS users CASCADE;
+  DROP TABLE IF EXISTS messages CASCADE;
+  DROP TABLE IF EXISTS milestones CASCADE;
+  DROP TABLE IF EXISTS goals CASCADE;
+  DROP TABLE IF EXISTS categories CASCADE;
+  DROP TABLE IF EXISTS scores CASCADE;
+  DROP TABLE IF EXISTS items CASCADE;
+  
+  CREATE TABLE users(
+    id SERIAL PRIMARY KEY NOT NULL,
+    username VARCHAR(30) NOT NULL,
+    password VARCHAR(70) NOT NULL,
+    email VARCHAR(30) NOT NULL
+  );
+  
+  CREATE TABLE messages(
+    id SERIAL PRIMARY KEY NOT NULL,
+    message TEXT NOT NULL, 
+    date VARCHAR(250) NOT NULL,
+    fromUser INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    toUser INTEGER REFERENCES users(id) ON DELETE CASCADE
+  );
+
+  CREATE TABLE milestones (
+    milestone_id SERIAL PRIMARY KEY NOT NULL,
+    milestone VARCHAR(150) NOT NULL,
+    deadline VARCHAR(100) NOT NULL,
+    completed_at VARCHAR(100) NOT NULL
+  );
+
+  CREATE TABLE goals ( 
+    id SERIAL PRIMARY KEY NOT NULL,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    goal VARCHAR(140) NOT NULL,
+    deadline VARCHAR(100) NOT NULL,
+    milestone_id INTEGER REFERENCES milestones(milestone_id) ON DELETE CASCADE
+  );
+
+  CREATE TABLE categories (
+    id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(100) NOT NULL
+  );
+  
+  CREATE TABLE scores (
+    score_id SERIAL PRIMARY KEY NOT NULL, 
+    score FLOAT,
+    date VARCHAR(100) NOT NULL
+  );
+
+  CREATE TABLE items (
+    item_id SERIAL PRIMARY KEY NOT NULL,
+    item VARCHAR(100) NOT NULL,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    score_id INTEGER REFERENCES scores(score_id) ON DELETE CASCADE,
+    category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE
+  );
+  
+  
+

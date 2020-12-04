@@ -12,12 +12,12 @@ export default function MilestoneList(props) {
       <MilestoneListItem
         key={index}
         index={index}
-        id={milestone.id}
+        id={milestone.milestone_id}
         milestone={milestone.milestone}
         deadline={milestone.deadline} 
         completed={milestone.completed}
-        completeMilestone={()=>props.completeMilestone(index)}
-        cancelMilestone={()=>props.cancelMilestone(index)}
+        completeMilestone={()=>props.completeMilestone(milestone.milestone_id)}
+        cancelMilestone={()=>props.cancelMilestone(milestone.milestone_id)}
       />
       </ul>
       </div>);

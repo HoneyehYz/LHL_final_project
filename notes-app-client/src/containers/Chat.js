@@ -48,7 +48,8 @@ class Chat extends Component {
         messageList={this.state.messageList}
         showEmoji
       />
-    </div>)
+    </div>
+    )
   }
 }
 
