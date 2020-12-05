@@ -1,6 +1,8 @@
 const router = require("express").Router();
 
-module.exports = db => {
+module.exports = (db) => {
+
+  // Endpoint for  retrieving categories
   router.get("/categories", (request, response) => {
     db.query(
       `
@@ -9,27 +11,31 @@ module.exports = db => {
         name
       FROM categories
     `
-    ).then(({ rows: categories}) => {
-      response.json(categories);
-    }) .catch((error) => console.log(error));;
-  });
-  router.post("/categories", (req, response) => {
-    db.query(
-      `
-    INSERT categories(
-        name
-        VALUES($1::string)`[
-          (req.name)
-        ]
-    ).th   .then(() => {
-      setTimeout(() => {
-        response.status(204).json({});
-      }, 1000);
-    })
-    .catch((error) => console.log(error));
+    )
+      .then(({ rows: categories }) => {
+        response.json({
+          message: "Categories retrieved successfully",
+          categories,
+        });
+      })
+      .catch((error) => console.log(error));
   });
 
 
+// Endpoint for creating category
+  router.post("/categories", (req, res) => {
+    const text = "INSERT INTO categories(name) VALUES($1) RETURNING *";
+    const values = [req.body.name];
+
+    db.query(text, values)
+      .then((data) => {
+        res.status(201).json({ message: "Category created successfully", category: data.rows[0] });
+      })
+      .catch((error) => { 
+        console.log(error)
+        res.status(500).json({ message: "Could not create the category"});
+      });
+  });
 
   return router;
 };
