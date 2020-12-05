@@ -13,6 +13,7 @@ const db = require("./db");
 const category = require("./routes/category");
 const chat = require("./routes/chat");
 const users = require("./routes/users");
+const goal = require("./routes/goal");
 
 function read(file) {
   return new Promise((resolve, reject) => {
@@ -36,9 +37,10 @@ module.exports = function application(
   app.use(helmet());
   app.use(bodyparser.json());
 
-  app.use("/api", category(db));
-  app.use("/api", chat(db));
-  app.use("/api", users(db));
+  app.use("/api/v1", category(db));
+  app.use("/api/v1", chat(db));
+  app.use("/api/v1", users(db));
+  app.use("/api/v1", goal(db));
 
   if (ENV === "development" || ENV === "test") {
 
