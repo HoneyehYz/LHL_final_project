@@ -4,8 +4,15 @@ module.exports = (db) => {
   // Endpoint for retriving goals
   router.get("/goals", async (req, res) => {
     try {
-      const text =
-        "SELECT id, user_id, goal, deadline FROM goals";
+      let text;
+      const userId = req.query.userId;
+
+      if (userId) {
+        text = `SELECT id, user_id, goal, deadline FROM goals WHERE user_id = ${userId}`;
+      } else {
+        text = "SELECT id, user_id, goal, deadline FROM goals";
+      }
+
       const goals = await db.query(text);
 
       return res
@@ -22,11 +29,7 @@ module.exports = (db) => {
     try {
       const text =
         "INSERT INTO goals(user_id, goal, deadline) VALUES($1, $2, $3) RETURNING *";
-      const values = [
-        req.body.userId,
-        req.body.goal,
-        req.body.deadline
-      ];
+      const values = [req.body.userId, req.body.goal, req.body.deadline];
 
       const goal = await db.query(text, values);
 

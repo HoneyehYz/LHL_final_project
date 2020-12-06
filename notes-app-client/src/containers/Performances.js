@@ -4,26 +4,29 @@ import "./Performances.css"
 import CanvasJSReact from './canvasjs.react';
 const CanvasJS = CanvasJSReact.CanvasJS;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+const axios = require('axios').default;
 
 
-function Todo({ todo, index, completeTodo, removeTodo, setScoreTodo }) {
+
+
+
+function Task({ task, index, completeTask, removeTask, setScoreTask }) {
 
   function handleSelect(event) {
-     console.log("Honey", event.target.value)
-    setScoreTodo(index, event.target.value)
+    setScoreTask(index, event.target.value)
   }
 
   return (
     <div
       className="todo"
-      style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
+      style={{ textDecoration: task.isCompleted ? "line-through" : "" }}
     >
-      {todo.text}
+      {task.text}
       <div>
-        <button onClick={() => completeTodo(index)}>Complete</button>
-        <button onClick={() => removeTodo(index)}>x</button>
+        <button onClick={() => completeTask(index)}>Complete</button>
+        <button onClick={() => removeTask(index)}>x</button>
 
-        <select id="mySelect" onChange={handleSelect} value={todo.score}>
+        <select id="mySelect" onChange={handleSelect} value={task.score}>
           <option value="0">0</option>
           <option value="0.5">0.5</option>
           <option value="1">1</option>
@@ -36,13 +39,13 @@ function Todo({ todo, index, completeTodo, removeTodo, setScoreTodo }) {
 
 
 
-function TodoForm({ addTodo }) {
+function TaskForm({ addTask }) {
   const [value, setValue] = React.useState("");
 
   const handleSubmit = e => {
     e.preventDefault();
     if (!value) return;
-    addTodo(value);
+    addTask(value);
     setValue("");
   };
 
@@ -60,18 +63,29 @@ function TodoForm({ addTodo }) {
 
 function Performances() {
 
+  useEffect(()=> {
+    axios.get(`http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
+      "userId"
+    )}`)
+    .then((response) => {
+      console.log(response.data.tasks);
+    });
+  },[]);
 
-  const [todos, setTodos] = React.useState([
-    {
-      text: "Flossing every night",
-      isCompleted: false,
-      score: 0
-    },
-    {
-      text: "Eat Healthy",
-      isCompleted: false,
-      score: 0.5
-    }
+  
+
+
+  const [tasks, setTasks] = React.useState([
+    // {
+    //   text: "Flossing every night",
+    //   isCompleted: false,
+    //   score: 0
+    // },
+    // {
+    //   text: "Eat Healthy",
+    //   isCompleted: false,
+    //   score: 0.5
+    // }
   ]);
 
   const [reports, setReports] = React.useState({
@@ -91,17 +105,7 @@ function Performances() {
       showInLegend: true,
       dataPoints: [
         { y: 0.5, label: "1" }
-        // { y: 0.5, label: "2" },
-        // { y: 1, label: "3" },
-        // { y: 0, label: "4" },
-        // { y: 1, label: "5" },
-        // { y: 0.5, label: "6" },
-        // { y: 0.5, label: "7" },
-        // { y: 1, label: "8" },
-        // { y: 0, label: "9" },
-        // { y: 1, label: "10" },
-        // { y: 0.5, label: "11" },
-        // { y: 1, label: "12" }
+
       ]
     },
     {
@@ -110,17 +114,6 @@ function Performances() {
        showInLegend: true,
        dataPoints: [
          { y: 1, label: "1" }
-    //     { y: 1, label: "2" },
-    //     { y: 0, label: "3" },
-    //     { y: 0.5, label: "4" },
-    //     { y: 1, label: "5" },
-    //     { y: 0, label: "6" },
-    //     { y: 0, label: "7" },
-    //     { y: 1, label: "8" },
-    //     { y: 0.5, label: "9" },
-    //     { y: 0, label: "10" },
-    //     { y: 0.5, label: "11" },
-    //     { y: 0.5, label: "12" }
        ]
      }
     ]
@@ -134,67 +127,32 @@ function Performances() {
     setReports({...reports,data: updateData})
   }
 
-  const addTodo = text => {
-    const newTodos = [...todos, { text }];
-    setTodos(newTodos);
+  const addTask = text => {
+    const newTasks = [...tasks, { text }];
+    setTasks(newTasks);
     addNewCurve(text);
   };
 
-  const completeTodo = index => {
-    const newTodos = [...todos];
-    newTodos[index].isCompleted = true;
-    setTodos(newTodos);
+  const completeTask = index => {
+    const newTasks = [...tasks];
+    newTasks[index].isCompleted = true;
+    setTasks(newTasks);
   };
 
-  const removeTodo = index => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
+  const removeTask = index => {
+    const newTasks = [...tasks];
+    newTasks.splice(index, 1);
+    setTasks(newTasks);
   };
 
-  const setScoreTodo = (index, score) => {
+  const setScoreTask = (index, score) => {
     console.log(index,score);
-    const newTodos = [...todos];
-    newTodos[index].score = score;
-    setTodos(newTodos);
-    addReport(newTodos[index].text, score);
+    const newTasks = [...tasks];
+    newTasks[index].score = score;
+    setTasks(newTasks);
+    addReport(newTasks[index].text, score);
   };
 
-
-
-
-  // }
-  // {
-  //   text: "Eat Healthy",
-  //   score: 0.5
-  // },
-  // {
-  //   text: "Eat Healthy",
-  //   score: 1
-  // },
-  // {
-  //   text: "Eat Healthy",
-  //   score: 1
-  // },
-  // {
-  //   text: "Eat Healthy",
-  //   score: 0
-  // }
-  // ,
-  // {
-  //   text: "Flossing",
-  //   score: 0.5
-  // },
-  // {
-  //   text: "Flossing",
-  //   score: 1
-  // },
-  // {
-  //   text: "Read a book",
-  //   score: 1
-
-  // }
-  // })
 
   const addReport = (text, score) => {
     // console.log("addReport",text,score);
@@ -238,17 +196,17 @@ function Performances() {
           <h5 className="todo-list">To-do Items</h5>
           <div className="app">
             <div className="todo-list">
-              {todos.map((todo, index) => (
-                <Todo
+              {tasks.map((task, index) => (
+                <Task
                   key={index}
                   index={index}
-                  todo={todo}
-                  completeTodo={completeTodo}
-                  setScoreTodo={setScoreTodo}
-                  removeTodo={removeTodo}
+                  task={task}
+                  completeTask={completeTask}
+                  setScoreTask={setScoreTask}
+                  removeTask={removeTask}
                 />
               ))}
-              <TodoForm addTodo={addTodo} />
+              <TaskForm addTask={addTask} />
 
             </div>
           </div>
