@@ -4,13 +4,22 @@ module.exports = (db) => {
   // Endpoint for retriving milestones
   router.get("/milestone", async (req, res) => {
     try {
-      const text =
-        "SELECT id, user_id, goal_id, milestone, deadline, completed_at FROM milestones";
+      let text;
+      const userId = req.query.userId;
+
+      if (userId) {
+        text = `SELECT id, user_id, goal_id, milestone, deadline, completed_at FROM milestones WHERE user_id = ${userId}`;
+      } else {
+        text =
+          "SELECT id, user_id, goal_id, milestone, deadline, completed_at FROM milestones";
+      }
+
       const milestones = await db.query(text);
 
-      return res
-        .status(200)
-        .json({ message: "Milestones retrieved successfully", milestones: milestones.rows });
+      return res.status(200).json({
+        message: "Milestones retrieved successfully",
+        milestones: milestones.rows,
+      });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Could not retrieve milestones" });
@@ -32,9 +41,10 @@ module.exports = (db) => {
 
       const milestone = await db.query(text, values);
 
-      res
-        .status(201)
-        .json({ message: "Milestone created successfully", milestone: milestone.rows[0] });
+      res.status(201).json({
+        message: "Milestone created successfully",
+        milestone: milestone.rows[0],
+      });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Could not create the milestone" });
