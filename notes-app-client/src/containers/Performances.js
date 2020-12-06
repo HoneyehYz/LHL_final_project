@@ -64,24 +64,28 @@ function TaskForm({ addTask }) {
 function Performances() {
 
   useEffect(()=> {
-    axios.get("http://localhost:3005/api/v1/task")
+    axios.get(`http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
+      "userId"
+    )}`)
     .then((response) => {
       console.log(response.data.tasks);
     });
   },[]);
 
+  
+
 
   const [tasks, setTasks] = React.useState([
-    {
-      text: "Flossing every night",
-      isCompleted: false,
-      score: 0
-    },
-    {
-      text: "Eat Healthy",
-      isCompleted: false,
-      score: 0.5
-    }
+    // {
+    //   text: "Flossing every night",
+    //   isCompleted: false,
+    //   score: 0
+    // },
+    // {
+    //   text: "Eat Healthy",
+    //   isCompleted: false,
+    //   score: 0.5
+    // }
   ]);
 
   const [reports, setReports] = React.useState({
