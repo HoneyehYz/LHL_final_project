@@ -18,7 +18,8 @@ module.exports = (db) => {
         message: "Username already taken. Use a different one.",
       });
     } else {
-      req.body.password = bcrypt.hashSync(req.body.password, 12);
+      // DISABLE HASHING TEMPORARILY
+      // req.body.password = bcrypt.hashSync(req.body.password, 12);
 
       const text =
         "INSERT INTO users(username, password, email) VALUES($1, $2, $3)";
@@ -50,7 +51,7 @@ module.exports = (db) => {
 
         res.status(200).json({
           message: "Logged In successfully",
-          user: { name: user.name, email: user.email, id: user.id },
+          user: { id: user.id, username: user.username },
         });
       }
     } catch (error) {
@@ -113,7 +114,9 @@ module.exports = (db) => {
   const login = function (email, password) {
     return getUserWithEmail(email).then((user) => {
       if (user) {
-        if (bcrypt.compareSync(password, user.password)) {
+        // DISABLE HASHING TEMPORARILY
+        // if (bcrypt.compareSync(password, user.password)) {
+        if (password === user.password) {
           return user;
         } else {
           return null;
