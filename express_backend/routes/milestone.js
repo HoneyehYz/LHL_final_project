@@ -5,7 +5,7 @@ module.exports = (db) => {
   router.get("/milestone", async (req, res) => {
     try {
       const text =
-        "SELECT id, user_id, milestone, deadline, completed_at FROM milestones";
+        "SELECT id, user_id, milestone, deadline, completed, goal_id FROM milestones";
       const milestones = await db.query(text);
 
       return res
@@ -21,12 +21,13 @@ module.exports = (db) => {
   router.post("/milestone", async (req, res) => {
     try {
       const text =
-        "INSERT INTO milestones(user_id, milestone, deadline, completed_at) VALUES($1, $2, $3, $4) RETURNING *";
+        "INSERT INTO milestones(user_id, milestone, deadline, completed, goal_id) VALUES($1, $2, $3, $4,$5) RETURNING *";
       const values = [
         req.body.userId,
         req.body.milestone,
         req.body.deadline,
-        req.body.completedAt,
+        req.body.completed,
+        req.body,goalId
       ];
 
       const milestone = await db.query(text, values);

@@ -1,8 +1,6 @@
 INSERT INTO
-milestones(milestone, deadline, completed_at) 
+milestones(milestone, deadline, completed, goal_id, user_id) 
 VALUES
-    ('Sketch ERD', '2020-11-25 11:00:00', '2020-11-24 11:00:00'),
-    ('Buy dry walls', '2020-11-27 11:00:00', '2020-11-24 11:00:00'),
-    ('Study until video 8', '2020-11-24 11:00:00', '2020-11-24 11:00:00'),
-    ('Read untill chapter 4', '2020-11-23 11:00:00', '2020-11-24 11:00:00'),
-    ('Dont eat at restuarant', '2020-11-20 11:00:00', '2020-11-24 11:00:00');
+    ('Sketch ERD', '2020-11-25', false, 1, 1),
+    ('Wireframe', '2020-11-27', false, 1, 1),
+    ('Chapter 1', '2020-12-01', false, 1, 1);

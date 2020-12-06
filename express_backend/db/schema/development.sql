@@ -17,31 +17,18 @@ VALUES
 
 
 INSERT INTO
-milestones(user_id, milestone, deadline, completed_at) 
+milestones(milestone, deadline, completed, goal_id, user_id) 
 VALUES
-    (1, 'Sketch ERD', '2020-11-25 11:00:00', '2020-11-24 11:00:00'),
-    (2, 'Buy dry walls', '2020-11-27 11:00:00', '2020-11-24 11:00:00'),
-    (3, 'Study until video 8', '2020-11-24 11:00:00', '2020-11-24 11:00:00'),
-    (1, 'Read untill chapter 4', '2020-11-23 11:00:00', '2020-11-24 11:00:00'),
-    (2, 'Dont eat at restuarant', '2020-11-20 11:00:00', '2020-11-24 11:00:00');
+    ('Sketch ERD', '2020-11-25', false, 1, 1),
+    ('Wireframe', '2020-11-27', false, 1, 1),
+    ('Chapter 1', '2020-12-01', false, 1, 1);
 
 
 INSERT INTO
-goals(user_id, goal, deadline, milestone_id)
+goals(user_id, goal, deadline)
 VALUES
-    ('1', 'Finish LHL project','2020-12-24 11:00:00', '1'),
-    ('2', 'Finish Basement', '2020-12-24 11:00:00' , '2'),
-    (
-        '3',
-        'Get A+ in Python course','2020-12-24 11:00:00' ,
-        '3'
-    ),
-    (
-        '4',
-        'Finish Atomic Habits Book', '2020-12-24 11:00:00' ,
-        '4'
-    ),
-    ('5', 'Save 200$', '2020-12-24 11:00:00' ,'5');
+    ('1', 'Finish LHL project','2020-12-04'),
+    ('1', 'Read a book', '2020-12-25');
 
 
 INSERT INTO
