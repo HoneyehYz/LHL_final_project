@@ -14,7 +14,7 @@ export default function Goal(props){
       goal,
       deadline,
       "id": Math.floor(Math.random()*1000),
-      "user_id": 1
+      "user_id": localStorage.getItem("userId")
     }; 
     const newGoals = [...goals, newGoal];
     setGoals(newGoals);

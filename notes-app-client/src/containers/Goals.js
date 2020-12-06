@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "./Goals.css"
 import Goal from "./components/Goal/index"
 import Milestone from "./components/Milestone/index"
 
+const axios = require('axios').default;
+/*
 const goals = [
   {
     "id": 1,
@@ -44,7 +46,7 @@ const milestones = [
     "goal_goal": "Read the book"
   }
 ]
-
+*/
 /*
 function getMilestonesForGoal(state, goal) {
   console.log("goal", goal);
@@ -77,11 +79,23 @@ export default function Goals() {
  
   const [state, setState] = useState({
     goal: "",
-    goals,
-    milestones
+    goals:[],
+    milestones:[]
   });
   
   const setGoalSelector = goal => setState({...state, goal});
+
+  useEffect(()=> {Promise.all([
+    axios.get(`http://localhost:3005/api/v1/goals?userId=${localStorage.getItem(
+      "userId"
+    )}`),
+    axios.get(`http://localhost:3005/api/v1/milestone?userId=${localStorage.getItem(
+      "userId"
+    )}`),
+    ]).then((all) => {
+      console.log(all);
+    });
+  },[]);
 
   const milestoneTrigger = getMilestoneTrigger(state);
   
