@@ -53,23 +53,6 @@ function TaskForm({ addTask }) {
 function Performances() {
   const [tasks, setTasks] = React.useState([]);
 
-<<<<<<< HEAD
-  useEffect(()=> {
-    axios.get(`http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
-      "userId"
-    )}`)
-    .then((response) => {
-      console.log(response.data.tasks);
-      setTasks(response.data.tasks);
-    });
-  },[]);
-
-  
-
-
-  const [tasks, setTasks] = React.useState([]);
-  console.log("All the tasks name",tasks.task);
-=======
   useEffect(() => {
     axios
       .get(
@@ -86,7 +69,6 @@ function Performances() {
     console.log("All the tasks name", tasks[i].task);
   }
 
->>>>>>> 76bf6f5a75517bd353ad447971d83c660472746c
   const [reports, setReports] = React.useState({
     animationEnabled: true,
     title: {
@@ -113,17 +95,17 @@ function Performances() {
       },
     ],
   });
-  const addNewCurve = (text) => {
+  const addNewCurve = (task) => {
     const updateData = [
       ...reports.data,
-      { type: "spline", name: text, showInLegend: true, dataPoints: [] },
+      { type: "spline", name: task, showInLegend: true, dataPoints: [] },
     ];
     setReports({ ...reports, data: updateData });
   };
-  const addTask = (text) => {
-    const newTasks = [...tasks, { text }];
+  const addTask = (task) => {
+    const newTasks = [...tasks, { task }];
     setTasks(newTasks);
-    addNewCurve(text);
+    addNewCurve(task);
   };
   const completeTask = (index) => {
     const newTasks = [...tasks];
@@ -140,12 +122,12 @@ function Performances() {
     const newTasks = [...tasks];
     newTasks[index].score = score;
     setTasks(newTasks);
-    addReport(newTasks[index].text, score);
+    addReport(newTasks[index].task, score);
   };
-  const addReport = (text, score) => {
+  const addReport = (task, score) => {
     // console.log("addReport",text,score);
     const updateData = reports.data.map((lineData) => {
-      if (lineData.name === text) {
+      if (lineData.name === task) {
         console.log("found", lineData.name);
         lineData.dataPoints.push({
           y: Number(score),
