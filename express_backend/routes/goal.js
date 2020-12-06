@@ -25,7 +25,7 @@ module.exports = (db) => {
       const values = [
         req.body.userId,
         req.body.goal,
-        req.body.deadline,
+        req.body.deadline
       ];
 
       const goal = await db.query(text, values);
