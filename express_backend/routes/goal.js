@@ -5,7 +5,7 @@ module.exports = (db) => {
   router.get("/goals", async (req, res) => {
     try {
       const text =
-        "SELECT id, user_id, goal, deadline, milestone_id FROM goals";
+        "SELECT id, user_id, goal, deadline FROM goals";
       const goals = await db.query(text);
 
       return res
@@ -21,12 +21,11 @@ module.exports = (db) => {
   router.post("/goals", async (req, res) => {
     try {
       const text =
-        "INSERT INTO goals(user_id, goal, deadline, milestone_id) VALUES($1, $2, $3, $4) RETURNING *";
+        "INSERT INTO goals(user_id, goal, deadline) VALUES($1, $2, $3) RETURNING *";
       const values = [
         req.body.userId,
         req.body.goal,
-        req.body.deadline,
-        req.body.milestoneId,
+        req.body.deadline
       ];
 
       const goal = await db.query(text, values);
