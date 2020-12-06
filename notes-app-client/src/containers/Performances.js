@@ -69,25 +69,15 @@ function Performances() {
     )}`)
     .then((response) => {
       console.log(response.data.tasks);
+      setTasks(response.data.tasks);
     });
   },[]);
 
   
 
 
-  const [tasks, setTasks] = React.useState([
-    // {
-    //   text: "Flossing every night",
-    //   isCompleted: false,
-    //   score: 0
-    // },
-    // {
-    //   text: "Eat Healthy",
-    //   isCompleted: false,
-    //   score: 0.5
-    // }
-  ]);
-
+  const [tasks, setTasks] = React.useState([]);
+  console.log("All the tasks name",tasks.task);
   const [reports, setReports] = React.useState({
     animationEnabled: true,
     title: {
