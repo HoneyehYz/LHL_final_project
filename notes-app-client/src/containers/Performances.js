@@ -83,13 +83,13 @@ function Performances() {
     data: [
       {
         type: "spline",
-        name: "Flossing every night",
+        name: "Flossing",
         showInLegend: true,
         dataPoints: [{ y: 0.5, label: "1" }],
       },
       {
         type: "spline",
-        name: "Eat Healthy",
+        name: "Watch one episode of Friends",
         showInLegend: true,
         dataPoints: [{ y: 1, label: "1" }],
       },
