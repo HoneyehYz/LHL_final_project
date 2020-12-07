@@ -44,5 +44,39 @@ module.exports = (db) => {
     }
   });
 
+  // Endpoint for deleting a specific user's task
+  router.delete("/task/:id", async (req, res) => {
+    try {
+      const userId = req.query.userId;
+      const taskId = req.params.id;
+
+      const text_1 = `SELECT * FROM tasks WHERE id = ${taskId} AND user_id = ${userId}`;
+
+      const goalFound = await db.query(text_1);
+
+      if (goalFound.rows[0]) {
+        if (goalFound.rows[0].completed === false) {
+          const text_2 = `DELETE FROM tasks WHERE id = ${taskId} AND user_id = ${userId}`;
+
+          await db.query(text_2);
+
+          return res.status(200).json({ message: "Task deleted successfully" });
+        } else {
+          return res
+            .status(403)
+            .json({
+              message:
+                "You cannot delete a completed task. It is now a score report.",
+            });
+        }
+      } else {
+        return res.status(404).json({ message: "Task not found" });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Could not delete  the task" });
+    }
+  });
+
   return router;
 };
