@@ -42,5 +42,30 @@ module.exports = (db) => {
     }
   });
 
+  // Endpoint for deleting a specific user's goal
+  router.delete("/goal/:id", async (req, res) => {
+    try {
+      const userId = req.query.userId;
+      const goalId = req.params.id;
+
+      const text_1 = `SELECT * FROM goals WHERE id = ${goalId} AND user_id = ${userId}`;
+      
+      const goalFound = await db.query(text_1);
+
+      if (goalFound.rows[0]) {
+        const text_2 = `DELETE FROM goals WHERE id = ${goalId} AND user_id = ${userId}`;
+
+        await db.query(text_2);
+
+        return res.status(200).json({ message: "Goal deleted successfully" });
+      } else {
+        return res.status(404).json({ message: "Goal not found" });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Could not delete  the goal" });
+    }
+  });
+
   return router;
 };
