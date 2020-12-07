@@ -6,8 +6,9 @@ const axios = require('axios').default;
 
 export default function Goal(props){
   const [goals, setGoals] = useState(props.goals);
- 
-  console.log(goals);
+  
+  //console.log("Goal",props.state);
+
   function save(goal, deadline, userId){
     if((!goal)||(!deadline)){
       return;
@@ -52,8 +53,10 @@ export default function Goal(props){
     <div className="goal">
       <section className="goal-list">
       <GoalForm onSave={save} />
-      <GoalList goals={goals} value={props.value} onChange={props.setGoalSelector} cancelGoal={removeGoal}/>
+      <GoalList goals={props.goals} value={props.value} onChange={props.setGoalSelector} cancelGoal={removeGoal}/>
       </section>
     </div>
   );
         }
+
+//      <GoalList goals={props.state.goals} value={props.state.value} onChange={props.setGoalSelector} cancelGoal={removeGoal}/>        

@@ -63,9 +63,9 @@ export default function Milestone(props) {
     //console.log("beforeCompleted",newMilestones);
     newMilestones[index].completed_at = new Date();
     
-    return axios.post(`http://localhost:3005/api/v1/milestone?userId=${localStorage.getItem(
+    return axios.put(`http://localhost:3005/api/v1/milestone?userId=${localStorage.getItem(
       "userId"
-    )}`, newMilestones[index])
+    )}/${id}`, newMilestones[index])
       .then((res)=> {
         console.log(res);
         //const resObj=JSON.parse(res.config.data);

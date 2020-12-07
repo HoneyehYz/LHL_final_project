@@ -76,7 +76,7 @@ function getMilestoneTrigger(state){
 };
 
 export default function Goals() {
- 
+
   const [state, setState] = useState({
     goal: "",
     goals:[],
@@ -97,8 +97,39 @@ export default function Goals() {
     });
   },[]);
   
-  console.log("state retreive from db", state);
+  //console.log("state retreive from db", state);
   const milestoneTrigger = getMilestoneTrigger(state);
+
+  
+/*
+function save(goal, deadline, userId){
+  if((!goal)||(!deadline)){
+    return;
+  }
+  const newGoal = {
+    goal,
+    deadline,
+    userId
+  }; 
+  const goals = {
+    ...state.goals,
+    newGoal
+  }
+  return useEffect(()=>{axios.post(`http://localhost:3005/api/v1/goals?userId=${localStorage.getItem(
+    "userId"
+  )}`, newGoal)
+    .then((res)=> {
+      console.log(res);
+      const resObj=res.data.goal;
+      console.log("resObjAfterGoalSave",resObj);
+      const newGoals = [...state.goals, resObj];
+      console.log("newGoalsaftersave", newGoals);
+      setState(({...state, newGoals})); 
+      console.log("stateAfterGoalSave",state);
+    });
+  },[]);  
+}
+*/
 
   return (
     <main className="goals">
@@ -113,3 +144,6 @@ export default function Goals() {
   </main>
   )
 }
+
+// <Goal goals={state.goals} value={state.goal} setGoalSelector={setGoalSelector} save={saveGoal}/>
+//      <Goal state={state} setGoalSelector={setGoalSelector} save={save}/>
