@@ -2,30 +2,50 @@ import React, { useState } from 'react'
 import GoalForm from './GoalForm';
 import GoalList from './GoalList';
 
+const axios = require('axios').default;
 
 export default function Goal(props){
   const [goals, setGoals] = useState(props.goals);
-
-  function save(goal, deadline){
+ 
+  console.log(goals);
+  function save(goal, deadline, userId){
     if((!goal)||(!deadline)){
       return;
     }
+   // const user_id = localStorage.getItem("userId");
     const newGoal = {
       goal,
       deadline,
-      "id": Math.floor(Math.random()*1000),
-      "user_id": localStorage.getItem("userId")
+      userId
     }; 
-    const newGoals = [...goals, newGoal];
-    setGoals(newGoals);
+    //console.log(newGoal);
+    //const newGoals = [...goals, newGoal];
+    //setGoals(newGoals);
+    return axios.post(`http://localhost:3005/api/v1/goals?userId=${localStorage.getItem(
+      "userId"
+    )}`, newGoal)
+      .then((res)=> {
+        const resObj=JSON.parse(res.config.data);
+        const newGoals = [...goals, resObj];
+        setGoals(newGoals);
+        console.log(goals);
+      });
   }
 
   const removeGoal = (index) => {
   //  console.log("goalRemoval", index);
     const updatedGoals = [...goals];
+    const removeGoal = updatedGoals[index];
     updatedGoals.splice(index,1);
-    setGoals(updatedGoals); 
+    console.log("remove", removeGoal);
+    return axios.delete(`http://localhost:3005/api/v1/goals?userId=${localStorage.getItem(
+      "userId"
+    )}`, removeGoal)
+      .then(()=> {
+       setGoals(updatedGoals); 
+      });
   //  console.log("removalGoal",updatedGoals);
+        
   }
 
   return (

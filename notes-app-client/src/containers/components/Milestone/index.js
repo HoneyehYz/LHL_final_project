@@ -3,10 +3,13 @@ import MilestoneForm from './MilestoneForm';
 import MilestoneList from './MilestoneList';
 import "./style.css";
 
+const axios = require('axios').default;
+
 export default function Milestone(props) {
   const [milestones, setMilestones] = useState(props.milestones);
 
   function getMilestonesForGoal(goals, milestone, goal) {
+    console.log("goal", goal);
     if (Array.isArray(goals) && goals.length === 0) {
         return goals;
     } else if (!goal){
@@ -18,7 +21,7 @@ export default function Milestone(props) {
       let milestonesForGoal = [];
       // console.log("milestonesbefore",milestones);
       milestones.forEach((milestone)=>{ 
-        if(milestone.goal_goal===goal){ milestonesForGoal.push(milestone)}
+        if(milestone.goal_id===goal){ milestonesForGoal.push(milestone)}
       });
       // console.log("milestonesForGoal",milestonesForGoal);
        return milestonesForGoal; 
@@ -37,33 +40,53 @@ export default function Milestone(props) {
     const newMilestone = {
       milestone,
       deadline,
-      "milestone_id": Math.floor(Math.random()*1000),
-      "completed": false,
-      "goal_goal": value
+      userId:localStorage.getItem("userId"),
+      goalId: value
     }; 
 
-    const newMilestones = [...milestones, newMilestone];
-    setMilestones(newMilestones);
-    console.log("MileSave",milestones);
+    
+    return axios.post(`http://localhost:3005/api/v1/milestone?userId=${localStorage.getItem(
+      "userId"
+    )}`, newMilestone)
+      .then((res)=> {
+        const resObj=JSON.parse(res.config.data);
+        const newMilestones = [...milestones, resObj];
+        setMilestones(newMilestones);
+      });
   }
 
   const completeMilestone = (id) => {
-    const findItem = (item) =>item.milestone_id === id;
+    //console.log("completeMilestone",id);
+    const findItem = (item) =>item.id === id;
     const index = milestones.findIndex(findItem);
     const newMilestones = [...milestones];
-    console.log("beforeCompleted",newMilestones);
-    newMilestones[index].completed = true;
-    setMilestones(newMilestones);
-    console.log("afterCompleted",milestones);
+    //console.log("beforeCompleted",newMilestones);
+    newMilestones[index].completed_at = new Date();
+    
+    return axios.post(`http://localhost:3005/api/v1/milestone?userId=${localStorage.getItem(
+      "userId"
+    )}`, newMilestones[index])
+      .then((res)=> {
+        console.log(res);
+        //const resObj=JSON.parse(res.config.data);
+        //const newMilestones = [...milestones, resObj];
+        //setMilestones(newMilestones);
+      });
   };
 
   const removeMilestone = (id) => {
     console.log(id);
-    const findItem = (item) =>item.milestone_id === id;
+    const findItem = (item) =>item.id === id;
     const index = milestones.findIndex(findItem);
     const updateMilestones = [...milestones];
-    updateMilestones.splice(index, 1);
-    setMilestones(updateMilestones);
+    //updateMilestones.splice(index, 1);
+    //setMilestones(updateMilestones);
+    return axios.delete(`http://localhost:3005/api/v1/milestone?userId=${localStorage.getItem(
+      "userId"
+    )}`, updateMilestones[index])
+      .then(()=> {
+        setMilestones(updateMilestones);
+      });
   };
   
 

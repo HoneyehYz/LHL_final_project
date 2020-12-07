@@ -82,7 +82,7 @@ export default function Goals() {
     goals:[],
     milestones:[]
   });
-  
+
   const setGoalSelector = goal => setState({...state, goal});
 
   useEffect(()=> {Promise.all([
@@ -93,12 +93,12 @@ export default function Goals() {
       "userId"
     )}`),
     ]).then((all) => {
-      console.log(all);
+      setState(prev => ({...prev, goals: all[0].data.goals, milestones: all[1].data.milestones})); 
     });
   },[]);
-
-  const milestoneTrigger = getMilestoneTrigger(state);
   
+  console.log("state retreive from db", state);
+  const milestoneTrigger = getMilestoneTrigger(state);
 
   return (
     <main className="goals">
@@ -108,9 +108,7 @@ export default function Goals() {
       </nav>
 
     <section className="milestone">
-      {/*<Milestone goals={state.goals} milestones={state.milestones} goal={state.goal}/>*/}
       {milestoneTrigger}
-      {/*<Milestone milestones={eachGoals}/>*/}
       </section>
   </main>
   )

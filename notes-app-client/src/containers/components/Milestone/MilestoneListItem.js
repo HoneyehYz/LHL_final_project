@@ -3,7 +3,6 @@ import "./style.css";
 import Button from 'react-bootstrap/Button';
 
 export default function MilestoneListItem(props) {
-
   return (
     <li className="milestone__card">
       <div style={{ textDecoration: props.completed ? "line-through" : "" }}>
