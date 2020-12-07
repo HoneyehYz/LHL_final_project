@@ -83,29 +83,29 @@ function Performances() {
     data: [
       {
         type: "spline",
-        name: "Flossing every night",
+        name: "Flossing",
         showInLegend: true,
         dataPoints: [{ y: 0.5, label: "1" }],
       },
       {
         type: "spline",
-        name: "Eat Healthy",
+        name: "Watch one episode of Friends",
         showInLegend: true,
         dataPoints: [{ y: 1, label: "1" }],
       },
     ],
   });
-  const addNewCurve = (text) => {
+  const addNewCurve = (task) => {
     const updateData = [
       ...reports.data,
-      { type: "spline", name: text, showInLegend: true, dataPoints: [] },
+      { type: "spline", name: task, showInLegend: true, dataPoints: [] },
     ];
     setReports({ ...reports, data: updateData });
   };
-  const addTask = (text) => {
-    const newTasks = [...tasks, { text }];
+  const addTask = (task) => {
+    const newTasks = [...tasks, { task }];
     setTasks(newTasks);
-    addNewCurve(text);
+    addNewCurve(task);
   };
   const completeTask = (index) => {
     const newTasks = [...tasks];
@@ -122,12 +122,12 @@ function Performances() {
     const newTasks = [...tasks];
     newTasks[index].score = score;
     setTasks(newTasks);
-    addReport(newTasks[index].text, score);
+    addReport(newTasks[index].task, score);
   };
-  const addReport = (text, score) => {
+  const addReport = (task, score) => {
     // console.log("addReport",text,score);
     const updateData = reports.data.map((lineData) => {
-      if (lineData.name === text) {
+      if (lineData.name === task) {
         console.log("found", lineData.name);
         lineData.dataPoints.push({
           y: Number(score),
