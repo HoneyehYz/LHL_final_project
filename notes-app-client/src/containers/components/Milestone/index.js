@@ -41,7 +41,7 @@ export default function Milestone(props) {
       milestone,
       deadline,
       userId:localStorage.getItem("userId"),
-      goalId: value
+      goal_Id: value
     }; 
 
     
