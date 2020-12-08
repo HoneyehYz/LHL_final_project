@@ -14,7 +14,7 @@ function Task({ task, index, completeTask, removeTask, setScoreTask }) {
   return (
     <div
       className="todo"
-      style={{ textDecoration: task.isCompleted ? "line-through" : "" }}
+      style={{ textDecoration: task.completed ? "line-through" : "" }}
     >
       {task}
       <div>
@@ -67,6 +67,7 @@ function Performances() {
 
   for (let i = 0; i < tasks.length; i++) {
     console.log("All the tasks name", tasks[i].task);
+    console.log(tasks)
   }
 
   const [reports, setReports] = React.useState({
@@ -106,16 +107,33 @@ function Performances() {
     const newTasks = [...tasks, { task }];
     setTasks(newTasks);
     addNewCurve(task);
+    const res =  axios.post(
+      "http://localhost:3005/api/v1/task",
+      { newTasks }
+    );
+    return res;
+
+    // return axios.post(`http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
+    //   "userId"
+    // )}`, newTasks)
   };
   const completeTask = (index) => {
     const newTasks = [...tasks];
-    newTasks[index].isCompleted = true;
+    newTasks[index].completed = true;
     setTasks(newTasks);
   };
   const removeTask = (index) => {
     const newTasks = [...tasks];
     newTasks.splice(index, 1);
     setTasks(newTasks);
+    const res =  axios.delete(
+      "http://localhost:3005/api/v1/task",
+      { index }
+    );
+    return res;
+    // return axios.delete(`http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
+    //   "userId"
+    // )}`, newTasks)
   };
   const setScoreTask = (index, score) => {
     console.log(index, score);
