@@ -49,7 +49,7 @@ export default function Milestone(props) {
       "userId"
     )}`, newMilestone)
       .then((res)=> {
-        const resObj=JSON.parse(res.config.data);
+        const resObj=res.data.milestone;
         const newMilestones = [...milestones, resObj];
         setMilestones(newMilestones);
       });

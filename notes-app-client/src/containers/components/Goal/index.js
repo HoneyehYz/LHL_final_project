@@ -6,30 +6,26 @@ const axios = require('axios').default;
 
 export default function Goal(props){
   const [goals, setGoals] = useState(props.goals);
-  
-  //console.log("Goal",props.state);
 
   function save(goal, deadline, userId){
     if((!goal)||(!deadline)){
       return;
     }
-   // const user_id = localStorage.getItem("userId");
+
     const newGoal = {
       goal,
       deadline,
       userId
     }; 
-    //console.log(newGoal);
-    //const newGoals = [...goals, newGoal];
-    //setGoals(newGoals);
+
     return axios.post(`http://localhost:3005/api/v1/goals?userId=${localStorage.getItem(
       "userId"
     )}`, newGoal)
       .then((res)=> {
-        const resObj=JSON.parse(res.config.data);
+        const resObj=res.data.goal;
+        console.log(resObj);
         const newGoals = [...goals, resObj];
         setGoals(newGoals);
-        console.log(goals);
       });
   }
 
