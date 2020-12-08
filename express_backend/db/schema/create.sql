@@ -45,7 +45,7 @@
     id SERIAL PRIMARY KEY NOT NULL,
     task VARCHAR(100) NOT NULL,
     score FLOAT,
-    score_date DATE,
+    score_date VARCHAR(100),
     completed BOOLEAN DEFAULT false,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
   );
