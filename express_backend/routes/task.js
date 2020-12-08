@@ -83,15 +83,18 @@ module.exports = (db) => {
       const taskId = req.params.id;
       const score = req.body.score;
       const completed = req.body.completed;
+      const score_date = req.body.score_date;
 
       const text_1 = `SELECT * FROM tasks WHERE id = ${taskId} AND user_id = ${userId}`;
 
       const goalFound = await db.query(text_1);
 
       if (goalFound.rows[0]) {
-        const text_2 = `UPDATE tasks SET completed = ${completed}, score = ${score} WHERE id = ${taskId} AND user_id = ${userId} RETURNING *`;
+        const text_2 =
+          "UPDATE tasks SET completed = $1, score = $2, score_date = $3 WHERE id = $4 AND user_id = $5 RETURNING *";
+        const values = [completed, score, score_date, taskId, userId];
 
-        const task = await db.query(text_2);
+        const task = await db.query(text_2, values);
 
         return res
           .status(200)
