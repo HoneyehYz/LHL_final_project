@@ -49,7 +49,7 @@ module.exports = (db) => {
       const goalId = req.params.id;
 
       const text_1 = `SELECT * FROM goals WHERE id = ${goalId} AND user_id = ${userId}`;
-      
+
       const goalFound = await db.query(text_1);
 
       if (goalFound.rows[0]) {
@@ -64,6 +64,37 @@ module.exports = (db) => {
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Could not delete  the goal" });
+    }
+  });
+
+  // Endpoint for updating a specific user's goal
+  router.patch("/goal/:id", async (req, res) => {
+    try {
+      const userId = req.query.userId;
+      const goalId = req.params.id;
+      const goal = req.body.goal;
+      const deadline = req.body.deadline;
+
+      const text_1 = `SELECT * FROM goals WHERE id = ${goalId} AND user_id = ${userId}`;
+
+      const goalFound = await db.query(text_1);
+
+      if (goalFound.rows[0]) {
+        const text_2 =
+          "UPDATE goals SET goal = $1, deadline = $2 WHERE id = $3 AND user_id = $4 RETURNING *";
+        const values = [goal, deadline, goalId, userId];
+
+        const task = await db.query(text_2, values);
+
+        return res
+          .status(200)
+          .json({ message: "Goal update successfully", task: task.rows[0] });
+      } else {
+        return res.status(404).json({ message: "Goal not found" });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Could not update the goal" });
     }
   });
 
