@@ -8,6 +8,7 @@ export default function Goal(props){
   const [goals, setGoals] = useState(props.goals);
  
   console.log("goals",goals);
+  
   function save(goal, deadline, userId){
     if((!goal)||(!deadline)){
       return;
