@@ -1,149 +1,75 @@
-import React, { useState, useEffect } from 'react'
-import "./Goals.css"
-import Goal from "./components/Goal/index"
-import Milestone from "./components/Milestone/index"
+import React, { useState, useEffect, useContext } from 'react';
+import './Goals.css';
+import Goal from './components/Goal/index';
+import Milestone from './components/Milestone/index';
+
+import { AppContext } from '../libs/contextLib';
 
 const axios = require('axios').default;
-/*
-const goals = [
-  {
-    "id": 1,
-    "goal": "Finish Project",
-    "deadline": "2020-12-04",
-    "user_id": 1
-  },
-  {
-    "id": 2,
-    "goal": "Read the book",
-    "deadline": "2021-01-04",
-    "user_id": 1
-  }
-];
 
-const milestones = [
-  {
-    "milestone_id": 1,
-    "milestone": "wireframe",
-    "deadline": "2020-11-07",
-    "completed": false,
-    "goal_goal": "Finish Project",
-    "goal_id":1
-  },
-  {
-    "milestone_id": 2,
-    "milestone": "ERD",
-    "deadline": "2020-11-10",
-    "completed": false,
-    "goal_id": 1,
-    "goal_goal": "Finish Project"
-  },
-  {
-    "milestone_id": 3,
-    "milestone": "Chapter1",
-    "deadline": "2020-12-08",
-    "completed": false,
-    "goal_id": 2,
-    "goal_goal": "Read the book"
+function getMilestoneTrigger(state) {
+  if (state.goal) {
+    return (
+      <Milestone
+        goals={state.goals}
+        milestones={state.milestones}
+        goal={state.goal}
+      />
+    );
   }
-]
-*/
-/*
-function getMilestonesForGoal(state, goal) {
-  console.log("goal", goal);
-  if (Array.isArray(state.goals) && state.goals.length === 0) {
-      return state.goals;
-  } else if (!state.goal){
-     return [];
-  }
-  else {  
-    const filteredGoal = state.goals.filter(specificGoal => specificGoal.goal === goal);
-    const milestones = state.milestones;
-    let milestonesForGoal = [];
-    milestones.forEach((milestone)=>{ 
-      if(milestone.goal_id===filteredGoal[0].id){ milestonesForGoal.push(milestone)}
-    });
-     console.log("milestonesForGoal",milestonesForGoal);
-     return milestonesForGoal; 
-  } 
-
 }
-
-*/
-function getMilestoneTrigger(state){
-  if(state.goal){
-    return (<Milestone goals={state.goals} milestones={state.milestones} goal={state.goal}/>);
-  }
-};
 
 export default function Goals() {
+  const context = useContext(AppContext);
 
   const [state, setState] = useState({
-    goal: "",
-    goals:[],
-    milestones:[]
+    goal: '',
+    goals: [],
+    milestones: [],
   });
 
-  const setGoalSelector = goal => setState({...state, goal});
+  const setGoalSelector = (goal) => setState({ ...state, goal });
 
-  useEffect(()=> {Promise.all([
-    axios.get(`http://localhost:3005/api/v1/goals?userId=${localStorage.getItem(
-      "userId"
-    )}`),
-    axios.get(`http://localhost:3005/api/v1/milestone?userId=${localStorage.getItem(
-      "userId"
-    )}`),
+  useEffect(() => {
+    Promise.all([
+      axios.get(
+        `http://localhost:3005/api/v1/goals?userId=${localStorage.getItem(
+          'userId'
+        )}`
+      ),
+      axios.get(
+        `http://localhost:3005/api/v1/milestone?userId=${localStorage.getItem(
+          'userId'
+        )}`
+      ),
     ]).then((all) => {
-      setState(prev => ({...prev, goals: all[0].data.goals, milestones: all[1].data.milestones})); 
+      setState((prev) => ({
+        ...prev,
+        goals: all[0].data.goals,
+        milestones: all[1].data.milestones,
+      }));
+
+      context.dispatch({
+        type: 'SET-GOALS',
+        goals: all[0].data.goals,
+      });
     });
-  },[]);
-  
-  //console.log("state retreive from db", state);
+  }, []);
+
   const milestoneTrigger = getMilestoneTrigger(state);
 
-  
-/*
-function save(goal, deadline, userId){
-  if((!goal)||(!deadline)){
-    return;
-  }
-  const newGoal = {
-    goal,
-    deadline,
-    userId
-  }; 
-  const goals = {
-    ...state.goals,
-    newGoal
-  }
-  return useEffect(()=>{axios.post(`http://localhost:3005/api/v1/goals?userId=${localStorage.getItem(
-    "userId"
-  )}`, newGoal)
-    .then((res)=> {
-      console.log(res);
-      const resObj=res.data.goal;
-      console.log("resObjAfterGoalSave",resObj);
-      const newGoals = [...state.goals, resObj];
-      console.log("newGoalsaftersave", newGoals);
-      setState(({...state, newGoals})); 
-      console.log("stateAfterGoalSave",state);
-    });
-  },[]);  
-}
-*/
-
   return (
-    <main className="goals">
-    <nav className="goals_sidebar">
-      <h5>Goals</h5>
-      <Goal goals={state.goals} value={state.goal} setGoalSelector={setGoalSelector}/>
+    <main className='goals'>
+      <nav className='goals_sidebar'>
+        <h5>Goals</h5>
+        <Goal
+          goals={context.state.goals}
+          value={state.goal}
+          setGoalSelector={setGoalSelector}
+        />
       </nav>
 
-    <section className="milestone">
-      {milestoneTrigger}
-      </section>
-  </main>
-  )
+      <section className='milestone'>{milestoneTrigger}</section>
+    </main>
+  );
 }
-
-// <Goal goals={state.goals} value={state.goal} setGoalSelector={setGoalSelector} save={saveGoal}/>
-//      <Goal state={state} setGoalSelector={setGoalSelector} save={save}/>
