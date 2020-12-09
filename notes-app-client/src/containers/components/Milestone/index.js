@@ -33,7 +33,7 @@ export default function Milestone(props) {
   // console.log("eachGoals", eachGoals);
   
    function save(milestones, milestone, deadline,value){
-     //console.log("MilestoneSave",value);
+     console.log("MilestoneSave",value);
     if((!milestone)||(!deadline)){
       return;
     }
@@ -41,7 +41,7 @@ export default function Milestone(props) {
       milestone,
       deadline,
       userId:localStorage.getItem("userId"),
-      goal_Id: value
+      goalId: value
     }; 
 
     
