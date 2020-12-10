@@ -31,6 +31,34 @@ export default function MilestoneListItem(props) {
     }
   };
 
+  const handleMilestoneCompletion = async (milestoneId, completed) => {
+    if (completed) {
+      return toast.warn('Milestone is already completed');
+    }
+
+    try {
+      const res = await axios.patch(
+        `http://localhost:3005/api/v1/milestone/${milestoneId}?userId=${localStorage.getItem(
+          'userId'
+        )}`,
+        { completed: true, completedAt: new Date() }
+      );
+
+      context.dispatch({
+        type: 'COMPLETE-MILESTONE',
+        milestone: res.data.milestone,
+      });
+
+      toast.success(res.data.message);
+    } catch (err) {
+      if (err.response.data.message) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error('Could not complete the milestone');
+      }
+    }
+  };
+
   return (
     <li className='milestone__card' key={props.id}>
       <div style={{ textDecoration: props.completed ? 'line-through' : '' }}>
@@ -44,7 +72,9 @@ export default function MilestoneListItem(props) {
           className='milestone-button'
           src='/done.png'
           alt='Done'
-          onClick={props.completeMilestone}
+          onClick={() => {
+            handleMilestoneCompletion(props.id, props.completed);
+          }}
           style={{ marginRight: '30px', cursor: 'pointer' }}
         />
         <img

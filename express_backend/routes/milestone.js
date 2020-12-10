@@ -86,6 +86,7 @@ module.exports = (db) => {
       const milestone = req.body.milestone;
       const deadline = req.body.deadline;
       const completedAt = req.body.completedAt;
+      const completed = req.body.completed;
 
       const text_1 = `SELECT * FROM milestones WHERE id = ${milestoneId} AND user_id = ${userId}`;
 
@@ -93,13 +94,13 @@ module.exports = (db) => {
 
       if (milestoneFound.rows[0]) {
         const text_2 =
-          'UPDATE milestones SET milestone = $1, deadline = $2, completed_at = $3 WHERE id = $4 AND user_id = $5 RETURNING *';
-        const values = [milestone, deadline, completedAt, milestoneId, userId];
+          'UPDATE milestones SET completed = $1, completed_at = $2 WHERE id = $3 AND user_id = $4 RETURNING *';
+        const values = [completed, completedAt, milestoneId, userId];
 
         const updatedMilestone = await db.query(text_2, values);
 
         return res.status(200).json({
-          message: 'Milestone updated successfully',
+          message: 'Milestone completed successfully',
           milestone: updatedMilestone.rows[0],
         });
       } else {

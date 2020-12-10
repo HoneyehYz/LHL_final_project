@@ -44,13 +44,23 @@ export const reducer = (state, action) => {
       };
 
     case 'ADD-MILESTONE':
-      console.log('ON ADD MILESTONE: ', action.milestone);
-
-      console.log('MILESTONES BEFORE: ', state.milestones);
-
       return {
         ...state,
         milestones: [...state.milestones, action.milestone],
+      };
+
+    case 'COMPLETE-MILESTONE':
+      const milestoneIndex = state.milestones.findIndex((milestone) => {
+        return milestone.id === action.milestone.id;
+      });
+
+      const currentMilestonesAgain = state.milestones;
+
+      currentMilestonesAgain.splice(milestoneIndex, 1, action.milestone);
+
+      return {
+        ...state,
+        milestones: currentMilestonesAgain,
       };
 
     default:

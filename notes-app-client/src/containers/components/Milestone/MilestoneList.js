@@ -12,7 +12,7 @@ export default function MilestoneList(props) {
             id={milestone.id}
             milestone={milestone.milestone}
             deadline={milestone.deadline}
-            completed={milestone.completed_at}
+            completed={milestone.completed}
             completeMilestone={() => props.completeMilestone(milestone.id)}
             cancelMilestone={() => props.cancelMilestone(milestone.id)}
           />
