@@ -7,18 +7,6 @@ import Milestone from './components/Milestone/index';
 
 import { AppContext } from '../libs/contextLib';
 
-function getMilestoneTrigger(state) {
-  if (state.goal) {
-    return (
-      <Milestone
-        goals={state.goals}
-        milestones={state.milestones}
-        goal={state.goal}
-      />
-    );
-  }
-}
-
 export default function Goals() {
   const context = useContext(AppContext);
 
@@ -43,18 +31,29 @@ export default function Goals() {
         )}`
       ),
     ]).then((all) => {
-      setState((prev) => ({
-        ...prev,
-        goals: all[0].data.goals,
-        milestones: all[1].data.milestones,
-      }));
-
       context.dispatch({
         type: 'SET-GOALS',
         goals: all[0].data.goals,
       });
+
+      context.dispatch({
+        type: 'SET-MILESTONES',
+        milestones: all[1].data.milestones,
+      });
     });
   }, []);
+
+  const getMilestoneTrigger = (state) => {
+    if (state.goal) {
+      return (
+        <Milestone
+          goals={context.state.goals}
+          milestones={context.state.milestones}
+          goal={state.goal}
+        />
+      );
+    }
+  };
 
   const milestoneTrigger = getMilestoneTrigger(state);
 

@@ -1,49 +1,48 @@
-import React, { Component, Fragment, useState, useRef, useEffect } from "react";
-import { Col, Container, Form, Row } from "react-bootstrap";
-import "./Performances.css";
-import CanvasJSReact from "./canvasjs.react";
+import React, { Component, Fragment, useState, useRef, useEffect } from 'react';
+import { Col, Container, Form, Row } from 'react-bootstrap';
+import './Performances.css';
+import CanvasJSReact from './canvasjs.react';
 const CanvasJS = CanvasJSReact.CanvasJS;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
-const axios = require("axios").default;
+const axios = require('axios').default;
 
 function Task({ task, index, completeTask, removeTask, setScoreTask }) {
   function handleSelect(event) {
     setScoreTask(index, event.target.value);
   }
-  
+
   return (
     <div
-      className="todo"
-      style={{ textDecoration: task.completed ? "line-through" : "" }}
+      className='todo'
+      style={{ textDecoration: task.completed ? 'line-through' : '' }}
     >
       {task}
       <div>
         <button onClick={() => completeTask(index)}>Complete</button>
         <button onClick={() => removeTask(index)}>x</button>
-        <select id="mySelect" onChange={handleSelect} value={task.score}>
-          <option value="0">0</option>
-          <option value="0.5">0.5</option>
-          <option value="1">1</option>
+        <select id='mySelect' onChange={handleSelect} value={task.score}>
+          <option value='0'>0</option>
+          <option value='0.5'>0.5</option>
+          <option value='1'>1</option>
         </select>
       </div>
     </div>
   );
 }
 
-
 function TaskForm({ addTask }) {
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!value) return;
     addTask(value);
-    setValue("");
+    setValue('');
   };
   return (
     <form onSubmit={handleSubmit}>
       <input
-        type="text"
-        className="input"
+        type='text'
+        className='input'
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
@@ -57,7 +56,7 @@ function Performances() {
     axios
       .get(
         `http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
-          "userId"
+          'userId'
         )}`
       )
       .then((response) => {
@@ -66,40 +65,40 @@ function Performances() {
   }, []);
 
   for (let i = 0; i < tasks.length; i++) {
-    console.log("All the tasks name", tasks[i].task);
-    console.log(tasks)
+    // console.log("All the tasks name", tasks[i].task);
+    // console.log(tasks)
   }
 
   const [reports, setReports] = React.useState({
     animationEnabled: true,
     title: {
-      text: "Total Scores",
+      text: 'Total Scores',
     },
     axisY: {
-      title: "Score",
+      title: 'Score',
     },
     toolTip: {
       shared: true,
     },
     data: [
       {
-        type: "spline",
-        name: "Flossing",
+        type: 'spline',
+        name: 'Flossing',
         showInLegend: true,
-        dataPoints: [{ y: 0.5, label: "1" }],
+        dataPoints: [{ y: 0.5, label: '1' }],
       },
       {
-        type: "spline",
-        name: "Watch one episode of Friends",
+        type: 'spline',
+        name: 'Watch one episode of Friends',
         showInLegend: true,
-        dataPoints: [{ y: 1, label: "1" }],
+        dataPoints: [{ y: 1, label: '1' }],
       },
     ],
   });
   const addNewCurve = (task) => {
     const updateData = [
       ...reports.data,
-      { type: "spline", name: task, showInLegend: true, dataPoints: [] },
+      { type: 'spline', name: task, showInLegend: true, dataPoints: [] },
     ];
     setReports({ ...reports, data: updateData });
   };
@@ -107,10 +106,7 @@ function Performances() {
     const newTasks = [...tasks, { task }];
     setTasks(newTasks);
     addNewCurve(task);
-    const res =  axios.post(
-      "http://localhost:3005/api/v1/task",
-      { newTasks }
-    );
+    const res = axios.post('http://localhost:3005/api/v1/task', { newTasks });
     return res;
 
     // return axios.post(`http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
@@ -126,10 +122,7 @@ function Performances() {
     const newTasks = [...tasks];
     newTasks.splice(index, 1);
     setTasks(newTasks);
-    const res =  axios.delete(
-      "http://localhost:3005/api/v1/task",
-      { index }
-    );
+    const res = axios.delete('http://localhost:3005/api/v1/task', { index });
     return res;
     // return axios.delete(`http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
     //   "userId"
@@ -146,7 +139,7 @@ function Performances() {
     // console.log("addReport",text,score);
     const updateData = reports.data.map((lineData) => {
       if (lineData.name === task) {
-        console.log("found", lineData.name);
+        console.log('found', lineData.name);
         lineData.dataPoints.push({
           y: Number(score),
           label: lineData.dataPoints.length + 1,
@@ -165,7 +158,7 @@ function Performances() {
       targetDataPointIndex,
       1
     );
-    console.log("reportsCopy=", reportsCopy);
+    console.log('reportsCopy=', reportsCopy);
     setReports(reportsCopy);
   };
   const canvasRef = useRef(null);
@@ -177,14 +170,13 @@ function Performances() {
     }
   }, [reports]);
 
-
   return (
     <Container>
       <Row>
-        <Col style={{ width: "50%" }}>
-          <h5 className="todo-list">To-do Items</h5>
-          <div className="app">
-            <div className="todo-list">
+        <Col style={{ width: '50%' }}>
+          <h5 className='todo-list'>To-do Items</h5>
+          <div className='app'>
+            <div className='todo-list'>
               {tasks.map((task, index) => (
                 <Task
                   key={index}
@@ -200,7 +192,7 @@ function Performances() {
           </div>
         </Col>
         <Col>
-          <h5 className="todo-list">Score Report</h5>
+          <h5 className='todo-list'>Score Report</h5>
           {reports.data.map((report, index) => {
             const DataPoints = report.dataPoints.map(
               (dataPoint, dataPointIndex) => {
@@ -209,16 +201,16 @@ function Performances() {
                 }
                 return (
                   <React.Fragment>
-                    <div className="todo-list">
+                    <div className='todo-list'>
                       <div
-                        className="todo"
+                        className='todo'
                         style={{
                           textDecoration: report.addReport
-                            ? "line-through"
-                            : "",
+                            ? 'line-through'
+                            : '',
                         }}
                       >
-                        <div>{report.name + " *** " + dataPoint.y}</div>
+                        <div>{report.name + ' *** ' + dataPoint.y}</div>
                         <button
                           onClick={() => removeReport(index, dataPointIndex)}
                         >
@@ -236,7 +228,7 @@ function Performances() {
         </Col>
       </Row>
       <Row>
-        <div className="edge">
+        <div className='edge'>
           <CanvasJSChart options={reports}></CanvasJSChart>
         </div>
       </Row>
