@@ -26,7 +26,7 @@
     deadline VARCHAR(100) NOT NULL,
     completed_at VARCHAR(100) DEFAULT NULL,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    goal_id INTEGER REFERENCES milestones(id) ON DELETE CASCADE
+    goal_id INTEGER REFERENCES goals(id) ON DELETE CASCADE
   );
 
   CREATE TABLE goals ( 
