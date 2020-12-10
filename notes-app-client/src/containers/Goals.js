@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+
 import './Goals.css';
 import Goal from './components/Goal/index';
 import Milestone from './components/Milestone/index';
 
 import { AppContext } from '../libs/contextLib';
-
-const axios = require('axios').default;
 
 function getMilestoneTrigger(state) {
   if (state.goal) {
@@ -62,11 +62,7 @@ export default function Goals() {
     <main className='goals'>
       <nav className='goals_sidebar'>
         <h5>Goals</h5>
-        <Goal
-          goals={context.state.goals}
-          value={state.goal}
-          setGoalSelector={setGoalSelector}
-        />
+        <Goal goals={context.state.goals} setGoalSelector={setGoalSelector} />
       </nav>
 
       <section className='milestone'>{milestoneTrigger}</section>

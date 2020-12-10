@@ -1,15 +1,14 @@
-import { React } from 'react';
+import React from 'react';
 
 import GoalListItem from './GoalListItem';
 import './style.css';
 
 export default function GoalList(props) {
-  const goalList = props.goals.map((goal, index) => {
+  const goalList = props.goals.map((goal) => {
     return (
       <ul className='goalList'>
         <GoalListItem
-          key={index}
-          index={index}
+          key={goal.id}
           id={goal.id}
           goal={goal.goal}
           deadline={goal.deadline}
@@ -22,3 +21,4 @@ export default function GoalList(props) {
 
   return <section>{goalList}</section>;
 }
+//id={goal.id}

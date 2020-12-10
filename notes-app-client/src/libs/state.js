@@ -10,6 +10,7 @@ export const reducer = (state, action) => {
         ...state,
         goals: action.goals,
       };
+
     case 'REMOVE-GOAL':
       const currentGoals = state.goals.filter((goal) => {
         return goal.id !== action.goalId;
@@ -19,11 +20,18 @@ export const reducer = (state, action) => {
         ...state,
         goals: currentGoals,
       };
+
+    case 'ADD-GOAL':
+      return {
+        goals: [...state.goals, action.goal],
+      };
+
     case 'SET-MILESTONES':
       return {
         ...state,
         milestones: action.milestones,
       };
+
     case 'REMOVE-MILESTONE':
       const currentMilestones = state.milestones.filter((milestone) => {
         return milestone.id !== action.milestoneId;
@@ -33,6 +41,7 @@ export const reducer = (state, action) => {
         ...state,
         milestones: currentMilestones,
       };
+
     default:
       return state;
   }

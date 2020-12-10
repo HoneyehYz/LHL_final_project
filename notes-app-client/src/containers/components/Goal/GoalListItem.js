@@ -32,8 +32,13 @@ export default function GoalListItem(props) {
   };
 
   return (
-    <li className='goal__card' onClick={() => props.setGoalSelector(props.id)}>
-      <h2 className='text--regular' value={props.goal}>
+    <li className='goal__card' key={props.id}>
+      <h2
+        className='text--regular'
+        value={props.goal}
+        style={{ cursor: 'pointer' }}
+        onClick={() => props.setGoalSelector(props.id)}
+      >
         {props.goal}
       </h2>
       <section>
@@ -46,7 +51,9 @@ export default function GoalListItem(props) {
             className='goal-button'
             src='/trash.png'
             alt='Delete'
-            onClick={() => handleGoalDeletion(props.id)}
+            onClick={() => {
+              handleGoalDeletion(props.id);
+            }}
           />
         </section>
       </section>
