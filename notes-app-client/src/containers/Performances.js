@@ -1,15 +1,43 @@
-import React, { Component, Fragment, useState, useRef, useEffect } from 'react';
-import { Col, Container, Form, Row } from 'react-bootstrap';
-import './Performances.css';
+import React, { useRef, useEffect, useState, useContext } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
 import CanvasJSReact from './canvasjs.react';
-const CanvasJS = CanvasJSReact.CanvasJS;
-const CanvasJSChart = CanvasJSReact.CanvasJSChart;
-const axios = require('axios').default;
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-function Task({ task, index, completeTask, removeTask, setScoreTask }) {
-  function handleSelect(event) {
+import './Performances.css';
+import { AppContext } from '../libs/contextLib';
+
+const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
+const Task = ({ taskId, task, index, completeTask, setScoreTask }) => {
+  const context = useContext(AppContext);
+
+  const handleSelect = (event) => {
     setScoreTask(index, event.target.value);
-  }
+  };
+
+  const handleTaskDeletion = async (taskId) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:3005/api/v1/task/${taskId}?userId=${localStorage.getItem(
+          'userId'
+        )}`
+      );
+
+      context.dispatch({
+        type: 'REMOVE-TASK',
+        taskId,
+      });
+
+      toast.success(res.data.message);
+    } catch (err) {
+      if (err.response.data.message) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error('Could not delete the task');
+      }
+    }
+  };
 
   return (
     <div
@@ -19,7 +47,7 @@ function Task({ task, index, completeTask, removeTask, setScoreTask }) {
       {task}
       <div>
         <button onClick={() => completeTask(index)}>Complete</button>
-        <button onClick={() => removeTask(index)}>x</button>
+        <button onClick={() => handleTaskDeletion(taskId)}>x</button>
         <select id='mySelect' onChange={handleSelect} value={task.score}>
           <option value='0'>0</option>
           <option value='0.5'>0.5</option>
@@ -28,16 +56,42 @@ function Task({ task, index, completeTask, removeTask, setScoreTask }) {
       </div>
     </div>
   );
-}
+};
 
-function TaskForm({ addTask }) {
-  const [value, setValue] = React.useState('');
-  const handleSubmit = (e) => {
+const TaskForm = () => {
+  const [value, setValue] = useState('');
+  const context = useContext(AppContext);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!value) return;
-    addTask(value);
-    setValue('');
+
+    if (value) {
+      const userId = localStorage.getItem('userId');
+
+      try {
+        const res = await axios.post('http://localhost:3005/api/v1/task', {
+          userId,
+          task: value,
+        });
+
+        context.dispatch({
+          type: 'ADD-TASK',
+          task: res.data.task,
+        });
+
+        toast.success(res.data.message);
+
+        setValue('');
+      } catch (err) {
+        if (err.response.data.message) {
+          toast.error(err.response.data.message);
+        } else {
+          toast.error('Could not add task');
+        }
+      }
+    }
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -48,9 +102,10 @@ function TaskForm({ addTask }) {
       />
     </form>
   );
-}
-function Performances() {
-  const [tasks, setTasks] = React.useState([]);
+};
+
+const Performances = () => {
+  const context = useContext(AppContext);
 
   useEffect(() => {
     axios
@@ -59,15 +114,13 @@ function Performances() {
           'userId'
         )}`
       )
-      .then((response) => {
-        setTasks(response.data.tasks);
+      .then((res) => {
+        context.dispatch({
+          type: 'SET-TASKS',
+          tasks: res.data.tasks,
+        });
       });
   }, []);
-
-  for (let i = 0; i < tasks.length; i++) {
-    // console.log("All the tasks name", tasks[i].task);
-    // console.log(tasks)
-  }
 
   const [reports, setReports] = React.useState({
     animationEnabled: true,
@@ -95,6 +148,7 @@ function Performances() {
       },
     ],
   });
+
   const addNewCurve = (task) => {
     const updateData = [
       ...reports.data,
@@ -102,65 +156,60 @@ function Performances() {
     ];
     setReports({ ...reports, data: updateData });
   };
-  const addTask = (task) => {
-    const newTasks = [...tasks, { task }];
-    setTasks(newTasks);
-    addNewCurve(task);
-    const res = axios.post('http://localhost:3005/api/v1/task', { newTasks });
-    return res;
 
-    // return axios.post(`http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
-    //   "userId"
-    // )}`, newTasks)
-  };
   const completeTask = (index) => {
-    const newTasks = [...tasks];
-    newTasks[index].completed = true;
-    setTasks(newTasks);
+    // const newTasks = [...tasks];
+    // newTasks[index].completed = true;
+    // setTasks(newTasks);
   };
+
   const removeTask = (index) => {
-    const newTasks = [...tasks];
-    newTasks.splice(index, 1);
-    setTasks(newTasks);
-    const res = axios.delete('http://localhost:3005/api/v1/task', { index });
-    return res;
+    // const newTasks = [...tasks];
+    // newTasks.splice(index, 1);
+    // setTasks(newTasks);
+    // const res = axios.delete('http://localhost:3005/api/v1/task', { index });
+    // return res;
     // return axios.delete(`http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
     //   "userId"
     // )}`, newTasks)
   };
+
   const setScoreTask = (index, score) => {
-    console.log(index, score);
-    const newTasks = [...tasks];
-    newTasks[index].score = score;
-    setTasks(newTasks);
-    addReport(newTasks[index].task, score);
+    // console.log(index, score);
+    // const newTasks = [...tasks];
+    // newTasks[index].score = score;
+    // setTasks(newTasks);
+    // addReport(newTasks[index].task, score);
   };
+
   const addReport = (task, score) => {
     // console.log("addReport",text,score);
-    const updateData = reports.data.map((lineData) => {
-      if (lineData.name === task) {
-        console.log('found', lineData.name);
-        lineData.dataPoints.push({
-          y: Number(score),
-          label: lineData.dataPoints.length + 1,
-        });
-      }
-      // console.log("This is lineData",lineData);
-      return lineData;
-    });
-    const newReports = { ...reports, data: updateData };
-    // console.log(newReports);
-    setReports(newReports);
+    // const updateData = reports.data.map((lineData) => {
+    //   if (lineData.name === task) {
+    //     console.log('found', lineData.name);
+    //     lineData.dataPoints.push({
+    //       y: Number(score),
+    //       label: lineData.dataPoints.length + 1,
+    //     });
+    //   }
+    //   // console.log("This is lineData",lineData);
+    //   return lineData;
+    // });
+    // const newReports = { ...reports, data: updateData };
+    // // console.log(newReports);
+    // setReports(newReports);
   };
+
   const removeReport = (targetReportIndex, targetDataPointIndex) => {
-    const reportsCopy = JSON.parse(JSON.stringify(reports));
-    reportsCopy.data[targetReportIndex].dataPoints.splice(
-      targetDataPointIndex,
-      1
-    );
-    console.log('reportsCopy=', reportsCopy);
-    setReports(reportsCopy);
+    // const reportsCopy = JSON.parse(JSON.stringify(reports));
+    // reportsCopy.data[targetReportIndex].dataPoints.splice(
+    //   targetDataPointIndex,
+    //   1
+    // );
+    // console.log('reportsCopy=', reportsCopy);
+    // setReports(reportsCopy);
   };
+
   const canvasRef = useRef(null);
   // const dataPoints = reports.map((report, index) => ({ y: report.score - 0, indexLabel: report.text, x: index }))
   // console.log(dataPoints);
@@ -177,17 +226,17 @@ function Performances() {
           <h5 className='todo-list'>To-do Items</h5>
           <div className='app'>
             <div className='todo-list'>
-              {tasks.map((task, index) => (
+              {context.state.tasks.map((task, index) => (
                 <Task
                   key={index}
                   index={index}
                   task={task.task}
+                  taskId={task.id}
                   completeTask={completeTask}
                   setScoreTask={setScoreTask}
-                  removeTask={removeTask}
                 />
               ))}
-              <TaskForm addTask={addTask} />
+              <TaskForm />
             </div>
           </div>
         </Col>
@@ -234,5 +283,5 @@ function Performances() {
       </Row>
     </Container>
   );
-}
+};
 export default Performances;

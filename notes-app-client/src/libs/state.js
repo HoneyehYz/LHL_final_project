@@ -1,6 +1,7 @@
 export const initialState = {
   goals: [],
   milestones: [],
+  tasks: [],
 };
 
 export const reducer = (state, action) => {
@@ -66,6 +67,28 @@ export const reducer = (state, action) => {
       return {
         ...state,
         milestones: currentMilestonesAgain,
+      };
+
+    case 'SET-TASKS':
+      return {
+        ...state,
+        tasks: action.tasks,
+      };
+
+    case 'REMOVE-TASK':
+      const currentTasks = state.tasks.filter((task) => {
+        return task.id !== action.taskId;
+      });
+
+      return {
+        ...state,
+        tasks: currentTasks,
+      };
+
+    case 'ADD-TASK':
+      return {
+        ...state,
+        tasks: [...state.tasks, action.task],
       };
 
     default:
