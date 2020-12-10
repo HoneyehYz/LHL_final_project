@@ -1,15 +1,52 @@
-import React, { useState } from 'react';
-import './style.css';
+import React, { useState, useContext } from 'react';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 import Button from 'react-bootstrap/Button';
+
+import './style.css';
+import { AppContext } from './../../../libs/contextLib';
 
 export default function MilestoneForm(props) {
   const [milestone, setMilestone] = useState(props.milestone || '');
   const [deadline, setDeadline] = useState(props.deadline || '');
 
-  function reset() {
+  const context = useContext(AppContext);
+
+  const resetForm = () => {
     setMilestone('');
     setDeadline('');
-  }
+  };
+
+  const handleMilestoneCreation = async () => {
+    if (milestone && deadline) {
+      const userId = localStorage.getItem('userId');
+      const goalId = props.goalId;
+
+      try {
+        const res = await axios.post('http://localhost:3005/api/v1/milestone', {
+          userId,
+          milestone,
+          deadline,
+          goalId,
+        });
+
+        context.dispatch({
+          type: 'ADD-MILESTONE',
+          milestone: res.data.milestone,
+        });
+
+        toast.success(res.data.message);
+
+        resetForm();
+      } catch (err) {
+        if (err.response.data.message) {
+          toast.error(err.response.data.message);
+        } else {
+          toast.error('Could not create milestone');
+        }
+      }
+    }
+  };
 
   return (
     <main className='milestone_item'>
@@ -35,8 +72,7 @@ export default function MilestoneForm(props) {
           <Button
             variant='outline-dark'
             onClick={() => {
-              props.onSave(props.milestones, milestone, deadline, props.value);
-              reset();
+              handleMilestoneCreation();
             }}
           >
             Add

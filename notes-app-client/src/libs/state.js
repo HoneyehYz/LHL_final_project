@@ -23,6 +23,7 @@ export const reducer = (state, action) => {
 
     case 'ADD-GOAL':
       return {
+        ...state,
         goals: [...state.goals, action.goal],
       };
 
@@ -40,6 +41,16 @@ export const reducer = (state, action) => {
       return {
         ...state,
         milestones: currentMilestones,
+      };
+
+    case 'ADD-MILESTONE':
+      console.log('ON ADD MILESTONE: ', action.milestone);
+
+      console.log('MILESTONES BEFORE: ', state.milestones);
+
+      return {
+        ...state,
+        milestones: [...state.milestones, action.milestone],
       };
 
     default:
