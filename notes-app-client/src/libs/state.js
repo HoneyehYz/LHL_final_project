@@ -16,9 +16,14 @@ export const reducer = (state, action) => {
         return goal.id !== action.goalId;
       });
 
+      const remainedMilestones = state.milestones.filter((milestone) => {
+        return milestone.goal_id !== action.goalId;
+      });
+
       return {
         ...state,
         goals: currentGoals,
+        milestones: remainedMilestones,
       };
 
     case 'ADD-GOAL':

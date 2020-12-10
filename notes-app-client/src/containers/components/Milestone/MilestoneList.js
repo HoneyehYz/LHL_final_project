@@ -1,6 +1,5 @@
 import { React, useState } from 'react';
 import MilestoneListItem from './MilestoneListItem';
-import MilestoneForm from './MilestoneForm';
 import './style.css';
 
 export default function MilestoneList(props) {
@@ -13,8 +12,6 @@ export default function MilestoneList(props) {
             milestone={milestone.milestone}
             deadline={milestone.deadline}
             completed={milestone.completed}
-            completeMilestone={() => props.completeMilestone(milestone.id)}
-            cancelMilestone={() => props.cancelMilestone(milestone.id)}
           />
         </ul>
       </div>
