@@ -9,7 +9,14 @@ import { AppContext } from '../libs/contextLib';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-const Task = ({ taskId, task, index, completeTask, setScoreTask }) => {
+const Task = ({
+  taskId,
+  completed,
+  task,
+  index,
+  completeTask,
+  setScoreTask,
+}) => {
   const context = useContext(AppContext);
 
   const handleSelect = (event) => {
@@ -42,17 +49,21 @@ const Task = ({ taskId, task, index, completeTask, setScoreTask }) => {
   return (
     <div
       className='todo'
-      style={{ textDecoration: task.completed ? 'line-through' : '' }}
+      style={{ textDecoration: completed ? 'line-through' : '' }}
     >
       {task}
       <div>
-        <button onClick={() => completeTask(index)}>Complete</button>
+        {!completed ? (
+          <button onClick={() => completeTask(index)}>Complete</button>
+        ) : null}
         <button onClick={() => handleTaskDeletion(taskId)}>x</button>
-        <select id='mySelect' onChange={handleSelect} value={task.score}>
-          <option value='0'>0</option>
-          <option value='0.5'>0.5</option>
-          <option value='1'>1</option>
-        </select>
+        {!completed ? (
+          <select id='mySelect' onChange={handleSelect} value={task.score}>
+            <option value='0'>0</option>
+            <option value='0.5'>0.5</option>
+            <option value='1'>1</option>
+          </select>
+        ) : null}
       </div>
     </div>
   );
@@ -106,6 +117,19 @@ const TaskForm = () => {
 
 const Performances = () => {
   const context = useContext(AppContext);
+  const [reports, setReports] = useState({
+    animationEnabled: true,
+    title: {
+      text: 'Total Scores',
+    },
+    axisY: {
+      title: 'Score',
+    },
+    toolTip: {
+      shared: true,
+    },
+    data: [],
+  });
 
   useEffect(() => {
     axios
@@ -119,35 +143,23 @@ const Performances = () => {
           type: 'SET-TASKS',
           tasks: res.data.tasks,
         });
+
+        // SET REPORTS SECTION
+        res.data.tasks.map((task) => {
+          if (task.completed) {
+            context.dispatch({
+              type: 'SET-REPORTS',
+              report: {
+                type: 'spline',
+                name: task.task,
+                showInLegend: true,
+                dataPoints: [{ y: task.score, label: '1' }],
+              },
+            });
+          }
+        });
       });
   }, []);
-
-  const [reports, setReports] = React.useState({
-    animationEnabled: true,
-    title: {
-      text: 'Total Scores',
-    },
-    axisY: {
-      title: 'Score',
-    },
-    toolTip: {
-      shared: true,
-    },
-    data: [
-      {
-        type: 'spline',
-        name: 'Flossing',
-        showInLegend: true,
-        dataPoints: [{ y: 0.5, label: '1' }],
-      },
-      {
-        type: 'spline',
-        name: 'Watch one episode of Friends',
-        showInLegend: true,
-        dataPoints: [{ y: 1, label: '1' }],
-      },
-    ],
-  });
 
   const addNewCurve = (task) => {
     const updateData = [
@@ -232,6 +244,7 @@ const Performances = () => {
                   index={index}
                   task={task.task}
                   taskId={task.id}
+                  completed={task.completed}
                   completeTask={completeTask}
                   setScoreTask={setScoreTask}
                 />
@@ -242,12 +255,14 @@ const Performances = () => {
         </Col>
         <Col>
           <h5 className='todo-list'>Score Report</h5>
-          {reports.data.map((report, index) => {
+
+          {context.state.reports.data.map((report, index) => {
             const DataPoints = report.dataPoints.map(
               (dataPoint, dataPointIndex) => {
                 if (!dataPoint) {
                   return null;
                 }
+
                 return (
                   <React.Fragment>
                     <div className='todo-list'>
@@ -271,14 +286,14 @@ const Performances = () => {
                 );
               }
             );
+
             return DataPoints;
-            // console.log("Report,index = ",report, index)
           })}
         </Col>
       </Row>
       <Row>
         <div className='edge'>
-          <CanvasJSChart options={reports}></CanvasJSChart>
+          <CanvasJSChart options={context.state.reports}></CanvasJSChart>
         </div>
       </Row>
     </Container>

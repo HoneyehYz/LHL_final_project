@@ -2,6 +2,19 @@ export const initialState = {
   goals: [],
   milestones: [],
   tasks: [],
+  reports: {
+    animationEnabled: true,
+    title: {
+      text: 'Total Scores',
+    },
+    axisY: {
+      title: 'Score',
+    },
+    toolTip: {
+      shared: true,
+    },
+    data: [],
+  },
 };
 
 export const reducer = (state, action) => {
@@ -89,6 +102,15 @@ export const reducer = (state, action) => {
       return {
         ...state,
         tasks: [...state.tasks, action.task],
+      };
+
+    case 'SET-REPORTS':
+      return {
+        ...state,
+        reports: {
+          ...state.reports,
+          data: [...state.reports.data, action.report],
+        },
       };
 
     default:
