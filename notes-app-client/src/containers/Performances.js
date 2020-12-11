@@ -3,21 +3,16 @@ import { Col, Container, Row } from 'react-bootstrap';
 import CanvasJSReact from './canvasjs.react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
+import Form from 'react-bootstrap/Form'
 import './Performances.css';
-
 import { AppContext } from '../libs/contextLib';
-
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
 const Task = ({ taskId, completed, task }) => {
   const context = useContext(AppContext);
   const [score, setScore] = useState(null);
-
   const handleSelect = (event) => {
     setScore(event.target.value);
   };
-
   const handleTaskDeletion = async (taskId) => {
     try {
       const res = await axios.delete(
@@ -25,12 +20,10 @@ const Task = ({ taskId, completed, task }) => {
           'userId'
         )}`
       );
-
       context.dispatch({
         type: 'REMOVE-TASK',
         taskId,
       });
-
       toast.success(res.data.message);
     } catch (err) {
       if (err.response.data.message) {
@@ -40,11 +33,9 @@ const Task = ({ taskId, completed, task }) => {
       }
     }
   };
-
   const handleTaskCompletion = async (taskId, score) => {
     if (taskId && score) {
       const userId = localStorage.getItem('userId');
-
       try {
         const res = await axios.patch(
           `http://localhost:3005/api/v1/task/${taskId}?userId=${localStorage.getItem(
@@ -57,12 +48,10 @@ const Task = ({ taskId, completed, task }) => {
             score_date: new Date(),
           }
         );
-
         context.dispatch({
           type: 'COMPLETE-TASK',
           task: res.data.task,
         });
-
         toast.success(res.data.message);
       } catch (err) {
         if (err.response.data.message) {
@@ -75,7 +64,6 @@ const Task = ({ taskId, completed, task }) => {
       toast.warn('Select the score first');
     }
   };
-
   return (
     <div
       className='todo'
@@ -103,30 +91,23 @@ const Task = ({ taskId, completed, task }) => {
     </div>
   );
 };
-
 const TaskForm = () => {
   const [value, setValue] = useState('');
   const context = useContext(AppContext);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (value) {
       const userId = localStorage.getItem('userId');
-
       try {
         const res = await axios.post('http://localhost:3005/api/v1/task', {
           userId,
           task: value,
         });
-
         context.dispatch({
           type: 'ADD-TASK',
           task: res.data.task,
         });
-
         toast.success(res.data.message);
-
         setValue('');
       } catch (err) {
         if (err.response.data.message) {
@@ -137,9 +118,8 @@ const TaskForm = () => {
       }
     }
   };
-
   return (
-    <form onSubmit={handleSubmit}>
+  /*   <form onSubmit={handleSubmit}>
       <input
         type='text'
         className='input'
@@ -147,12 +127,17 @@ const TaskForm = () => {
         onChange={(e) => setValue(e.target.value)}
       />
     </form>
+   */
+  <Form onSubmit={handleSubmit}>
+  <Form.Group controlId="item">
+  <Form.Control type="text" value={value}
+    onChange={(e) => setValue(e.target.value)}/>
+  </Form.Group>
+   </Form>
   );
 };
-
 const Performances = () => {
   const context = useContext(AppContext);
-
   useEffect(() => {
     axios
       .get(
@@ -165,7 +150,6 @@ const Performances = () => {
           type: 'SET-TASKS',
           tasks: res.data.tasks,
         });
-
         res.data.tasks.map((task) => {
           if (task.completed) {
             context.dispatch({
@@ -181,7 +165,6 @@ const Performances = () => {
         });
       });
   }, []);
-
   const addNewCurve = (task) => {
     // const updateData = [
     //   ...reports.data,
@@ -189,7 +172,6 @@ const Performances = () => {
     // ];
     // setReports({ ...reports, data: updateData });
   };
-
   return (
     <Container>
       <Row>
@@ -210,14 +192,12 @@ const Performances = () => {
         </Col>
         <Col>
           <h5 className='todo-list'>Score Report</h5>
-
           {context.state.reports.data.map((report, index) => {
             const DataPoints = report.dataPoints.map(
               (dataPoint, dataPointIndex) => {
                 if (!dataPoint) {
                   return null;
                 }
-
                 return (
                   <React.Fragment>
                     <div className='todo-list'>
@@ -236,7 +216,6 @@ const Performances = () => {
                 );
               }
             );
-
             return DataPoints;
           })}
         </Col>

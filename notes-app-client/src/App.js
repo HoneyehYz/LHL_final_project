@@ -29,6 +29,7 @@ function App() {
       <Navbar collapseOnSelect bg='warning' expand='md' className='mb-3'>
         <LinkContainer to='/'>
           <Navbar.Brand className='font-weight-bold text-muted'>
+            <img src='./public/Logo Incrementum.png' alt="" />
             Goal Tracker
           </Navbar.Brand>
         </LinkContainer>
