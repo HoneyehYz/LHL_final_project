@@ -2,6 +2,9 @@ import React, { useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 import { AppContext } from './../../../libs/contextLib';
 
@@ -55,12 +58,13 @@ export default function GoalForm(props) {
             placeholder='Enter Goal'
             onChange={(event) => setGoal(event.target.value)}
           />
-          <input
+{/*          <input
             value={deadline}
             type='text'
             placeholder='deadline'
             onChange={(event) => setDeadline(event.target.value)}
-          />
+          />*/}
+          <DatePicker selected={deadline} placeholderText="Click to select a date" onChange={date => setDeadline(date)} />
         </form>
       </section>
       <section>

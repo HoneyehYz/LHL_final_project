@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import './style.css';
 import { AppContext } from './../../../libs/contextLib';
@@ -58,12 +60,13 @@ export default function MilestoneForm(props) {
             placeholder='Enter Milestone'
             onChange={(event) => setMilestone(event.target.value)}
           />
-          <input
+          {/*<input
             value={deadline}
             type='text'
             placeholder='Enter Deadline'
             onChange={(event) => setDeadline(event.target.value)}
-          />
+          />*/}
+          <DatePicker selected={deadline} placeholderText="Click to select a date" onChange={date => setDeadline(date)} />
         </form>
         <br />
       </section>
