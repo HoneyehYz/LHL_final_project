@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import './Performances.css';
+
 import { AppContext } from '../libs/contextLib';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;

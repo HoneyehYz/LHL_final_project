@@ -13,7 +13,7 @@ export default function Home() {
       <div className='lander'>
         <h1>Goal Tracker</h1>
         <p className='text-muted'>
-          This is a goal tracker app. This is the Homepage
+          Welcome to Goal Tracker.
         </p>
 
         {userId ? (
