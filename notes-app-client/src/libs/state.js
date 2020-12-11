@@ -123,7 +123,6 @@ export const reducer = (state, action) => {
           data: [
             ...state.reports.data,
             {
-              type: 'spline',
               taskId: action.task.id,
               name: action.task.task,
               showInLegend: true,

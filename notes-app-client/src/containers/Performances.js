@@ -91,7 +91,10 @@ const Task = ({ taskId, completed, task }) => {
         {!completed ? (
           <select id='mySelect' onChange={handleSelect}>
             <option value='0'>0</option>
-            <option value='0.5'>0.5</option>
+            <option value='0.2'>0.2</option>
+            <option value='0.4'>0.4</option>
+            <option value='0.6'>0.6</option>
+            <option value='0.8'>0.8</option>
             <option value='1'>1</option>
           </select>
         ) : null}
@@ -167,7 +170,6 @@ const Performances = () => {
             context.dispatch({
               type: 'SET-REPORTS',
               report: {
-                type: 'spline',
                 taskId: task.id,
                 name: task.task,
                 showInLegend: true,
@@ -186,7 +188,6 @@ const Performances = () => {
     // ];
     // setReports({ ...reports, data: updateData });
   };
-
 
   return (
     <Container>
