@@ -2,6 +2,19 @@ export const initialState = {
   goals: [],
   milestones: [],
   tasks: [],
+  reports: {
+    animationEnabled: true,
+    title: {
+      text: 'Total Scores',
+    },
+    axisY: {
+      title: 'Score',
+    },
+    toolTip: {
+      shared: true,
+    },
+    data: [],
+  },
 };
 
 export const reducer = (state, action) => {
@@ -80,15 +93,58 @@ export const reducer = (state, action) => {
         return task.id !== action.taskId;
       });
 
+      const currentReports = state.reports.data.filter((task) => {
+        return task.taskId !== action.taskId;
+      });
+
       return {
         ...state,
         tasks: currentTasks,
+        reports: {
+          ...state.reports,
+          data: [...currentReports],
+        },
+      };
+
+    case 'COMPLETE-TASK':
+      const taskIndex = state.tasks.findIndex((task) => {
+        return task.id === action.task.id;
+      });
+
+      const currentTasksAgain = state.tasks;
+
+      currentTasksAgain.splice(taskIndex, 1, action.task);
+
+      return {
+        ...state,
+        tasks: currentTasksAgain,
+        reports: {
+          ...state.reports,
+          data: [
+            ...state.reports.data,
+            {
+              taskId: action.task.id,
+              name: action.task.task,
+              showInLegend: true,
+              dataPoints: [{ y: action.task.score, label: '1' }],
+            },
+          ],
+        },
       };
 
     case 'ADD-TASK':
       return {
         ...state,
         tasks: [...state.tasks, action.task],
+      };
+
+    case 'SET-REPORTS':
+      return {
+        ...state,
+        reports: {
+          ...state.reports,
+          data: [...state.reports.data, action.report],
+        },
       };
 
     default:
