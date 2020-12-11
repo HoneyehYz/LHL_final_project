@@ -128,12 +128,12 @@ const TaskForm = () => {
       />
     </form>
    */
-  <Form onSubmit={handleSubmit}>
+   <Form onSubmit={handleSubmit}>
   <Form.Group controlId="item">
   <Form.Control type="text" value={value}
     onChange={(e) => setValue(e.target.value)}/>
   </Form.Group>
-   </Form>
+   </Form>  
   );
 };
 const Performances = () => {
