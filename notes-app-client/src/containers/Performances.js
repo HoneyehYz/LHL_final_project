@@ -3,6 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import CanvasJSReact from './canvasjs.react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Form from 'react-bootstrap/Form'
 
 import './Performances.css';
 import { AppContext } from '../libs/contextLib';
@@ -138,7 +139,7 @@ const TaskForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+  /*   <form onSubmit={handleSubmit}>
       <input
         type='text'
         className='input'
@@ -146,6 +147,13 @@ const TaskForm = () => {
         onChange={(e) => setValue(e.target.value)}
       />
     </form>
+   */
+   <Form onSubmit={handleSubmit}>
+  <Form.Group controlId="item">
+  <Form.Control type="text" value={value}
+    onChange={(e) => setValue(e.target.value)}/>
+  </Form.Group>
+   </Form>  
   );
 };
 
