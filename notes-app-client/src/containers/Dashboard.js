@@ -5,6 +5,7 @@ import { Container, Col, Row, Table } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const Quote = require('inspirational-quotes');
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class MilestonesDashboard extends Component {
@@ -161,7 +162,7 @@ class Dashboard extends Component {
                 Quote of the Day{" "}
               </h3>
               <p style={{ textAlign: "center", padding: "10px" }}>
-                Go where there is no path and leave a trail for others.
+                {Quote.getRandomQuote()}
               </p>
             </div>
           </Col>

@@ -1,7 +1,5 @@
-INSERT INTO
-categories(name) 
-VALUES
-    ('Health'),
+INSERT INTO categories(name)
+VALUES ('Health'),
     ('Entertainment'),
     ('Family'),
     ('Sport'),

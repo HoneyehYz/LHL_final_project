@@ -20,20 +20,21 @@
     toUser INTEGER REFERENCES users(id) ON DELETE CASCADE
   );
 
-  CREATE TABLE milestones (
-    id SERIAL PRIMARY KEY NOT NULL,
-    milestone VARCHAR(150) NOT NULL,
-    deadline VARCHAR(100) NOT NULL,
-    completed_at VARCHAR(100) DEFAULT NULL,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    goal_id INTEGER REFERENCES milestones(id) ON DELETE CASCADE
-  );
-
   CREATE TABLE goals ( 
     id SERIAL PRIMARY KEY NOT NULL,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     goal VARCHAR(140) NOT NULL,
     deadline VARCHAR(100) NOT NULL
+  );
+
+  CREATE TABLE milestones (
+    id SERIAL PRIMARY KEY NOT NULL,
+    milestone VARCHAR(150) NOT NULL,
+    deadline VARCHAR(100) NOT NULL,
+    completed_at VARCHAR(100) DEFAULT NULL,
+    completed BOOLEAN DEFAULT false,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    goal_id INTEGER REFERENCES goals(id) ON DELETE CASCADE
   );
 
   CREATE TABLE categories (
@@ -45,7 +46,7 @@
     id SERIAL PRIMARY KEY NOT NULL,
     task VARCHAR(100) NOT NULL,
     score FLOAT,
-    score_date DATE,
+    score_date VARCHAR(100),
     completed BOOLEAN DEFAULT false,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
   );
