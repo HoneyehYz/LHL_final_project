@@ -6,15 +6,16 @@ import Row from "react-bootstrap/Row";
 import Dashboard from "./Dashboard";
 import Goals from "./Goals";
 import Performances from "./Performances";
-import Chat1 from "./Chat1";
+import Support from "./Support";
 
 export default function Default() {
+  const navbar = {backgroundColor: '#F16E10'};
   return ( 
     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
   <Row>
     <Col sm={3}>
       <Nav variant="pills" className="flex-column">
-      <Nav.Item>
+      <Nav.Item >
           <Nav.Link eventKey="first">Dashboard</Nav.Link>
         </Nav.Item>
         <Nav.Item>
@@ -24,12 +25,12 @@ export default function Default() {
           <Nav.Link eventKey="third">Performance</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="fourth">Chat</Nav.Link>
+          <Nav.Link eventKey="fourth">Contact Us</Nav.Link>
         </Nav.Item>
       </Nav>
     </Col>
     <Col sm={9}>
-      <Tab.Content>
+      <Tab.Content >
         <Tab.Pane eventKey="first">
         <Dashboard /> 
         </Tab.Pane>
@@ -40,7 +41,7 @@ export default function Default() {
         <Performances/>
         </Tab.Pane>
         <Tab.Pane eventKey="fourth">
-        <Chat1/>
+        <Support/>
         </Tab.Pane>
       </Tab.Content>
     </Col>
