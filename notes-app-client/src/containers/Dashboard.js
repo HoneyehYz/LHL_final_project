@@ -147,7 +147,7 @@ class Dashboard extends Component {
     };
     return (
  
-     <Carousel>
+     <Carousel className="page">
      <Carousel.Item interval={500}>
       <h3>Quota of the Day</h3>
       <p>{Quote.getRandomQuote()}</p>
