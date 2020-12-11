@@ -4,6 +4,7 @@ import CanvasJSReact from "./canvasjs.react";
 import { Container, Col, Row, Table } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Carousel from 'react-bootstrap/Carousel'
 
 const Quote = require('inspirational-quotes');
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -145,13 +146,31 @@ class Dashboard extends Component {
       ],
     };
     return (
-      <Container>
-        {/* <h2>Welcome to the Dashboard</h2> */}
-        <Row>
+ 
+     <Carousel>
+     <Carousel.Item interval={500}>
+      <h3>Quota of the Day</h3>
+      <p>{Quote.getRandomQuote()}</p>
+     </Carousel.Item>
+     <Carousel.Item>
+    <MilestonesDashboard />
+  </Carousel.Item>
+     </Carousel>
+      
+    );
+  }
+}
+
+export default Dashboard;
+
+/*
+
+      <Container fluid>
+        <Row>   
           <Col>
             <div className="cell" style={{ height: "300px", border: "10px" }}>
               <h3 style={{ textAlign: "center", padding: "10px" }}>
-                <MilestonesDashboard />
+                Welcome
               </h3>
             </div>
           </Col>
@@ -168,11 +187,7 @@ class Dashboard extends Component {
           </Col>
         </Row>
         <Row>
-          <CanvasJSChart options={options} style={{ padding: "80px" }} />
+        <MilestonesDashboard />
         </Row>
       </Container>
-    );
-  }
-}
-
-export default Dashboard;
+*/ 
