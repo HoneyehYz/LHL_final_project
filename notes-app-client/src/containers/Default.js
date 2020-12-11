@@ -6,12 +6,7 @@ import Row from "react-bootstrap/Row";
 import Dashboard from "./Dashboard";
 import Goals from "./Goals";
 import Performances from "./Performances";
-<<<<<<< HEAD
-import Chat1 from "./Chat1";
-import Email from "./Email"
-=======
-import Support from "./Support";
->>>>>>> ad0b09346e418e7b312eb18d2c1df1fdcb4081a6
+import Email from "./Email";
 
 export default function Default() {
   const navbar = {backgroundColor: '#F16E10'};
@@ -46,11 +41,7 @@ export default function Default() {
         <Performances/>
         </Tab.Pane>
         <Tab.Pane eventKey="fourth">
-<<<<<<< HEAD
         <Email/>
-=======
-        <Support/>
->>>>>>> ad0b09346e418e7b312eb18d2c1df1fdcb4081a6
         </Tab.Pane>
 
       </Tab.Content>
