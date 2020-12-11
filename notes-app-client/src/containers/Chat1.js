@@ -1,9 +1,12 @@
 import {React, useState, useEffect} from "react";
 import "./Chat1.css"
 import Chat from "./components/Chat/index"
-
+import {Row} from "react-bootstrap"
+import { Email, Item, Span, A, renderEmail } from 'react-html-email'
 
 const axios = require('axios').default;
+
+
 
 
 export default function Chat1(props) {
@@ -46,10 +49,26 @@ export default function Chat1(props) {
     setMsg("");
   };
 
+
+
   return (
     <div>
-      <Chat chat={state.chats} saveChat={saveChat}/>
+      <Row>
+      <Chat  chat={state.chats} saveChat={saveChat}/>
+      </Row>
+     
+      {/* <Email title="Admin Support">
+          <Item align="center">
+            <Span fontSize={20}>
+              If you have any technical issues please contact admin using email address below:
+              admin@incrementum.com
+              <A href="admin@incrementum.com">Incrementum Technical Support</A>.
+            </Span>
+          </Item>
+        </Email> */}
     </div>
+
+      
   );
 
 }

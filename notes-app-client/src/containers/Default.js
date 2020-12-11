@@ -7,6 +7,7 @@ import Dashboard from "./Dashboard";
 import Goals from "./Goals";
 import Performances from "./Performances";
 import Chat1 from "./Chat1";
+import Email from "./Email"
 
 export default function Default() {
   return ( 
@@ -24,7 +25,7 @@ export default function Default() {
           <Nav.Link eventKey="third">Performance</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="fourth">Chat</Nav.Link>
+          <Nav.Link eventKey="fourth">Contact Us</Nav.Link>
         </Nav.Item>
       </Nav>
     </Col>
@@ -40,8 +41,9 @@ export default function Default() {
         <Performances/>
         </Tab.Pane>
         <Tab.Pane eventKey="fourth">
-        <Chat1/>
+        <Email/>
         </Tab.Pane>
+
       </Tab.Content>
     </Col>
   </Row>
