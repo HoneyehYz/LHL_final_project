@@ -93,9 +93,44 @@ export const reducer = (state, action) => {
         return task.id !== action.taskId;
       });
 
+      const currentReports = state.reports.data.filter((task) => {
+        return task.taskId !== action.taskId;
+      });
+
       return {
         ...state,
         tasks: currentTasks,
+        reports: {
+          ...state.reports,
+          data: [...currentReports],
+        },
+      };
+
+    case 'COMPLETE-TASK':
+      const taskIndex = state.tasks.findIndex((task) => {
+        return task.id === action.task.id;
+      });
+
+      const currentTasksAgain = state.tasks;
+
+      currentTasksAgain.splice(taskIndex, 1, action.task);
+
+      return {
+        ...state,
+        tasks: currentTasksAgain,
+        reports: {
+          ...state.reports,
+          data: [
+            ...state.reports.data,
+            {
+              type: 'spline',
+              taskId: action.task.id,
+              name: action.task.task,
+              showInLegend: true,
+              dataPoints: [{ y: action.task.score, label: '1' }],
+            },
+          ],
+        },
       };
 
     case 'ADD-TASK':

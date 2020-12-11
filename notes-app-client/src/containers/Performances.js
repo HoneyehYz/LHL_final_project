@@ -9,18 +9,12 @@ import { AppContext } from '../libs/contextLib';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-const Task = ({
-  taskId,
-  completed,
-  task,
-  index,
-  completeTask,
-  setScoreTask,
-}) => {
+const Task = ({ taskId, completed, task }) => {
   const context = useContext(AppContext);
+  const [score, setScore] = useState(null);
 
   const handleSelect = (event) => {
-    setScoreTask(index, event.target.value);
+    setScore(event.target.value);
   };
 
   const handleTaskDeletion = async (taskId) => {
@@ -46,6 +40,41 @@ const Task = ({
     }
   };
 
+  const handleTaskCompletion = async (taskId, score) => {
+    if (taskId && score) {
+      const userId = localStorage.getItem('userId');
+
+      try {
+        const res = await axios.patch(
+          `http://localhost:3005/api/v1/task/${taskId}?userId=${localStorage.getItem(
+            'userId'
+          )}`,
+          {
+            userId,
+            score: parseFloat(score),
+            completed: true,
+            score_date: new Date(),
+          }
+        );
+
+        context.dispatch({
+          type: 'COMPLETE-TASK',
+          task: res.data.task,
+        });
+
+        toast.success(res.data.message);
+      } catch (err) {
+        if (err.response.data.message) {
+          toast.error(err.response.data.message);
+        } else {
+          toast.error('Could not complete the task');
+        }
+      }
+    } else {
+      toast.warn('Select the score first');
+    }
+  };
+
   return (
     <div
       className='todo'
@@ -54,11 +83,13 @@ const Task = ({
       {task}
       <div>
         {!completed ? (
-          <button onClick={() => completeTask(index)}>Complete</button>
+          <button onClick={() => handleTaskCompletion(taskId, score)}>
+            Complete
+          </button>
         ) : null}
         <button onClick={() => handleTaskDeletion(taskId)}>x</button>
         {!completed ? (
-          <select id='mySelect' onChange={handleSelect} value={task.score}>
+          <select id='mySelect' onChange={handleSelect}>
             <option value='0'>0</option>
             <option value='0.5'>0.5</option>
             <option value='1'>1</option>
@@ -117,19 +148,6 @@ const TaskForm = () => {
 
 const Performances = () => {
   const context = useContext(AppContext);
-  const [reports, setReports] = useState({
-    animationEnabled: true,
-    title: {
-      text: 'Total Scores',
-    },
-    axisY: {
-      title: 'Score',
-    },
-    toolTip: {
-      shared: true,
-    },
-    data: [],
-  });
 
   useEffect(() => {
     axios
@@ -144,13 +162,13 @@ const Performances = () => {
           tasks: res.data.tasks,
         });
 
-        // SET REPORTS SECTION
         res.data.tasks.map((task) => {
           if (task.completed) {
             context.dispatch({
               type: 'SET-REPORTS',
               report: {
                 type: 'spline',
+                taskId: task.id,
                 name: task.task,
                 showInLegend: true,
                 dataPoints: [{ y: task.score, label: '1' }],
@@ -162,74 +180,13 @@ const Performances = () => {
   }, []);
 
   const addNewCurve = (task) => {
-    const updateData = [
-      ...reports.data,
-      { type: 'spline', name: task, showInLegend: true, dataPoints: [] },
-    ];
-    setReports({ ...reports, data: updateData });
+    // const updateData = [
+    //   ...reports.data,
+    //   { type: 'spline', name: task, showInLegend: true, dataPoints: [] },
+    // ];
+    // setReports({ ...reports, data: updateData });
   };
 
-  const completeTask = (index) => {
-    // const newTasks = [...tasks];
-    // newTasks[index].completed = true;
-    // setTasks(newTasks);
-  };
-
-  const removeTask = (index) => {
-    // const newTasks = [...tasks];
-    // newTasks.splice(index, 1);
-    // setTasks(newTasks);
-    // const res = axios.delete('http://localhost:3005/api/v1/task', { index });
-    // return res;
-    // return axios.delete(`http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
-    //   "userId"
-    // )}`, newTasks)
-  };
-
-  const setScoreTask = (index, score) => {
-    // console.log(index, score);
-    // const newTasks = [...tasks];
-    // newTasks[index].score = score;
-    // setTasks(newTasks);
-    // addReport(newTasks[index].task, score);
-  };
-
-  const addReport = (task, score) => {
-    // console.log("addReport",text,score);
-    // const updateData = reports.data.map((lineData) => {
-    //   if (lineData.name === task) {
-    //     console.log('found', lineData.name);
-    //     lineData.dataPoints.push({
-    //       y: Number(score),
-    //       label: lineData.dataPoints.length + 1,
-    //     });
-    //   }
-    //   // console.log("This is lineData",lineData);
-    //   return lineData;
-    // });
-    // const newReports = { ...reports, data: updateData };
-    // // console.log(newReports);
-    // setReports(newReports);
-  };
-
-  const removeReport = (targetReportIndex, targetDataPointIndex) => {
-    // const reportsCopy = JSON.parse(JSON.stringify(reports));
-    // reportsCopy.data[targetReportIndex].dataPoints.splice(
-    //   targetDataPointIndex,
-    //   1
-    // );
-    // console.log('reportsCopy=', reportsCopy);
-    // setReports(reportsCopy);
-  };
-
-  const canvasRef = useRef(null);
-  // const dataPoints = reports.map((report, index) => ({ y: report.score - 0, indexLabel: report.text, x: index }))
-  // console.log(dataPoints);
-  useEffect(() => {
-    if (canvasRef.current) {
-      canvasRef.current.render();
-    }
-  }, [reports]);
 
   return (
     <Container>
@@ -240,13 +197,9 @@ const Performances = () => {
             <div className='todo-list'>
               {context.state.tasks.map((task, index) => (
                 <Task
-                  key={index}
-                  index={index}
                   task={task.task}
                   taskId={task.id}
                   completed={task.completed}
-                  completeTask={completeTask}
-                  setScoreTask={setScoreTask}
                 />
               ))}
               <TaskForm />
@@ -275,11 +228,6 @@ const Performances = () => {
                         }}
                       >
                         <div>{report.name + ' *** ' + dataPoint.y}</div>
-                        <button
-                          onClick={() => removeReport(index, dataPointIndex)}
-                        >
-                          x
-                        </button>
                       </div>
                     </div>
                   </React.Fragment>
