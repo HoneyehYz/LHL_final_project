@@ -9,7 +9,6 @@ import Performances from "./Performances";
 import Support from "./Support";
 
 export default function Default() {
-  const navbar = {backgroundColor: '#F16E10'};
   return ( 
     <Tab.Container id="left-tabs-example" defaultActiveKey="first">
   <Row>

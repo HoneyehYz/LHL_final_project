@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import Form from 'react-bootstrap/Form';
 
 import { AppContext } from './../../../libs/contextLib';
 
@@ -51,21 +51,26 @@ export default function GoalForm(props) {
   return (
     <main className='goal__card'>
       <section>
-        <form autoComplete='off'>
-          <input
+        <Form>
+        <Form.Group controlId="Goal">
+          <Form.Control
             value={goal}
             type='text'
             placeholder='Enter Goal'
             onChange={(event) => setGoal(event.target.value)}
           />
+          </Form.Group>
 {/*          <input
             value={deadline}
             type='text'
             placeholder='deadline'
             onChange={(event) => setDeadline(event.target.value)}
           />*/}
+          <Form.Group controlId="Goal">
           <DatePicker selected={deadline} placeholderText="Click to select a date" onChange={date => setDeadline(date)} />
-        </form>
+    
+          </Form.Group>
+        </Form>
       </section>
       <section>
         <section>
