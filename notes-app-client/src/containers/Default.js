@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row";
 import Dashboard from "./Dashboard";
 import Goals from "./Goals";
 import Performances from "./Performances";
-import Support from "./Support";
+import Email from "./Email";
 
 export default function Default() {
   return ( 
@@ -40,8 +40,9 @@ export default function Default() {
         <Performances/>
         </Tab.Pane>
         <Tab.Pane eventKey="fourth">
-        <Support/>
+        <Email/>
         </Tab.Pane>
+
       </Tab.Content>
     </Col>
   </Row>
