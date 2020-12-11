@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import Form from 'react-bootstrap/Form'
 
 import './Performances.css';
+
 import { AppContext } from '../libs/contextLib';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
