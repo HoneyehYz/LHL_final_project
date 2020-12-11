@@ -4,6 +4,7 @@ import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Form from 'react-bootstrap/Form'
 
 import './style.css';
 import { AppContext } from './../../../libs/contextLib';
@@ -11,7 +12,6 @@ import { AppContext } from './../../../libs/contextLib';
 export default function MilestoneForm(props) {
   const [milestone, setMilestone] = useState(props.milestone || '');
   const [deadline, setDeadline] = useState(props.deadline || '');
-
   const context = useContext(AppContext);
 
   const resetForm = () => {
@@ -53,7 +53,7 @@ export default function MilestoneForm(props) {
   return (
     <main className='milestone_item'>
       <section>
-        <form autoComplete='off'>
+        <form>
           <input
             value={milestone}
             type='text'
@@ -66,7 +66,7 @@ export default function MilestoneForm(props) {
             placeholder='Enter Deadline'
             onChange={(event) => setDeadline(event.target.value)}
           />*/}
-          <DatePicker selected={deadline} placeholderText="Click to select a date" onChange={date => setDeadline(date)} />
+          <DatePicker selected={deadline} placeholderText="Click to select a date" onChange={date => setDeadline(date)}/>
         </form>
         <br />
       </section>
