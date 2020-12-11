@@ -1,53 +1,49 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 import "./Login.css";
-import { useAppContext } from "../libs/contextLib";
-import { useHistory } from "react-router-dom";
 import "./Signup.css";
-const data = {
-  email : "honey@yahoo.com",
-  username : "honey",
-  password: "123"
-}
 
 export default function Signup() {
   const history = useHistory();
-  const { userHasAuthenticated } = useAppContext();
-
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   function validateForm() {
-    return email.length > 0 && password.length > 0 && username.length>0;
+    return email.length > 0 && password.length > 0 && username.length > 0;
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-  
+
     try {
-      if(data.email && data.password && data.username){
-        data["email"] = email;
-        data["username"] = username;
-        data["password"] = password;
-        userHasAuthenticated(true);
+      if (email && password && username) {
+        const res = await axios.post(
+          "http://localhost:3005/api/v1/auth/register",
+          { username, email, password }
+        );
+
+        toast.success(res.data.message);
         history.push("/login");
       }
-      
-    } catch (e) {
-      alert(e.message);
+    } catch (err) {
+      toast.error(err.response.data.message);
     }
-    console.log(data);
   }
 
   return (
     <div className="Signup">
       <Form onSubmit={handleSubmit}>
-      <Form.Group size="lg" controlId="username">
+        <Form.Group size="lg" controlId="username">
           <Form.Label>Username</Form.Label>
           <Form.Control
+            autoFocus
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -56,7 +52,6 @@ export default function Signup() {
         <Form.Group size="lg" controlId="email">
           <Form.Label>Email</Form.Label>
           <Form.Control
-            autoFocus
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

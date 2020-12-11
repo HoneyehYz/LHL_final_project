@@ -1,51 +1,83 @@
 const express = require("express");
+const bcrypt = require("bcryptjs");
+
 const router = express.Router();
 
 module.exports = (db) => {
   // Create a new user
-  router.post("/", (req, res) => {
-    const user = req.body;
-    user.password = bcrypt.hashSync(user.password, 12);
-    db.query(
-      `INSERT INTO users(username, password, email) VALUES($1::string, $2::string, $3::string)`[
-        (req.username, password, req.email)
-      ]
-    )
-      .then(() => {
-        setTimeout(() => {
-          response.status(204).json({});
-        }, 1000);
-      })
-      .catch((error) => console.log(error));
+  router.post("/auth/register", async (req, res) => {
+    const emailTaken = await getUserWithEmail(req.body.email);
+    const usernameTaken = await getUserWithUsername(req.body.username);
+
+    if (emailTaken) {
+      return res.status(409).json({
+        message: "Email already taken. Use a different one.",
+      });
+    } else if (usernameTaken) {
+      return res.status(409).json({
+        message: "Username already taken. Use a different one.",
+      });
+    } else {
+      // DISABLE HASHING TEMPORARILY
+      // req.body.password = bcrypt.hashSync(req.body.password, 12);
+
+      const text =
+        "INSERT INTO users(username, password, email) VALUES($1, $2, $3)";
+      const values = [req.body.username, req.body.password, req.body.email];
+
+      db.query(text, values)
+        .then(() => {
+          res.status(201).json({
+            message:
+              "Registered successfully. You can now log into your account",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          res.status(500).json({ message: "Could not create your account" });
+        });
+    }
   });
 
-  /**
-   * Check if a user exists with a given username and password
-   * @param {String} email
-   * @param {String} password encrypted
-   */
-  const login = function (email, password) {
-    return getUserWithEmail(email).then((user) => {
-      if (bcrypt.compareSync(password, user.password)) {
-        return user;
-      }
-      return null;
-    });
-  };
-  exports.login = login;
+  router.post("/auth/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      const user = await login(email, password);
 
-  router.post("/login", (req, res) => {
-    const { email, password } = req.body;
-    login(email, password)
-      .then((user) => {
-        if (!user) {
-          res.send({ error: "error" });
-          return;
-        }
-        req.session.userId = user.id;
-        res.send({ user: { name: user.name, email: user.email, id: user.id } });
+      if (!user) {
+        return res.status(401).json({ message: "Incorrect email or password" });
+      } else {
+        // req.session.userId = user.id;
+
+        res.status(200).json({
+          message: "Logged In successfully",
+          user: { id: user.id, username: user.username },
+        });
+      }
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Something went wrong while trying to sign in" });
+    }
+  });
+
+  router.post("/logout", (req, res) => {
+    req.session.userId = null;
+    res.send({});
+  });
+
+  // Endpoint for retriving users
+  router.get("/users", (req, res) => {
+    const text = "SELECT id, username, email FROM users";
+
+    db.query(text)
+      .then(({ rows: users }) => {
+        res.json({ message: "Users retrieved successfully", users });
       })
-      .catch((e) => res.send(e));
+      .catch((error) => {
+        console.log(error);
+        res.status(500).json({ message: "Could not retrieve users" });
+      });
   });
 
   const getUserWithEmail = function (email) {
@@ -58,11 +90,43 @@ module.exports = (db) => {
       .then((res) => res.rows[0])
       .catch((rej) => null);
   };
+
   exports.getUserWithEmail = getUserWithEmail;
-  router.post("/logout", (req, res) => {
-    req.session.userId = null;
-    res.send({});
-  });
+
+  const getUserWithUsername = function (username) {
+    return db
+      .query(
+        `SELECT * FROM users
+    WHERE username = $1`,
+        [username]
+      )
+      .then((res) => res.rows[0])
+      .catch((rej) => null);
+  };
+
+  exports.getUserWithUsername = getUserWithUsername;
+
+  /**
+   * Check if a user exists with a given username and password
+   * @param {String} email
+   * @param {String} password encrypted
+   */
+  const login = function (email, password) {
+    return getUserWithEmail(email).then((user) => {
+      if (user) {
+        // DISABLE HASHING TEMPORARILY
+        // if (bcrypt.compareSync(password, user.password)) {
+        if (password === user.password) {
+          return user;
+        } else {
+          return null;
+        }
+      }
+      return null;
+    });
+  };
+
+  exports.login = login;
 
   return router;
 };

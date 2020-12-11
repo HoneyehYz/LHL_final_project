@@ -1,54 +1,66 @@
-import React, { useState } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import "./App.css";
-import Routes from "./Routes";
-import Nav from "react-bootstrap/Nav";
-import { LinkContainer } from "react-router-bootstrap";
-import { AppContext } from "./libs/contextLib";
-import { useHistory } from "react-router-dom";
+import React, { useState, useReducer } from 'react';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import { LinkContainer } from 'react-router-bootstrap';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-
+import './App.css';
+import Routes from './Routes';
+import { AppContext } from './libs/contextLib';
+import { useHistory } from 'react-router-dom';
+import { reducer, initialState } from './libs/state';
 
 function App() {
   const history = useHistory();
   const [isAuthenticated, userHasAuthenticated] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   function handleLogout() {
     userHasAuthenticated(false);
-    history.push("/login");
+    localStorage.removeItem('userId');
+    localStorage.removeItem('username');
+    history.push('/login');
+    window.location.reload();
   }
-  
+
   return (
-    <div className="App container py-3">
-      <Navbar collapseOnSelect bg="warning" expand="md" className="mb-3">
-        <LinkContainer to="/">
-          <Navbar.Brand className="font-weight-bold text-muted">
+    <div className='App container py-3'>
+      <Navbar collapseOnSelect bg='warning' expand='md' className='mb-3'>
+        <LinkContainer to='/'>
+          <Navbar.Brand className='font-weight-bold text-muted'>
             Goal Tracker
           </Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle />
-        <Navbar.Collapse className="justify-content-end">
+        <Navbar.Collapse className='justify-content-end'>
           <Nav activeKey={window.location.pathname}>
-          {isAuthenticated ? (
-        <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-        ) : (
-         <>
-        <LinkContainer to="/signup">
-        <Nav.Link>Signup</Nav.Link>
-        </LinkContainer>
-        <LinkContainer to="/login">
-        <Nav.Link>Login</Nav.Link>
-      </LinkContainer>
-    </>
-    )}
+            {localStorage.getItem('userId') ? (
+              <>
+                <Nav.Link>{localStorage.getItem('username')}</Nav.Link>
+                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+              </>
+            ) : (
+              <>
+                <LinkContainer to='/signup'>
+                  <Nav.Link>Signup</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to='/login'>
+                  <Nav.Link>Login</Nav.Link>
+                </LinkContainer>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+      <AppContext.Provider
+        value={{ isAuthenticated, userHasAuthenticated, state, dispatch }}
+      >
         <Routes />
       </AppContext.Provider>
+      <ToastContainer />
     </div>
-  );  
+  );
 }
 
 export default App;

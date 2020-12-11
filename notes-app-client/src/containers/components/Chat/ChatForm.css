@@ -1,0 +1,30 @@
+.chat-box{
+  
+  background-color: #FF914D;
+  border: 2px;
+  border-block-color: black;
+  border-radius: 1rem;
+  padding: 30px;
+  margin: 3px;
+}
+
+.chat-item {
+  align-items: center;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding: 3px 10px;
+  padding-top: 10px;
+}
+
+.chat-inner{
+background-color: #ffc107;
+border-radius: 0.5rem;
+border: 3rem;
+margin: 2rem;
+padding: 2rem;
+}

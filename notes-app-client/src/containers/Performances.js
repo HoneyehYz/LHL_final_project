@@ -1,290 +1,260 @@
-import React, { Component, Fragment, useState, useRef, useEffect } from 'react'
-import { Col, Container, Form, Row } from 'react-bootstrap'
-import "./Performances.css"
+import React, { useRef, useEffect, useState, useContext } from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
 import CanvasJSReact from './canvasjs.react';
-const CanvasJS = CanvasJSReact.CanvasJS;
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import Form from 'react-bootstrap/Form'
+
+import './Performances.css';
+
+import { AppContext } from '../libs/contextLib';
+
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
+const Task = ({ taskId, completed, task }) => {
+  const context = useContext(AppContext);
+  const [score, setScore] = useState(null);
 
-function Todo({ todo, index, completeTodo, removeTodo, setScoreTodo }) {
+  const handleSelect = (event) => {
+    setScore(event.target.value);
+  };
 
-  function handleSelect(event) {
-     console.log("Honey", event.target.value)
-    setScoreTodo(index, event.target.value)
-  }
+  const handleTaskDeletion = async (taskId) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:3005/api/v1/task/${taskId}?userId=${localStorage.getItem(
+          'userId'
+        )}`
+      );
+
+      context.dispatch({
+        type: 'REMOVE-TASK',
+        taskId,
+      });
+
+      toast.success(res.data.message);
+    } catch (err) {
+      if (err.response.data.message) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error('Could not delete the task');
+      }
+    }
+  };
+
+  const handleTaskCompletion = async (taskId, score) => {
+    if (taskId && score) {
+      const userId = localStorage.getItem('userId');
+
+      try {
+        const res = await axios.patch(
+          `http://localhost:3005/api/v1/task/${taskId}?userId=${localStorage.getItem(
+            'userId'
+          )}`,
+          {
+            userId,
+            score: parseFloat(score),
+            completed: true,
+            score_date: new Date(),
+          }
+        );
+
+        context.dispatch({
+          type: 'COMPLETE-TASK',
+          task: res.data.task,
+        });
+
+        toast.success(res.data.message);
+      } catch (err) {
+        if (err.response.data.message) {
+          toast.error(err.response.data.message);
+        } else {
+          toast.error('Could not complete the task');
+        }
+      }
+    } else {
+      toast.warn('Select the score first');
+    }
+  };
 
   return (
     <div
-      className="todo"
-      style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
+      className='todo'
+      style={{ textDecoration: completed ? 'line-through' : '' }}
     >
-      {todo.text}
+      {task}
       <div>
-        <button onClick={() => completeTodo(index)}>Complete</button>
-        <button onClick={() => removeTodo(index)}>x</button>
-
-        <select id="mySelect" onChange={handleSelect} value={todo.score}>
-          <option value="0">0</option>
-          <option value="0.5">0.5</option>
-          <option value="1">1</option>
-        </select>
+        {!completed ? (
+          <button onClick={() => handleTaskCompletion(taskId, score)}>
+            Complete
+          </button>
+        ) : null}
+        <button onClick={() => handleTaskDeletion(taskId)}>x</button>
+        {!completed ? (
+          <select id='mySelect' onChange={handleSelect}>
+            <option value='0'>0</option>
+            <option value='0.2'>0.2</option>
+            <option value='0.4'>0.4</option>
+            <option value='0.6'>0.6</option>
+            <option value='0.8'>0.8</option>
+            <option value='1'>1</option>
+          </select>
+        ) : null}
       </div>
     </div>
   );
-}
+};
 
+const TaskForm = () => {
+  const [value, setValue] = useState('');
+  const context = useContext(AppContext);
 
-
-
-function TodoForm({ addTodo }) {
-  const [value, setValue] = React.useState("");
-
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!value) return;
-    addTodo(value);
-    setValue("");
+
+    if (value) {
+      const userId = localStorage.getItem('userId');
+
+      try {
+        const res = await axios.post('http://localhost:3005/api/v1/task', {
+          userId,
+          task: value,
+        });
+
+        context.dispatch({
+          type: 'ADD-TASK',
+          task: res.data.task,
+        });
+
+        toast.success(res.data.message);
+
+        setValue('');
+      } catch (err) {
+        if (err.response.data.message) {
+          toast.error(err.response.data.message);
+        } else {
+          toast.error('Could not add task');
+        }
+      }
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+  /*   <form onSubmit={handleSubmit}>
       <input
-        type="text"
-        className="input"
+        type='text'
+        className='input'
         value={value}
-        onChange={e => setValue(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
       />
     </form>
+   */
+   <Form onSubmit={handleSubmit}>
+  <Form.Group controlId="item">
+  <Form.Control type="text" value={value}
+    onChange={(e) => setValue(e.target.value)}/>
+  </Form.Group>
+   </Form>  
   );
-}
+};
 
-function Performances() {
-
-
-  const [todos, setTodos] = React.useState([
-    {
-      text: "Flossing every night",
-      isCompleted: false,
-      score: 0
-    },
-    {
-      text: "Eat Healthy",
-      isCompleted: false,
-      score: 0.5
-    }
-  ]);
-
-  const [reports, setReports] = React.useState({
-    animationEnabled: true,
-    title: {
-      text: "Total Scores"
-    },
-    axisY: {
-      title: "Score"
-    },
-    toolTip: {
-      shared: true
-    },
-    data: [{
-      type: "spline",
-      name: "Flossing every night",
-      showInLegend: true,
-      dataPoints: [
-        { y: 0.5, label: "1" }
-        // { y: 0.5, label: "2" },
-        // { y: 1, label: "3" },
-        // { y: 0, label: "4" },
-        // { y: 1, label: "5" },
-        // { y: 0.5, label: "6" },
-        // { y: 0.5, label: "7" },
-        // { y: 1, label: "8" },
-        // { y: 0, label: "9" },
-        // { y: 1, label: "10" },
-        // { y: 0.5, label: "11" },
-        // { y: 1, label: "12" }
-      ]
-    },
-    {
-       type: "spline",
-       name: "Eat Healthy",
-       showInLegend: true,
-       dataPoints: [
-         { y: 1, label: "1" }
-    //     { y: 1, label: "2" },
-    //     { y: 0, label: "3" },
-    //     { y: 0.5, label: "4" },
-    //     { y: 1, label: "5" },
-    //     { y: 0, label: "6" },
-    //     { y: 0, label: "7" },
-    //     { y: 1, label: "8" },
-    //     { y: 0.5, label: "9" },
-    //     { y: 0, label: "10" },
-    //     { y: 0.5, label: "11" },
-    //     { y: 0.5, label: "12" }
-       ]
-     }
-    ]
-  })
-
-  const addNewCurve = text => {
-    const updateData = [...reports.data, {type: "spline",
-    name: text,
-    showInLegend: true,
-    dataPoints: []}]
-    setReports({...reports,data: updateData})
-  }
-
-  const addTodo = text => {
-    const newTodos = [...todos, { text }];
-    setTodos(newTodos);
-    addNewCurve(text);
-  };
-
-  const completeTodo = index => {
-    const newTodos = [...todos];
-    newTodos[index].isCompleted = true;
-    setTodos(newTodos);
-  };
-
-  const removeTodo = index => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
-  };
-
-  const setScoreTodo = (index, score) => {
-    console.log(index,score);
-    const newTodos = [...todos];
-    newTodos[index].score = score;
-    setTodos(newTodos);
-    addReport(newTodos[index].text, score);
-  };
-
-
-
-
-  // }
-  // {
-  //   text: "Eat Healthy",
-  //   score: 0.5
-  // },
-  // {
-  //   text: "Eat Healthy",
-  //   score: 1
-  // },
-  // {
-  //   text: "Eat Healthy",
-  //   score: 1
-  // },
-  // {
-  //   text: "Eat Healthy",
-  //   score: 0
-  // }
-  // ,
-  // {
-  //   text: "Flossing",
-  //   score: 0.5
-  // },
-  // {
-  //   text: "Flossing",
-  //   score: 1
-  // },
-  // {
-  //   text: "Read a book",
-  //   score: 1
-
-  // }
-  // })
-
-  const addReport = (text, score) => {
-    // console.log("addReport",text,score);
-    const updateData = reports.data.map(lineData => {
-      if(lineData.name === text) {
-        console.log("found",lineData.name);
-        lineData.dataPoints.push({y:Number(score), label:lineData.dataPoints.length+1})
-      }
-      // console.log("This is lineData",lineData);
-      return lineData;
-    })
-    const newReports = {...reports, data:updateData};
-    // console.log(newReports);
-    setReports(newReports);
-  };
-
-  const removeReport = (targetReportIndex, targetDataPointIndex) => {
-    const reportsCopy = JSON.parse(JSON.stringify(reports));
-    reportsCopy.data[targetReportIndex].dataPoints.splice(targetDataPointIndex, 1);
-    
-    console.log('reportsCopy=', reportsCopy)
-
-    setReports(reportsCopy);
-  };
-
-  const canvasRef = useRef(null);
-  // const dataPoints = reports.map((report, index) => ({ y: report.score - 0, indexLabel: report.text, x: index }))
-  // console.log(dataPoints);
+const Performances = () => {
+  const context = useContext(AppContext);
 
   useEffect(() => {
-    if (canvasRef.current) {
-      canvasRef.current.render();
-    }
-  }, [reports])
+    axios
+      .get(
+        `http://localhost:3005/api/v1/task?userId=${localStorage.getItem(
+          'userId'
+        )}`
+      )
+      .then((res) => {
+        context.dispatch({
+          type: 'SET-TASKS',
+          tasks: res.data.tasks,
+        });
 
+        res.data.tasks.map((task) => {
+          if (task.completed) {
+            context.dispatch({
+              type: 'SET-REPORTS',
+              report: {
+                taskId: task.id,
+                name: task.task,
+                showInLegend: true,
+                dataPoints: [{ y: task.score, label: '1' }],
+              },
+            });
+          }
+        });
+      });
+  }, []);
+
+  const addNewCurve = (task) => {
+    // const updateData = [
+    //   ...reports.data,
+    //   { type: 'spline', name: task, showInLegend: true, dataPoints: [] },
+    // ];
+    // setReports({ ...reports, data: updateData });
+  };
 
   return (
     <Container>
       <Row>
-        <Col style={{ width: "50%" }}>
-          <h5 className="todo-list">To-do Items</h5>
-          <div className="app">
-            <div className="todo-list">
-              {todos.map((todo, index) => (
-                <Todo
-                  key={index}
-                  index={index}
-                  todo={todo}
-                  completeTodo={completeTodo}
-                  setScoreTodo={setScoreTodo}
-                  removeTodo={removeTodo}
+        <Col style={{ width: '50%' }}>
+          <h5 className='todo-list'>To-do Items</h5>
+          <div className='app'>
+            <div className='todo-list'>
+              {context.state.tasks.map((task, index) => (
+                <Task
+                  task={task.task}
+                  taskId={task.id}
+                  completed={task.completed}
                 />
               ))}
-              <TodoForm addTodo={addTodo} />
-
+              <TaskForm />
             </div>
           </div>
         </Col>
         <Col>
-          <h5 className="todo-list">Score Report</h5>
-          {reports.data.map((report, index) => {
-            const DataPoints = report.dataPoints.map((dataPoint, dataPointIndex) => {
-              if(!dataPoint){
-                return null;
+          <h5 className='todo-list'>Score Report</h5>
+
+          {context.state.reports.data.map((report, index) => {
+            const DataPoints = report.dataPoints.map(
+              (dataPoint, dataPointIndex) => {
+                if (!dataPoint) {
+                  return null;
+                }
+
+                return (
+                  <React.Fragment>
+                    <div className='todo-list'>
+                      <div
+                        className='todo'
+                        style={{
+                          textDecoration: report.addReport
+                            ? 'line-through'
+                            : '',
+                        }}
+                      >
+                        <div>{report.name + ' *** ' + dataPoint.y}</div>
+                      </div>
+                    </div>
+                  </React.Fragment>
+                );
               }
-              return <React.Fragment>
-              <div className="todo-list">
-                <div
-                  className="todo"
-                  style={{ textDecoration: report.addReport ? "line-through" : "" }}
-                >
-                  <div>{report.name + " *** " + dataPoint.y}</div>
-                  <button onClick={() => removeReport(index,dataPointIndex)}>x</button>
-                </div>
-              </div>
-            </React.Fragment>
+            );
 
-            })
             return DataPoints;
-            // console.log("Report,index = ",report, index)
           })}
-
         </Col>
       </Row>
       <Row>
-        <div className="edge">
-          <CanvasJSChart options={reports}></CanvasJSChart>
+        <div className='edge'>
+          <CanvasJSChart options={context.state.reports}></CanvasJSChart>
         </div>
       </Row>
     </Container>
   );
-}
+};
 export default Performances;

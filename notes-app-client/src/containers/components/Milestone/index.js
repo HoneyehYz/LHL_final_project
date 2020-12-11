@@ -1,88 +1,68 @@
-import {React, useState} from "react";
+import { React, useState } from 'react';
 import MilestoneForm from './MilestoneForm';
 import MilestoneList from './MilestoneList';
-import "./style.css";
+import './style.css';
+
+
+const axios = require('axios').default;
 
 export default function Milestone(props) {
-  const [milestones, setMilestones] = useState(props.milestones);
+  // const [milestones, setMilestones] = useState(props.milestones);
 
-  function getMilestonesForGoal(goals, milestone, goal) {
+  function getMilestonesForGoal(goals, milestones, goal) {
     if (Array.isArray(goals) && goals.length === 0) {
-        return goals;
-    } else if (!goal){
-       return [];
-    }
-    else {  
-     // const filteredGoal = goals.filter(specificGoal => specificGoal.goal === goal);
-      const milestones = milestone;
+      return goals;
+    } else if (!goal) {
+      return [];
+    } else {
       let milestonesForGoal = [];
-      // console.log("milestonesbefore",milestones);
-      milestones.forEach((milestone)=>{ 
-        if(milestone.goal_goal===goal){ milestonesForGoal.push(milestone)}
+
+      milestones.forEach((milestone) => {
+        if (milestone.goal_id === goal) {
+          milestonesForGoal.push(milestone);
+        }
       });
-      // console.log("milestonesForGoal",milestonesForGoal);
-       return milestonesForGoal; 
-    } 
-  
-  }
 
-  const eachGoals = getMilestonesForGoal(props.goals, milestones, props.goal);
-  // console.log("eachGoals", eachGoals);
-  
-   function save(milestones, milestone, deadline,value){
-     //console.log("MilestoneSave",value);
-    if((!milestone)||(!deadline)){
-      return;
+      return milestonesForGoal;
     }
-    const newMilestone = {
-      milestone,
-      deadline,
-      "milestone_id": Math.floor(Math.random()*1000),
-      "completed": false,
-      "goal_goal": value
-    }; 
-
-    const newMilestones = [...milestones, newMilestone];
-    setMilestones(newMilestones);
-    console.log("MileSave",milestones);
   }
+
+  const goalMilestones = getMilestonesForGoal(
+    props.goals,
+    props.milestones,
+    props.goal
+  );
 
   const completeMilestone = (id) => {
-    const findItem = (item) =>item.milestone_id === id;
-    const index = milestones.findIndex(findItem);
-    const newMilestones = [...milestones];
-    console.log("beforeCompleted",newMilestones);
-    newMilestones[index].completed = true;
-    setMilestones(newMilestones);
-    console.log("afterCompleted",milestones);
+    // const findItem = (item) => item.id === id;
+    // const index = milestones.findIndex(findItem);
+    // const newMilestones = [...milestones];
+    // newMilestones[index].completed_at = new Date();
+    // return axios
+    //   .put(
+    //     `http://localhost:3005/api/v1/milestone?userId=${localStorage.getItem(
+    //       'userId'
+    //     )}/${id}`,
+    //     newMilestones[index]
+    //   )
+    //   .then((res) => {
+    //     // console.log(res);
+    //     //const resObj=JSON.parse(res.config.data);
+    //     //const newMilestones = [...milestones, resObj];
+    //     //setMilestones(newMilestones);
+    //   });
   };
-
-  const removeMilestone = (id) => {
-    console.log(id);
-    const findItem = (item) =>item.milestone_id === id;
-    const index = milestones.findIndex(findItem);
-    const updateMilestones = [...milestones];
-    updateMilestones.splice(index, 1);
-    setMilestones(updateMilestones);
-  };
-  
 
   return (
-    <div className="milestone">
-      <section className="milestone-list">
-      <h5>Milestone</h5>
-      <MilestoneForm onSave={save} value={props.goal} milestones={milestones}/>
-      <MilestoneList
-        milestones={eachGoals}
-        completeMilestone={completeMilestone}
-        cancelMilestone={removeMilestone}
-      />
-      
+    <div className='milestone'>
+      <section className='milestone-list'>
+        <h5>Milestone</h5>
+        <MilestoneForm goalId={props.goal} />
+        <MilestoneList
+          milestones={goalMilestones}
+          completeMilestone={completeMilestone}
+        />
       </section>
     </div>
   );
-
 }
-
-//milestones={props.milestones}
-

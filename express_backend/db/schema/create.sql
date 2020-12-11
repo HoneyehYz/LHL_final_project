@@ -3,13 +3,12 @@
   DROP TABLE IF EXISTS milestones CASCADE;
   DROP TABLE IF EXISTS goals CASCADE;
   DROP TABLE IF EXISTS categories CASCADE;
-  DROP TABLE IF EXISTS scores CASCADE;
-  DROP TABLE IF EXISTS items CASCADE;
+  DROP TABLE IF EXISTS tasks CASCADE;
   
   CREATE TABLE users(
     id SERIAL PRIMARY KEY NOT NULL,
     username VARCHAR(30) NOT NULL,
-    password VARCHAR(70) NOT NULL,
+    password VARCHAR(200) NOT NULL,
     email VARCHAR(30) NOT NULL
   );
   
@@ -21,19 +20,21 @@
     toUser INTEGER REFERENCES users(id) ON DELETE CASCADE
   );
 
-  CREATE TABLE milestones (
-    milestone_id SERIAL PRIMARY KEY NOT NULL,
-    milestone VARCHAR(150) NOT NULL,
-    deadline VARCHAR(100) NOT NULL,
-    completed_at VARCHAR(100) NOT NULL
-  );
-
   CREATE TABLE goals ( 
     id SERIAL PRIMARY KEY NOT NULL,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     goal VARCHAR(140) NOT NULL,
+    deadline VARCHAR(100) NOT NULL
+  );
+
+  CREATE TABLE milestones (
+    id SERIAL PRIMARY KEY NOT NULL,
+    milestone VARCHAR(150) NOT NULL,
     deadline VARCHAR(100) NOT NULL,
-    milestone_id INTEGER REFERENCES milestones(milestone_id) ON DELETE CASCADE
+    completed_at VARCHAR(100) DEFAULT NULL,
+    completed BOOLEAN DEFAULT false,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    goal_id INTEGER REFERENCES goals(id) ON DELETE CASCADE
   );
 
   CREATE TABLE categories (
@@ -41,18 +42,13 @@
     name VARCHAR(100) NOT NULL
   );
   
-  CREATE TABLE scores (
-    score_id SERIAL PRIMARY KEY NOT NULL, 
+  CREATE TABLE tasks (
+    id SERIAL PRIMARY KEY NOT NULL,
+    task VARCHAR(100) NOT NULL,
     score FLOAT,
-    date VARCHAR(100) NOT NULL
-  );
-
-  CREATE TABLE items (
-    item_id SERIAL PRIMARY KEY NOT NULL,
-    item VARCHAR(100) NOT NULL,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    score_id INTEGER REFERENCES scores(score_id) ON DELETE CASCADE,
-    category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE
+    score_date VARCHAR(100),
+    completed BOOLEAN DEFAULT false,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
   );
   
   
