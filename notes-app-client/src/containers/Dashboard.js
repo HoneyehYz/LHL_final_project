@@ -1,3 +1,4 @@
+
 import "./Dashboard.css";
 import React, { Component } from "react";
 import CanvasJSReact from "./canvasjs.react";
@@ -65,89 +66,13 @@ class MilestonesDashboard extends Component {
     );
   }
 }
-/*
-function getUpcomingMilestone(milestone){
-  const sortedMilestones = milestone.slice().sort((a, b) => a.date - b.date)
-  return sortedMilestones.slice(0,3)
-};
-*/
+
 class Dashboard extends Component {
   render() {
-    // const upcomingMilestone = getUpComingMilestone(milestones);
-    const options = {
-      animationEnabled: true,
-      title: {
-        text: "Total Scores",
-      },
-      axisY: {
-        title: "Score",
-      },
-      toolTip: {
-        shared: true,
-      },
-      data: [
-        {
-          type: "spline",
-          name: "Eating Healthy",
-          showInLegend: true,
-          dataPoints: [
-            { y: 1, label: "1" },
-            { y: 0.5, label: "2" },
-            { y: 1, label: "3" },
-            { y: 0, label: "4" },
-            { y: 1, label: "5" },
-            { y: 0.5, label: "6" },
-            { y: 0.5, label: "7" },
-            { y: 1, label: "8" },
-            { y: 0, label: "9" },
-            { y: 1, label: "10" },
-            { y: 0.5, label: "11" },
-            { y: 1, label: "12" },
-          ],
-        },
-        {
-          type: "spline",
-          name: "Flossing",
-          showInLegend: true,
-          dataPoints: [
-            { y: 1, label: "1" },
-            { y: 1, label: "2" },
-            { y: 0, label: "3" },
-            { y: 0.5, label: "4" },
-            { y: 1, label: "5" },
-            { y: 0, label: "6" },
-            { y: 0, label: "7" },
-            { y: 1, label: "8" },
-            { y: 0.5, label: "9" },
-            { y: 0, label: "10" },
-            { y: 0.5, label: "11" },
-            { y: 0.5, label: "12" },
-          ],
-          // },
-          // {
-          //   type: "spline",
-          //   name: "Read a book",
-          //   showInLegend: true,
-          //   dataPoints: [
-          //     { y: 0, label: "Read a book" },
-          //     { y: 0, label: "Read a book" },
-          //     { y: 0, label: "Read a book" },
-          //     { y: 1, label: "Read a book" },
-          //     { y: 1, label: "Read a book" },
-          //     { y: 1, label: "Read a book" },
-          //     { y: 0.5, label: "Read a book" },
-          //     { y: 1, label: "Read a book" },
-          //     { y: 0, label: "Read a book" },
-          //     { y: 0.5, label: "Read a book" },
-          //     { y: 0, label: "Read a book" },
-          //     { y: 0, label: "Read a book" }
-          //   ]
-        },
-      ],
-    };
+
     return (
  
-     <Carousel>
+     <Carousel className="page">
      <Carousel.Item interval={500}>
       <h3>Quota of the Day</h3>
       <p>{Quote.getRandomQuote()}</p>
@@ -163,31 +88,3 @@ class Dashboard extends Component {
 
 export default Dashboard;
 
-/*
-
-      <Container fluid>
-        <Row>   
-          <Col>
-            <div className="cell" style={{ height: "300px", border: "10px" }}>
-              <h3 style={{ textAlign: "center", padding: "10px" }}>
-                Welcome
-              </h3>
-            </div>
-          </Col>
-          <Col>
-            <div className="cell" style={{ height: "300px" }}>
-              <h3 style={{ textAlign: "center", padding: "10px" }}>
-                {" "}
-                Quote of the Day{" "}
-              </h3>
-              <p style={{ textAlign: "center", padding: "10px" }}>
-                {Quote.getRandomQuote()}
-              </p>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-        <MilestonesDashboard />
-        </Row>
-      </Container>
-*/ 
