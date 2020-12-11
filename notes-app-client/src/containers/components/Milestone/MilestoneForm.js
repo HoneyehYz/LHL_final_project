@@ -53,21 +53,33 @@ export default function MilestoneForm(props) {
   return (
     <main className='milestone_item'>
       <section>
-        <form>
-          <input
+      <Form>
+        <Form.Group controlId="Milestone">
+          <Form.Control
             value={milestone}
             type='text'
             placeholder='Enter Milestone'
             onChange={(event) => setMilestone(event.target.value)}
           />
-          {/*<input
+          </Form.Group>
+{/*          <input
             value={deadline}
             type='text'
+            placeholder='deadline'
+            onChange={(event) => setDeadline(event.target.value)}
+          />
+          <DatePicker selected={deadline} placeholderText="Click to select a date" onChange={date => setDeadline(date)} />
+          */}
+          <Form.Group controlId="Deadline">
+          <Form.Control
+            value={deadline}
+            type='date'
             placeholder='Enter Deadline'
             onChange={(event) => setDeadline(event.target.value)}
-          />*/}
-          <DatePicker selected={deadline} placeholderText="Click to select a date" onChange={date => setDeadline(date)}/>
-        </form>
+          />
+          
+          </Form.Group>
+        </Form>
         <br />
       </section>
       <section>

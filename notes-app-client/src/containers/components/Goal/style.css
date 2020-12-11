@@ -5,7 +5,7 @@
   padding: 1.2rem 1.5rem;
   display: flex;
   justify-content: space-between;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
   color: white;
   background-color: #FF914D ;
   

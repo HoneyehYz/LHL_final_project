@@ -65,10 +65,17 @@ export default function GoalForm(props) {
             type='text'
             placeholder='deadline'
             onChange={(event) => setDeadline(event.target.value)}
-          />*/}
-          <Form.Group controlId="Goal">
+          />
           <DatePicker selected={deadline} placeholderText="Click to select a date" onChange={date => setDeadline(date)} />
-    
+          */}
+          <Form.Group controlId="Deadline">
+          <Form.Control
+            value={deadline}
+            type='date'
+            placeholder='Enter Deadline'
+            onChange={(event) => setDeadline(event.target.value)}
+          />
+          
           </Form.Group>
         </Form>
       </section>
